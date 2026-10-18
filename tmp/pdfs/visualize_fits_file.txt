@@ -1,0 +1,33 @@
+import numpy as np
+import os
+from astropy.io import fits
+from astropy.wcs import WCS
+import matplotlib.pyplot as plt
+from matplotlib.colors import LogNorm
+path = r'C:\Users\jw141\Desktop\astrolab_observations\data\m27_new\/'
+file = 'm27_2025-09-15_20-34-53_black_0268.fits'
+hdu = fits.open(path + file)
+im = hdu[0].data # this reads the image, it is a numpy array!
+header = hdu[0].header # reads the header
+#initialize the figure
+fig = plt.figure(figsize=(15,10)) #control the size of the image. You could also define multiple plots in a grid.
+
+#logarithmic scale is important since we have a wide span of values
+cmin,cmax = np.percentile(im,1),np.percentile(im,99)
+plt.imshow(im,norm=LogNorm(vmin=cmin, vmax=cmax),cmap='Greys', origin='lower')
+
+#I want to plot a vertical cut through a column 490
+line=490
+cut1=im[:,line] # : means all the rows at this column
+print(cut1.shape)
+cut2=im[500:600,line] #here only the rows between 500 and 600
+print(cut2.shape)
+plt.plot([line,line],[0,1000])
+# Plot cuts
+nrow=1
+ncol=2
+fig = plt.figure(figsize=(18*nrow,3*ncol))
+ax = fig.add_subplot(nrow,ncol,1)
+plt.plot(cut1)
+ax = fig.add_subplot(nrow,ncol,2)
+plt.plot(cut2)

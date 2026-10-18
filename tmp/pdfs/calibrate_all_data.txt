@@ -1,0 +1,63 @@
+import numpy as np
+import scipy
+import matplotlib.pyplot as plt
+from astropy.io import fits
+import os
+#import master bias and master flats
+dir = r"C:\Users\jw141\Desktop\astrolab_observations\\" #directory where fits files are found
+file2= dir+'master_bias.fits' #file names
+master_bias = fits.getdata(file2)  # data matrices
+file3= dir+'master_flat_black.fits' #file names
+master_flat_black = fits.getdata(file3)  # data matrices
+file4= dir+'master_flat_green.fits' #file names
+master_flat_green = fits.getdata(file4)  # data matrices
+file5= dir+'master_flat_red.fits' #file names
+master_flat_red = fits.getdata(file5)  # data matrices
+file6= dir+'master_flat_blue.fits' #file names
+master_flat_blue = fits.getdata(file6)  # data matrices
+
+
+#import m27 data
+science_dir = r"C:\Users\jw141\Desktop\astrolab_observations\data\m27_new"
+science_files = os.listdir(science_dir) #all files in directory
+
+#function that calibrates depending on filter extension in filename
+#needs master_bias, master_flat_filter with filter=[black,green,blue,red]
+def calibrate(filename,directory):
+    data = fits.getdata(directory + r"\\"+ filename)
+    filters = ["black","Red","Blue","Green"]
+    flats_dict = {"black":master_flat_black,"Red":master_flat_red,"Blue":master_flat_blue,"Green":master_flat_green}
+    for filter in filters:
+        if filter in filename:
+            result = (data - master_bias)/flats_dict[filter]
+            break
+        else:
+            result = None
+    return result
+
+
+for filename in science_files:
+    result = calibrate(filename,science_dir)
+    header = fits.getheader(science_dir + r"\\" + filename)
+    hdu = fits.PrimaryHDU(data=result,header=header)
+    hdu.writeto(science_dir+r"\\"+filename[0:-5]+"_calibrated.fits",overwrite=True)
+#calibrate all data
+path = r"C:\Users\jw141\Desktop\astrolab_observations\data"
+folders = os.listdir(path)
+for dir in folders:
+    if dir != "flats" and dir != "bias":
+        science_dir = path + r"\\" + dir
+        science_files = os.listdir(science_dir) #all files in directory
+        for filename in science_files:
+            if "calibrated" not in filename: #dont calibrate twice
+                result = calibrate(filename,science_dir)
+                header = fits.getheader(science_dir + r"\\" + filename)
+                hdu = fits.PrimaryHDU(data=result,header=header)
+                hdu.writeto(science_dir+r"\\"+filename[0:-5]+"_calibrated.fits",overwrite=True)
+
+
+
+    
+
+
+

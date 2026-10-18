@@ -33,12 +33,13 @@ function notify(action, extra={}) {
 }
 function publish() {if(inline && !previewOnly) notify('change')}
 function toggle(name) {
+  if(tiles.find(tile=>tile.dataset.name===name)?.dataset.selectable==='false') return;
   if(selected.has(name)) selected.delete(name);else selected.add(name);
   update();publish();
 }
 function paint(x,y) {
   const tile=document.elementFromPoint(x,y)?.closest('.tile');
-  if(!tile || !grid.contains(tile) || drag.visited.has(tile.dataset.name)) return;
+  if(!tile || tile.dataset.selectable==='false' || !grid.contains(tile) || drag.visited.has(tile.dataset.name)) return;
   drag.visited.add(tile.dataset.name);
   if(drag.select) selected.add(tile.dataset.name);else selected.delete(tile.dataset.name);
 }
@@ -100,7 +101,7 @@ grid.addEventListener('scroll',()=>{
 });
 grid.addEventListener('pointerdown',event=>{
   const tile=event.target.closest('.tile');
-  if(!tile || event.button!==0) return;
+  if(!tile || tile.dataset.selectable==='false' || event.button!==0) return;
   event.preventDefault();window.getSelection()?.removeAllRanges();
   tile.focus({preventScroll:true});suppressClick=false;lastWasDrag=false;
   const point={x:event.clientX,y:event.clientY};
@@ -156,7 +157,7 @@ window.addEventListener('message',event=>{
     }
     selected=new Set(args.selected);serverSelection=JSON.stringify(args.selected);grid.replaceChildren();
     for(const item of args.items) {
-      const tile=document.createElement('div');tile.tabIndex=0;tile.setAttribute('role','button');tile.className='tile';tile.dataset.name=item.name;tile.title=(item.label || item.name) + ' — Click or drag across images to select; double-click to view';
+      const tile=document.createElement('div');tile.tabIndex=0;tile.setAttribute('role','button');tile.className='tile';tile.dataset.name=item.name;tile.dataset.selectable=String(item.selectable!==false);tile.title=(item.label || item.name) + ' — Click or drag across images to select; double-click to view';
       const visual=document.createElement(item.image?'img':'span');
       if(item.image) {visual.src=item.image;visual.alt=item.name;visual.draggable=false}
       else {visual.className='error';visual.textContent='Preview unavailable: '+item.error}

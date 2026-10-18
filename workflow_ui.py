@@ -481,7 +481,7 @@ def workflow_panel(current, source_id, folder, on_view_change=None, auto=False):
         stage_result = bias_last[1]
     elif stage == 'flat' and flat_last and flat_last[0] == flat_signature:
         stage_result = flat_preview
-    elif stage == 'science':
+    elif stage in ('science', 'color'):
         stage_result = science_preview
     elif stage == 'file':
         file_view = st.session_state.get('workflow_file_view')

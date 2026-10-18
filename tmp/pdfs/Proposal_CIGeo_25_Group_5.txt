@@ -1,0 +1,106 @@
+ 
+ 
+CIGeoE Telescope 
+Application for observing time 
+ 
+ 
+Period: 2025B 
+ 
+ 
+TITLE 
+ 
+ABSTRACT (max. 100 words) 
+ 
+ 
+Total time requested (hrs): 
+ 
+Moon conditions (‘d’,’g’,’n’): 
+ 
+Camera requirement (‘y’ or ‘n’):  
+ 
+Filters required (BVR): 
+ 
+Investigators 
+Broadband Imaging and Photometric Study of the Planetary Nebula M27  
+The study of planetary nebulae is essential for comprehending the final phases of stellar evolution. The 
+Dumbbell Nebula (M27) is bright and well -placed for a comprehensive CCD study. We aim to obtain 
+broadband B, V, and R FITS images to characterise its surface brightness, radial profile, colour variation 
+maps, and the photometry of its central white dwarf. Radial profiles and colour maps will provide 
+insights into its shell structure and ionisation, while the central star photometry links to stellar 
+evolution. A total of 3.5 hours of integration will secure the required SNR under Lisbon sky conditions. 
+n 
+3.5 
+B, V, R 
+y 
+Jan Wiegand 
+Jonathan Bauer 
+Vasco Soares 
+Scientific Rationale (max. 450 words) 
+ 
+  
+The observation of the planetary nebula M27 was chosen because it is a bright and well-placed 
+target during our September observing window.  
+M27 has two main aspects of observational interest: the extended ionized gas shell and the faint 
+central white dwarf. This makes it an ideal target for practicing both extended -source imaging 
+(surface brightness profiles, color composite mapping, etc.) and stellar photometry. 
+As shown in the figure 1 on September 15 the M27 will be located high enough in the sky during 
+the observation time, avoiding the city and river light pollution. Another important factor is the 
+position of the nebula with respect to the local environment, especially the airport. It can be 
+seen in the figures  2 and 4, that during the observation time window, the M27 is lies between 
+southeast and southwest. Therefore, the ai rport light pol lution will little interfere with our 
+observations. 
+As shown in Figure 3, the angular apparent size of the nebula (~8′ × 6′) fits well within the field 
+of view of our CCD (9′ × 9′) . This allows us to capture the entire nebula in a single frame  and 
+additional stars within the FOV for the magnitude calibration. 
+ 
+Figure 1-Daily sky chart for M27 and Moon positions Figure 2-Sky view map for M27 at 9pm 
+Figure 3-M27 in the CCD FOV Figure 4- Sky view map for M27 at 11pm 
+Targets  
+ 
+ 
+Observing plan suggestion and time justification  (max 150 words, figures 
+allowed) 
+ 
+ 
+Our observing session for M27 starts at 19:00 with setup preparation and CCD cooling. From 19:25–20:40, 
+we will acquire the calibration frames with the cold CCD (30 bias and 10 flats frames per filter and without). 
+At 20:40, we focus at 1 4 Vulpeculae (15 min). The science frames can begin at ~ 21:00. We want to take  
+light frames with and without filters.  Each image with filter requires 30 s exposure + 3 s download + 1 s 
+filter change = 34 s (no filter change for sequences within the same filter). Thus, around 30 images per filter 
+take ~ 1000 s (≈ 17 min). For the 30 images without filter the exposure time will be 8 s to avoid 
+oversaturating the CCD (~312 s ≈ 6min). With 3 sets (U, B, V) and the set without filter, total science time 
+is ≈ 60 min. Including verification after the first set (~5 min), total M27 data collection takes ≈ 65 min, 
+finishing around 2 2:05. Remaining time until  23:00 will be reserved for repeating exposures if needed, 
+additional calibration, and backups before shutdown. 
+ 
+ 
+ 
+Reference 
+NAME α (J2000) δ (J2000) Time on 
+target 
+Mag Additional 
+info 
+      
+M27 19h 59min 36s 22° 43’ 16’’ 180min 12.60 
+ 
+ 
+      
+https://airmass.org 
+https://simbad.u-strasbg.fr/simbad/sim-id?Ident=m27 
+https://www.mirametrics.com/sn_calculator_mvn.php 
+https://www.sky-map.org/starview?object_type=3&object_id=6#Images 
+https://www.lightpollutionmap.info/#zoom=4.00&lat=45.8720&lon=14.5470&state=eyJiYXNlbWFwIjoiT
+GF5ZXJCaW5nUm9hZCIsIm92ZXJsYXkiOiJ3YV8yMDE1Iiwib3ZlcmxheWNvbG9yIjpmYWxzZSwib3Zlcmxhe
+W9wYWNpdHkiOiI2MCIsImZlYXR1cmVzb3BhY2l0eSI6Ijg1In0= 
+https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-
+catalog/messier-27 
+https://www.x2r.uk/fovcalc.php 
+https://www.ipma.pt/pt/otempo/prev.localidade.hora/index.jsp#Lisboa&Lisboa 
+ 
+Panel Evaluation (leave blank): 
+Abstract (20%):  
+Scientific rationale (40%): 
+Observing plan and time justification: (40%): 
+ 
+ 
+ 

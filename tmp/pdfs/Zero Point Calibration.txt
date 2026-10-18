@@ -1,0 +1,24 @@
+PAGE 1
+Zero Point Calibration
+
+PAGE 2
+● The instrument magnitude (in arbitrary units) is given by:
+
+
+PAGE 3
+● The instrument magnitude (in arbitrary units) is given by:
+● Atmospheric extinction correction: if target and standard stars are not in 
+the same field, i.e. have different airmass – atmospheric extinction is not the 
+same:
+Filter k
+B 0.25
+V 0.15
+R 0.09
+
+PAGE 4
+● The instrument magnitude (in arbitrary units) is given by:
+● Atmospheric extinction correction: if target and standard stars are not in 
+the same field, i.e. have different airmass – atmospheric extinction is not the 
+same:
+● Standard star: compare to literature value:
+● Calibrated magnitude of targets:

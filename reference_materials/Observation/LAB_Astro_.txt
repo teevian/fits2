@@ -1,0 +1,123 @@
+
+
+**Telescope**
+
+* Aperture diameter: `355 mm`
+* Secondary diameter (central obstruction): `100 mm` (or "10.0 cm")
+* Focal length: `3910 mm` (you may enter as `391 cm` if the form accepts cm)
+* Optical throughput / efficiency: `0.90` (see note below)
+
+**Camera / CCD**
+
+* Sensor size (pixels): `1536 x 1024`
+* Pixel size: `9 µm`
+* Gain: `1.5 e-/ADU`
+* Read noise: `16 e- rms`
+* Dark current: `1 e-/s/pix`
+* Quantum efficiency (QE): `0.70`
+* Saturation / full-well (ADU): `55000 ADU`
+* Operating temperature: `-10 °C`
+
+**Filters / transmission**
+
+* Filter: select `V` (or `B` / `R` depending which band you want to simulate)
+* Filter throughput / filter factor: `0.90` (90%)
+
+**Observing conditions**
+
+* Seeing (FWHM): `3.5 arcsec`
+* Sky brightness: `18.5 mag/arcsec^2` (you already gave this)
+* Aperture radius (photometry aperture in pixels): `4 pixels`
+
+**Misc / advanced (if asked)**
+
+* System total efficiency: if the form asks for a single total throughput (optics × filter × QE), you can enter: `0.90 (optics) × 0.90 (filter) × 0.70 (QE) ≈ 0.567` → enter `0.57` (57%) as an *optional* single-system throughput. If the form expects separate fields, use the separate values above instead.
+* Effective collecting area (if asked): `0.09105 m^2` (see calculation below).
+* Equivalent unobstructed diameter (if asked): `≈ 341 mm` (effective diameter after central obstruction).
+
+---
+
+## Helpful derived numbers (you’ll probably need these if the form asks for plate scale, FOV or aperture area)
+
+All arithmetic shown so you can verify:
+
+* **Plate scale (arcsec/pixel)**
+  plate scale = 206.265 × (pixel size in µm) / (focal length in mm)
+  \= 206.265 × 9 / 3910 = **0.4749 arcsec/pixel** (≈ **0.475″/pix**)
+
+* **Field of view (FOV)**
+  width = 1536 × 0.4749 = **729.6″ = 12.16′**
+  height = 1024 × 0.4749 = **486.0″ = 8.10′**
+  → **FOV ≈ 12.15′ × 8.10′**
+
+* **Pixel area on sky**
+  \= (0.4749″)^2 = **0.2256 arcsec² / pixel**
+
+* **Aperture radius you gave**: `4 pixels`
+  → aperture radius on sky = 4 × 0.4749 = **1.8996″ ≈ 1.90″**
+  → aperture area (pixels) = π × 4² = **50.265 pixels**
+
+* **Primary & secondary collecting areas** (for completeness)
+  primary area = π × (0.355/2)² = **0.09890 m²**
+  secondary area = π × (0.100/2)² = **0.00785 m²**
+  net collecting area = primary − secondary = **0.09105 m²**
+  equivalent unobstructed diameter = sqrt(4×area/π) ≈ **0.341 m = 341 mm**
+
+---
+
+## Notes
+
+1. **Central obstruction:**
+   If the calculator asks for a percent obstruction or secondary diameter, enter `100 mm` or the percent area (≈ `7.94%` area-blocking). If it only accepts an effective aperture, you can enter `341 mm` as the effective diameter — but I recommend using the real physical numbers (355 mm + 100 mm) if possible.
+
+2. **Throughput / efficiency:**
+   You originally said “Efficiency: \~100%” — that’s unrealistic (optics + filter + detector always lose photons). I suggested `0.90` per optics and `0.90` for the filter, and QE=0.70; those combine to \~57% total. If the form has separate boxes for optics, filter, QE, enter the separate values; if there’s a single “system efficiency” box enter **0.57**.
+
+3. **Sky mag:**
+   You gave **18.5 mag/arcsec²** — that’s reasonable for a bright-city-ish sky and is the value to use for Lisbon/urban sky in the R/V bands. If you test later with a darker or brighter sky, rerun the calc.
+
+4. **Seeing vs aperture radius:**
+   Your seeing is large relative to the plate scale (3.5″ FWHM ≈ 7.4 pixels). With aperture radius = 4 pixels you are using an aperture radius ≈1.9″ which is smaller than the FWHM; that will **miss flux**. **Recommendation:** set aperture radius ≈ 1.5–2 × FWHM (in pixels). For your seeing of **3.5″**, FWHM in pixels = 3.5 / 0.475 ≈ **7.37 px** → aperture radius ≈ **11–15 px**. If the form requires an aperture radius in pixels, reconsider and enter `~12 px` (not 4 px).
+
+   * If the site is computing S/N for a point source, use the aperture radius appropriate for your seeing (I strongly recommend re-entering aperture radius ≈ `12 pixels`).
+   * If you insist on 4 px because you plan to *use a small aperture and apply aperture correction*, note that the calculator will show lower S/N (because much of the flux is outside the aperture).
+
+5. **Extended target vs point source:**
+   M27 is an **extended source**. Many SN/SNR calculators assume a point source; MiRaM’s SN tool can often handle extended or surface-brightness inputs — if it lets you input surface brightness per arcsec² (mag/arcsec²), use that. For M27 you may want to enter the **surface brightness** you expect (e.g., central region surface brightness — if you don’t have this, run the calculator for a point-like central star and separately for the sky-limited surface brightness).
+
+6. **Filter choice:**
+   For nebula imaging you might run separate simulations for B, V and R because sky brightness and line contributions differ. R will have higher nebular contribution (Hα + \[N II]) and often a brighter sky.
+
+---
+
+## checklist of exact values to the Mirametrics  
+
+* Aperture: `355 mm`
+* Secondary: `100 mm`
+* Focal length: `3910 mm`
+* Optics throughput: `0.90` (or system throughput `0.57` if single field)
+* Pixel size: `9 µm`
+* Array: `1536 x 1024`
+* Gain: `1.5 e-/ADU`
+* Read noise: `16 e-`
+* Dark current: `1 e-/s/pix`
+* QE: `0.70`
+* Sat. level: `55000 ADU`
+* Temp: `-10 °C`
+* Seeing: `3.5 arcsec`
+* Sky mag: `18.5 mag/arcsec^2`
+* Aperture radius: **(recommended)** `12 pixels` **NOT** 4 px (see note above)
+
+---
+
+age, 
+velocity expansion,
+ surface-brightness,
+ radial profile,
+ integrated luminosity by each filter  BVR 
+ Color composition
+
+
+
+
+Our observing session will begin at 19:00 with telescope setup and CCD cooling to −10 °C. During twilight (≈19:30–20:30) we will acquire a full set of calibration frames, including bias frames and twilight flats frames for all filters (U, B, V). After astronomical twilight, a short focus sequence (10 min) on a bright nearby star (for example 13 Vulpeculae B) will be performed to achieve the best focus. Light frames of M27 will begin at approximately 20:45. We will first obtain 30 unfiltered 8s exposures to obtain a clean real colours image and measure the photometry of the central white dwarf while staying below the 55 k ADU CCD saturation limit. The main science integrations will then follow: 20 × 300 s in U, 15 × 180 s in B, and 15 × 180 s in V. Each exposure includes ≈2–3 s CCD readout overhead, and we allow ≈5 min between filter changes for re-centring, dithering, and focus checks. This plan yields ≈2.9 h of on-target time, optimally balancing S/N, exposure depth, and readout overheads. The dataset enables colour mapping, surface-brightness profiling, and calibrated photometry of the nebula and its central star.

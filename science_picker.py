@@ -109,6 +109,9 @@ def inline_bias_picker(catalog, on_view=None, kind="bias"):
 def result_thumbnail(_frame, signature, contrast):
     """Reuse variant thumbnails while selection changes in the sidebar."""
     from imageProcessing import display_group, default_display_limits, resolve_display_limits
+    from color_composition import ColorComposite
+    if isinstance(_frame, ColorComposite):
+        return _frame.png(contrast, thumbnail=True)
     defaults = default_display_limits(display_group('.', _frame.name, _frame.header))
     limits = resolve_display_limits(_frame.display(), defaults, contrast=contrast)
     return frame_thumbnail(_frame, limits=limits)
@@ -160,18 +163,31 @@ def science_pairs_grid(pairs, on_view):
             try:
                 previews = science_pair_thumbnails(before, after, signature[index])
                 for side, (filename, thumbnail) in enumerate(previews):
-                    items.append({'name': f'{index}:{side}', 'label': filename,
+                    items.append({'name': f'{index}:{side}', 'label': filename, 'selectable': side == 1,
                                   'image': 'data:image/png;base64,' + b64encode(thumbnail).decode('ascii')})
             except (ValueError, OSError, TypeError, KeyError) as exc:
                 for side in (0, 1):
                     items.append({'name': f'{index}:{side}', 'label': name, 'error': str(exc)})
         cached = (key, items)
         st.session_state.science_pairs_previews = cached
-    result = image_picker(items=cached[1], selected=[], inline=True, preview_only=True,
-                          scrollable=True, ack=st.session_state.get(key + '_event'), key=key, default=None)
-    if result and result.get('action') == 'view' and result.get('event') != st.session_state.get(key + '_event'):
+    selection_key = 'workflow_science_corrected_selection'
+    if st.session_state.get('science_pairs_selection_generation') != key:
+        st.session_state.science_pairs_selection_generation = key
+        st.session_state[selection_key] = [name for name, _, _ in pairs]
+    selected = st.session_state[selection_key]
+    result = image_picker(items=cached[1],
+                          selected=[f'{i}:1' for i, (name, _, _) in enumerate(pairs) if name in selected],
+                          inline=True, scrollable=True,
+                          ack=st.session_state.get(key + '_event'), key=key, default=None)
+    if result and result.get('event') != st.session_state.get(key + '_event'):
         st.session_state[key + '_event'] = result.get('event')
-        sources = {f'{index}:{side}': value for index, (_, before, after) in enumerate(pairs)
-                   for side, value in enumerate((before, after))}
-        if result.get('name') in sources:
-            on_view(sources[result['name']])
+        if 'selected' in result:
+            chosen = set(result['selected'])
+            st.session_state[selection_key] = [name for i, (name, _, _) in enumerate(pairs)
+                                               if f'{i}:1' in chosen]
+        if result.get('action') == 'view':
+            sources = {f'{index}:{side}': value for index, (_, before, after) in enumerate(pairs)
+                       for side, value in enumerate((before, after))}
+            if result.get('name') in sources:
+                on_view(sources[result['name']])
+    return st.session_state[selection_key]

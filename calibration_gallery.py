@@ -65,7 +65,7 @@ def show_flats(sources, masters, inputs):
 
 @st.dialog('Science · combination groups', width='large')
 def show_science(sources, masters, inputs):
-    st.caption('One result per object, filter and exposure. Each group shows the corrected, aligned images actually combined and its final result once.')
+    st.caption('One result per object and filter. Each group shows the corrected, aligned images actually combined and its final result once.')
     catalog = {source.name: source for source in sources}
     for index, (group, master) in enumerate(masters.items()):
         combination_group(group, [catalog[name] for name in inputs[group]], master,

@@ -1,0 +1,636 @@
+PAGE 1
+ASTROPHYSICS LABORATORY
+Observational Astrophysics 2025
+I) Basic notions in Observational astrophysics
+a) Properties of the astronomical objects
+- Magnitude Absolute magnitude
+ Magnitude and distance: ly, parsec
+- Temperature and colour
+- Size
+b) Preparing astronomical observations
+- Visibility of the target: coordinates and time
+- Telescope
+- Detector and data acquistion
+II) Observations: data acquisition
+III) Data reduction and analysis
+Lecture notes for the LA2025@IST by A. Mourão, J. D. Duarte R. P Santos 
+
+
+PAGE 2
+ASTROPHYSICS LABORATORY
+Observational Astrophysics 2025
+I) Basic notions in Observational astrophysics
+a) Properties of the astronomical objects
+- Magnitude Absolute magnitude
+ Magnitude and distance: ly, parsec
+- Temperature and colour
+- Size
+b) Preparing astronomical observations
+- Visibility of the target: coordinates and time
+- Telescope
+- Detector and data acquistion
+II) Observations: data acquisition
+III) Data reduction and analysis
+Lecture notes for the LA@IST by A. M. Mourão, J. D. Duarte, S.Gonzalez-Gaitan, R. P. Santos 
+
+PAGE 3
+Object 
+properties
+magnitude
+(brightness)
+size
+temperaturedistance
+4
+ PROPERTIES OF THE TARGETS
+ 
+
+PAGE 4
+6
+Magnitude
+Brightness
+
+PAGE 5
+intrinsic
+apparent
+observer on 
+Earth
+absolute
+observer at 
+D=10 pc  
+7
+Brightness
+magnitude
+
+PAGE 6
+8
+Magnitude
+Brightness of the object
+
+PAGE 7
+9
+Magnitude
+Brightness of the object
+
+PAGE 8
+10
+Magnitude
+Brightness of the object
+
+PAGE 9
+11
+Magnitude
+Flux  F: energy/time/area
+Units:    W/m² 
+              erg/s/cm2 
+                     
+mag A =− 2,5 log F A + Constant
+Brightness of the object
+
+PAGE 10
+12
+Magnitude
+Flux  F: energy/time/area
+Units:    W/m² 
+              erg/s/cm2 
+                     
+mag A − mag B =− 2,5 ( log F A − log F B )
+mag A =− 2,5 log F A + Constant
+− 2,5 ( log
+F A
+F B )
+Brightness of the object
+
+PAGE 11
+Definition
+         
+13
+Magnitude
+mag A =− 2,5 log F A + Constant
+mag V ega=− 2,5 log F V ega+Constant
+2,5 log F V ega=Constant
+mag V ega=0=− 2,5 ( log F A ) + Constant
+Brightness of the object
+
+PAGE 12
+Example 1:
+Let’s consider two stars, A and B
+                                                                                   
+14
+Magnitude
+m A − mB =− 2,5 ( log F A − log F B )=− 2.5 log
+(
+F A
+F B )
+m A − mB =1
+1=− 2.5 log
+(
+F A
+F B )
+⇒
+F B
+F A
+=10
+1/ 2.5
+≃ 2.511
+B is brighter!!!
+Brightness of the object
+
+PAGE 13
+15
+Example 2: 
+Let’s consider two stars,
+A and B stars:
+ 
+                                                                                   
+Magnitude
+Hipparchus, 190 BC-120 BC
+m A − mB =5 → F B / F A =100
+Brightness of the object
+
+PAGE 14
+Apparent magnitude and distance
+L B
+4 π D B
+2
+
+PAGE 15
+L A
+4 π D A
+2
+F A F B
+L B
+4 π D B
+2
+
+PAGE 16
+ 
+       Two equal stars (A e B)  at  distances DA and  DB  to the Earth
+What is the diference between the apparent magnitudes?
+                                      
+             
+Consider: DB=10 pc    
+definition: M=mag B
+ 
+Absolute Magnitude  M: mag @10pc
+2
+3
+2
+3
+DA-Luminosity distance
+μ- Distance modulus
+F B =
+L B
+4 π D B
+2F A=
+L A
+4 π D A
+2
+m A − mB =− 2,5 log ( D B
+2
+/ D A
+2
+) =5 log ( D A / D B )
+μ=m A − M =5 log ( D A / 10 )
+Apparent magnitude and distance
+
+PAGE 17
+ 
+       Two equal stars A e B at  distances DA and  DB  to the Earth
+What is the diference between the apparent magnitudes?
+                                      
+             
+2
+3
+2
+3
+Apparent magnitude and distance
+F B =
+L B
+4 π D B
+2F A=
+L A
+4 π D A
+2
+m A − mB =− 2,5 log ( D B
+2
+/ D A
+2
+) =5 log ( D A / D B )
+Source of errors: 
+extinction of light due to dust
+                                      
+
+PAGE 18
+Extinction: absorption of light by dust 
+Reddening: reemission at longer wavelengths
+3
+o b s e r v e r a t t h e s a m e t i m e t h a n a p u l s e e m i t t e d a t t i m e t
+g o i n g s t r a i g h t t o t h e o b s e r v e r . D i s t h e d i s t a n c e b e t w e e n
+t h e p h o t o s p h e r e o f t h e S N a n d t h e o b s e r v e r a n d D 0 ( ✓ ) i s
+t h e p a t h l e n g t h t r a v e l l e d b y a p h o t o n b e i n g s c a t t e r e d b y
+t h e C S M t o t h e o b s e r v e r a t a n a n g l e ✓ ( s e e ﬁ g u r e 1 ) .
+F i g . 1 . — S k e t c h o f t h e C S M m o d e l . P a r t o f t h e l i g h t e m i t t e d
+b y t h e S N i s s c a t t e r e d b y t h e C S M a n d r e d i r e c t e d t o t h e o b s e r v e r
+a r r i v i n g a s a l i g h t e c h o d e l a y .
+Φ ( ✓ , λ ) i s t h e s c a t t e r i n g p h a s e f u n c t i o n p r o p o s e d i n
+H e n y e y & G r e e n s t e i n ( 1 9 4 1 ) :
+Φ ( ✓ , λ ) =
+1
+4 ⇡
+1 − g ( λ ) 2
+( 1 + g ( λ ) 2 − 2 g ( λ ) c o s ( ✓ ) ) 3 / 2 ( 5 )
+w h e r e g i s t h e d e g r e e o f f o r w a r d s c a t t e r i n g . W h e n g = 1
+w e h a v e c o m p l e t e f o r w a r d s c a t t e r i n g a n d g = 0 m e a n s
+i s o t r o p i c s c a t t e r i n g ( Φ ( ✓ , λ ) = 1 / ( 4 ⇡ ) ) . W e a l s o d e ﬁ n e
+t h e p a r a m e t e r f C S M ⌘ N C S M / N t o t t o s i m p l i f y t h e n o -
+t a t i o n , t a k i n g v a l u e s b e t w e e n 0 a n d 1 . F i n a l l y , d e ﬁ n -
+i n g a d e l a y p a r a m e t e r ⌧ ⌘ t − t r , a n e x t i n c t i o n f a c t o r
+X ( λ ) ⌘ e − ( σ s ( λ ) + σ a ( λ ) ) N t o t a n d m a k i n g a c h a n g e o f v a r i -
+a b l e , u s i n g e q u a t i o n 4 , w e o b t a i n
+S ( t , λ ) =
+! ( λ ) ( 1 − X f C S M )
+⌧m a x
+R ⌧m a x
+0 f 0 ( t − ⌧, λ ) Φ 0 ( ⌧, λ ) d ⌧ ( 6 )
+w h e r e ⌧m a x = 2 R / c i s t h e m a x i m u m d e l a y f o r a l i g h t e c h o
+( ✓ = ⇡ ) a n d Φ 0 ( ⌧, λ ) = 4 ⇡ Φ ( ✓ ( ⌧) , λ ) . W e p e r f o r m e d t h i s
+i n t e g r a l n u m e r i c a l l y u s i n g t h e S i m p s o n ’ s 1 / 3 r d i n t e g r a -
+t i o n r u l e a n d a t i m e s t e p o f o n e d a y t o s i m u l a t e s p e c t r a
+a n d t o ﬁ t t h i s m o d e l t o r e a l d a t a .
+3 . L I G H T E C H O M O D E L P R E D I C T I O N S
+T o s i m u l a t e s p e c t r a w i t h d i ↵ e r e n t e x t i n c t i o n s a n d L E s
+u s i n g e q . 6 w e n e e d t o a d o p t a d u s t a l b e d o , a n e x t i n c -
+t i o n l a w , a p h a s e f u n c t i o n o r g ( λ ) , a n d s p e c t r a l t e m p l a t e s
+w i t h n o e x t i n c t i o n n o r L E s a t d i ↵ e r e n t e p o c h s . F o r t h e
+e x t i n c t i o n l a w w e t a k e t h e p a r a m e t r i z a t i o n p r o p o s e d i n
+F i t z p a t r i c k ( 1 9 9 9 ) . W e u s e t h e a l b e d o w ( λ ) a n d t h e d e -
+g r e e o f f o r w a r d s c a t t e r i n g g ( λ ) f r o m t h e M W u s e d i n
+G o o b a r ( 2 0 0 8 ) w h i c h a c c o u n t s f o r t h e d u s t p r o p e r t i e s o f
+t h e C S M . W e c o n s t r u c t u n r e d d e n e d s p e c t r a l t e m p l a t e s
+a t d i ↵ e r e n t e p o c h s f r o m w e i g h t e d b o o t s t r a p p e d a v e r a g e s
+o f o b s e r v e d s p e c t r a o f s l o w B − V L i r a l a w d e c l i n e r s ( s e e
+s e c t i o n 4 . 2 ) , t o g e t h e r w i t h l i g h t - c u r v e t e m p l a t e s t h a t w e
+n e e d s i n c e w e n o r m a l i z e t h e s p e c t r a b y t h e i r V - b a n d ﬂ u x
+( s e e s e c t i o n 4 . 1 ) . I n F i g u r e 2 w e s h o w t h e d i ↵ e r e n t s c e -
+n a r i o s f o r l a t e - t i m e ( L i r a l a w p h a s e ) m o d e l s p e c t r a w h e n
+p u r e e x t i n c t i o n a n d s i m u l a t e d L E s a ↵ e c t t h e S N e m i s -
+s i o n .
+W e s e a r c h f o r a w a y t o d i s t i n g u i s h i f p a r t o f t h e d u s t
+f o u n d a t m a x i m u m l i g h t i s p r o d u c i n g l i g h t e c h o e s . L E
+s p e c t r a a r e i n t e g r a t e d s p e c t r a w e i g h t e d b y t h e l i g h t -
+c u r v e , a n d t h u s d o m i n a t e d b y s p e c t r a a r o u n d p e a k ( s e e
+F i g u r e 2 w i t h p e a k t e m p l a t e s p e c t r u m a n d L E s p e c -
+t r u m ) . L E s p e c t r a a r e b l u e a n d h a v e v e r y s t r o n g b r o a d
+e m i s s i o n a n d a b s o r p t i o n l i n e s , w i t h p r o m i n e n t p e a k s a t
+4 0 0 0 , 4 6 0 0 , 4 9 0 0 ˚A a n d m i n i m a a t 4 4 0 0 a n d 6 2 0 0 ˚A .
+W h e n L E s p e c t r a a r e a d d e d t o S N s p e c t r a : ( 1 ) t h e f a c t
+t h a t t h e L E s p e c t r a a r e b l u e h a s a l o w - o r d e r e ↵ e c t o n
+t h e o b s e r v e d s p e c t r a b y m a k i n g t h e c o l o r s b l u e r , s i m i l a r
+t o l e s s r e d d e n i n g a n d t h u s d i f f i c u l t t o d i ↵ e r e n t i a t e ; ( 2 )
+t h e s t r o n g b r o a d l i n e s a d d a n a d d i t i o n a l m o d u l a t i o n t o
+t h e o b s e r v e d s p e c t r a t h a t i s v e r y d i s t i n c t t o t h e e ↵ e c t
+o f r e d d e n i n g , s i n c e i t i n t r o d u c e s d i ↵ e r e n c e s o n s c a l e s o f
+a c o u p l e o f h u n d r e d a r m s t r o n g s . B y l o o k i n g s p e c i ﬁ c a l l y
+a t t h e w a v e l e n g t h s w h e r e t h e L E s p e c t r a h a s p e a k s o r
+m i n i m a , i t i s p o s s i b l e t o d i ↵ e r e n t i a t e b e t w e e n t h e t w o
+s c e n a r i o s . I n § 4 w e c o m p a r e t h e s e s i m u l a t i o n s t o t h e
+o b s e r v e d s p e c t r a o f S N e I a .
+I n t h i s s i m u l a t i o n t h e m a i n s i g n a t u r e d u e t o L E s i s
+f o u n d n e a r 4 1 0 0 ˚A . T h i s c a n b e s e e n i n F i g u r e 3 , w h e r e
+t h e s h a p e o f t h e s p e c t r u m g e t s c o n s i d e r a b l y m o d i ﬁ e d i n
+t h e L E s c e n a r i o ( p u r p l e a n d b l u e l i n e s ) p r o d u c i n g a c h a r -
+a c t e r i s t i c s i g n a t u r e . O n t h e o t h e r h a n d , i n t h e p u r e e x -
+t i n c t i o n s c e n a r i o i f t h e c o l u m n d e n s i t y i s r e d u c e d ( b l a c k
+l i n e ) , i t p r o d u c e s j u s t a s m o o t h c h a n g e i n t h e s p e c t r u m
+c o m p a r e d t o t h e s a m e s p e c t r u m w i t h e x t i n c t i o n ( r e d d e s t
+l i n e ) . I n p a r t i c u l a r , t h e s h a p e o f t h e f e a t u r e n e a r 4 1 0 0 ˚A
+w i l l n o t b e a ↵ e c t e d .
+F i g . 2 . — U p p e r p a n e l : s i m u l a t e d s p e c t r a a t 5 0 d a y s p a s t m a x i -
+m u m l i g h t e x t i n c t e d b y d i ↵ e r e n t a m o u n t s o f d u s t ( A V = 0 - 0 . 5 ) w i t h
+t h e s a m e R V = 3 . 1 e x t i n c t i o n l a w . A l l s p e c t r a h a v e b e e n n o r m a l -
+i z e d t o t h e s a m e V - b a n d ﬂ u x . B o t t o m p a n e l : s i m u l a t e d s p e c t r a
+a t 5 0 d a y s p a s t m a x i m u m l i g h t w i t h t h e s a m e r e d d e n i n g l a w , b u t
+a l s o w i t h L E s d u e t o C S M a r e s h o w n . W e ﬁ x e d A V = 0 . 5 a n d
+v a r i e d t h e f r a c t i o n a l a m o u n t o f C S M ( f C S M ) w i t h a r a d i u s o f 0 . 0 5
+p c . T h e g r e e n l i n e r e p r e s e n t s a t y p i c a l m a x i m u m l i g h t s p e c t r u m ,
+w h i l e i n o r a n g e t h e L E s p e c t r u m i s s h o w n o n a n a r b i t r a r y s c a l e .
+A l l m o d e l s a r e n o r m a l i z e d t o t h e s a m e V - b a n d ﬂ u x .
+T h e s e f e a t u r e s c h a n g e w i t h t h e d i s t a n c e R b e t w e e n
+t h e C S M a n d t h e S N . R e d u c i n g t h e d i s t a n c e i s a n a l o -
+ESO
+μ=m − M =5 log ( D A / 10) + A
+Distance Modulus corrected for the extinction: 
+Apparent magnitude and distance
+
+PAGE 19
+25
+Betelgeuse
+Rigel
+Central part of the Omega Cen globular cluster 
+(HST)
+Orion Constellation
+Apparent magnitude and colours
+
+PAGE 20
+
+
+PAGE 21
+27
+in filter B, V, ...
+Definition: colour     B-V; V-I ….                      
+Apparent magnitude and colours
+
+PAGE 22
+Object 
+properties
+magnitude size
+temperaturedistance
+29
+
+PAGE 23
+30
+http://pt.wikipedia.org/wiki/Paralaxe
+Distance to stars and stellar parallax
+p
+StarStar
+AU
+
+PAGE 24
+31
+http://pt.wikipedia.org/wiki/Paralaxe
+AU
+Star
+sin p= 1 AU / d
+p
+- Parallax anglep
+Distance to stars and stellar parallax
+
+PAGE 25
+32
+http://pt.wikipedia.org/wiki/Paralaxe
+AU
+Star
+p
+- Parallax anglep
+sin p= 1 AU / d
+Distance to stars and stellar parallax
+
+PAGE 26
+33
+http://pt.wikipedia.org/wiki/Paralaxe
+AU
+AU
+Star
+p
+Distance to stars and stellar parallax
+
+PAGE 27
+34
+http://pt.wikipedia.org/wiki/Paralaxe
+AU
+Star
+p
+- Parallax anglep
+Radians to degreessin x = x
+sin p= p =1 AU / d ( 180 / π ) graus =1 AU / d ( 180 x 3600 / π ) arcsec
+x ( 180 / π ) graus= x ( 180 x 3600 / π ) arcsec
+sin p= 1 AU / d
+Distance to stars and stellar parallax
+
+PAGE 28
+35
+AU
+Star
+sin p= 1 AU / d
+p
+- Parallax anglep
+1
+' '
+=1 AU / d ⇒ d = 1 / 1
+' '
+AU =( 180 x 3600 / π ) AU =1 pc
+When p=1
+' '
+d =206264 AU = 3,2 ly =1 pc
+parsec
+Distance to stars and stellar parallax
+
+PAGE 29
+39
+M87,  Hubble telescope (ESA,NASA)
+D=16,4 Mpc
+jet extends to 1500 pc 
+
+PAGE 30
+40
+Astrometric precision  in GAIA data
+For a  mag 15 star  (4000 x less than the human  eye can reach )
+                                           24 marcsec       ( = human hair  at D=1000 km)
+Distance to stars and stellar parallax
+
+PAGE 31
+https://www.chandra.harvard.edu/graphics/photo/cosmic_distance.jpg
+
+PAGE 32
+Object 
+properties
+magnitude size
+temperaturedistance
+43
+Observatory
+ PROPERTIES OF THE TARGETS
+ 
+
+PAGE 33
+Stellar temperature
+44
+Planck
+λ max T =0,28 cm K
+R- radius
+σ-Stefan Boltzmann constant
+Teff – effective temperature: temperature of 
+blackbody with same integrated surface flux as star 
+L= 4 π R
+2
+σ T eff
+4
+Wien’s Law
+Black body
+
+PAGE 34
+45
+How can we estimate T ?
+Black body
+Stellar temperature
+
+PAGE 35
+46
+         Temperature and Colour 
+Does not depend on the distance
+Depends on the temperature
+mag B − mag V =− 2,5 ( log F B − log F V ) =− 2.5 log ( LB / LV )
+Stellar temperature
+
+PAGE 36
+47
+Color index
+U-B = mU-mB
+B-V = mB-mV
+A star with a smaller (B-V) 
+color index is bluer than 
+the one with higher (B-V)
+Typical optical filters: 
+UBVRI, ugriz
+• In practice, astronomers observe 
+• with different passbands or filters
+         Temperature and Colour 
+Stellar temperature
+
+PAGE 37
+48
+         
+B-V
+U-B
+         Temperature and Colour 
+Stellar temperature
+
+PAGE 38
+49
+O 30,000 - 60,000 K Blue stars
+B 10,000 - 30,000 K Blue-white stars
+A 7,500 - 10,000 K White stars
+F 6,000 - 7,500 K Yellow-white stars
+G 5,000 - 6,000 K Yellow stars (like the Sun)
+K 3,500 - 5,000K Yellow-orange stars
+M < 3,500 K Red stars
+                                                            
+Spectral Class Characteristics
+Data from J. C. Evans, George Mason University
+Spectral Class Intrinsic Color Temperature (K) Prominent Absorption Lines
+O Blue 41,000 He+, O++, N++, Si++, He, H
+B Blue 31,000 He, H, O+, C+, N+, Si+
+A Blue-white 9,500 H(strongest), Ca+, Mg+, Fe+
+F White 7,240 H(weaker), Ca+, ionized metals
+G Yellow-white 5,920 H(weaker), Ca+, ionized & neutral metal
+K Orange 5,300 Ca+(strongest), neutral metals strong, H(weak) 
+M Red 3,850 Strong neutral atoms, TiO
+Anie Canon, 1901
+
+PAGE 39
+50
+Diagram H-R
+Deneb
+Arcturus
+Aldebaran
+Vega
+Altair
+Sun
+Sirius B
+
+PAGE 40
+Object 
+properties
+magnitude size
+temperaturedistance
+51
+Observatory
+ PROPERTIES OF THE TARGETS
+ 
+
+PAGE 41
+52
+Observatory
+ PROPERTIES OF THE TARGETS: 
+size  
+• Point sources: which star is bigger? 
+• (the one up or down)? 
+
+
+PAGE 42
+53
+Observatory
+ PROPERTIES OF THE TARGETS: 
+size  
+• All point sources are of equal 
+• angular sizes (equal fwhm)
+Important notions: 
+seeing and diffraction limit
+
+PAGE 43
+54
+Observatory
+ PROPERTIES OF THE TARGETS
+ 
+M101 (HST)
+V-band surface 
+brightness:
+• Orion:
+   17 mag/arcsec2   
+• Andromeda:
+   14-18.0 mag/arcsec2
+• M101:
+   13 mag/arcsec2
+• Extended sources: surface brightness: mag/arcsec2
+
+PAGE 44
+ASTROPHYSICS LABORATORY
+Observational Astrophysics
+II) Basic notions in Observational astrophysics
+a) Properties of the astronomical objects
+- Magnitude; Absolute magnitude
+- Magnitude and distance: ly, parsec
+- Temperature and colour
+- Size
+b) Preparing astronomical observations
+- Visibility of the target: coordinates and time
+- Telescope
+- Detector and data acquistion
+III) Observations: data acquisition
+IV) Data reduction and analysis
+
+PAGE 45
+57
+OBSERVATIONS
+  Latitude and longitude of the observatory 
+Coordinates of the 
+observer
+  Year, day, hour Date and time 
+  Celestial coordinate system
+Coordinates of 
+the targets 
+Exposure time
+
+PAGE 46
+WHY DO WE NEED COORDINATES
+                                            Of the observer on 
+Earth
+                                            Of the target in the sky
+
+PAGE 47
+ 
+Earth rotation
+Earth rotates along its N/S axis to the E
+Stars rise from E to W The center of the circles marks the celestial pole
+
+PAGE 48
+60
+Celestron 14” in Lisbon
+Coordenadas GPS
+Latitude: N 38º 46’ 42.03" (38.778342º)
+Longitude: W 9º 06’ 49.53" (-9.113758º)
+
+PAGE 49
+61
+21/12
+20/03
+21/06
+22/09
+IS OUR TARGET VISIBLE?
+
+PAGE 50
+70
+Where is my target 
+                         on a given date?
+                         on a given hour?
+Celestial coordinate systems: next lecture
+Lecture notes for the LA2025@IST by A. Mourão, J. D. Duarte R. P Santos 

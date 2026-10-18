@@ -1,0 +1,43 @@
+PAGE 1
+Data reduction
+
+PAGE 2
+Bias
+● A bias frame is an image with zero exposure time;
+● It’s used to obtain the signal produced by the electronics themselves, the 
+readout noise.
+
+
+PAGE 3
+Dark
+● A dark frame is similar to a bias (no light), but with exposure time (ideally the 
+same exposure as the light frame)
+● It’s used to read the signal from thermal fluctuations, the dark current
+
+
+PAGE 4
+Flat
+● A flat field is an image of a constant illumination through the CCD. 
+● It’s used to measure each pixel’s response to light:
+● Flats must be taken in all filters.
+
+
+PAGE 5
+Summary
+● Bias: Light Exposure Time Filter
+● Dark: Light Exposure Time Filter
+● Flat: Light Exposure Time Filter
+
+PAGE 6
+Stacking
+● To increase SNR, we increase exposure time; However, things can saturate.
+● Solution: We stack many images of shorter exposures: blend several images 
+of the same target together.
+● How: create a data cube with all the frames and median (average) in the 3rd 
+dimension.
+○ Final image is not brighter (signal is the same)!
+○ Final image is smoother because it has less noise (noise is random and cancels out)
+
+
+PAGE 7
+Data reduction

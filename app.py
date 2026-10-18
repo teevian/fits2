@@ -11,6 +11,7 @@ from astropy.io import fits
 
 from imageProcessing import display_group, default_display_limits
 from image_viewer import show as show_image, show_empty
+from color_composition import ColorComposite
 from processing_ui import identity, list_fits
 from imageProcessing import frame
 from workflow_ui import workflow_panel
@@ -199,6 +200,11 @@ with hdus, image_area:
             active = processed or original
             name = active.name
             name_slot.caption(name)
+            if isinstance(active, ColorComposite):
+                with st.container(key='image_viewer'):
+                    show_image(active.rgb(st.session_state.get('viewer_contrast', False)), 1)
+                image_details(active.header)
+                st.stop()
             data, header, active_mask = active.data, active.header, active.mask
         slices = []
         if data.ndim > 2:

@@ -1,0 +1,9 @@
+import os
+path = r"C:\Users\jw141\Desktop\astrolab_observations\data"
+folders = os.listdir(path)
+
+for folder in folders:
+    data_list = os.listdir(path + r"\\" + folder)
+    for data in data_list:
+        if "calibrated_calibrated" in data:
+            os.remove(path + r"\\" + folder + r"\\" +data)

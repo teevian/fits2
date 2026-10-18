@@ -15,10 +15,12 @@ def show_empty():
 
 
 def show(preview, step, display_limits=(0., 65535.), contrast=False, contrast_reference=None):
-    values = np.asarray(preview, dtype='<f8', order='C')
-    low, high = resolve_display_limits(values, display_limits, contrast, contrast_reference)
+    values = np.asarray(preview)
+    color = values.ndim == 3 and values.shape[-1] == 3
+    values = np.asarray(values, dtype='uint8' if color else '<f8', order='C')
+    low, high = (0., 255.) if color else resolve_display_limits(values, display_limits, contrast, contrast_reference)
     encoded = b64encode(values.tobytes()).decode('ascii')
-    rows, columns = values.shape
+    rows, columns = values.shape[:2]
     html = f'''<!doctype html><html><head><style>
         * {{box-sizing:border-box;}}
         html, body {{margin:0; font:13px sans-serif; color:#ddd; background:#000; overflow:hidden;}}
@@ -33,8 +35,8 @@ def show(preview, step, display_limits=(0., 65535.), contrast=False, contrast_re
     <script>
     const raw = atob({dumps(encoded)});
     const bytes = Uint8Array.from(raw, c => c.charCodeAt(0));
-    const pixels = new Float64Array(bytes.buffer);
-    const rows = {rows}, columns = {columns}, step = {step};
+    const pixels = new {'Uint8Array' if color else 'Float64Array'}(bytes.buffer);
+    const rows = {rows}, columns = {columns}, step = {step}, color = {dumps(color)};
     const displayLow = {dumps(low)}, displayHigh = {dumps(high)};
     const canvas = document.getElementById('image');
     const holder = document.querySelector('.image');
@@ -106,6 +108,10 @@ def show(preview, step, display_limits=(0., 65535.), contrast=False, contrast_re
         const source = (rows-1-y)*columns+x;
         let v = pixels[source];
         const index = 4*(y*columns+x);
+        if (color) {{
+          for(let c=0;c<3;c++) out[index+c]=pixels[3*source+c];
+          out[index+3]=255; continue;
+        }}
         if (!Number.isFinite(v)) {{out[index]=out[index+1]=out[index+2]=0; out[index+3]=255; continue;}}
         const gray = Math.round(255 * Math.max(0, Math.min(1, (v-displayLow) / (displayHigh-displayLow))));
         out[index]=out[index+1]=out[index+2]=gray; out[index+3]=255;
@@ -117,7 +123,9 @@ def show(preview, step, display_limits=(0., 65535.), contrast=False, contrast_re
       const rect=canvas.getBoundingClientRect();
       const x=Math.min(columns-1,Math.max(0,Math.floor((event.clientX-rect.left)*columns/rect.width)));
       const y=Math.min(rows-1,Math.max(0,Math.floor((event.clientY-rect.top)*rows/rect.height)));
-      document.getElementById('readout').textContent=`X=${{x*step}} px · Y=${{(rows-1-y)*step}} px · Value=${{pixels[(rows-1-y)*columns+x]}}`;
+      const offset=(rows-1-y)*columns+x;
+      const value=color ? Array.from(pixels.slice(3*offset,3*offset+3)).join(', ') : pixels[offset];
+      document.getElementById('readout').textContent=`X=${{x*step}} px · Y=${{(rows-1-y)*step}} px · Value=${{value}}`;
     }});
     fitCanvas();
     render();

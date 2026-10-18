@@ -1,0 +1,295 @@
+PAGE 1
+ASTROPHYSICS LABORATORY
+Observational Astrophysics
+I) Basic notions in Observational astrophysics
+a) Properties of the astronomical objects
+- Magnitude; Absolute magnitude
+- Magnitude and distance: ly, parsec
+- Temperature and colour
+- Size
+b) Preparing astronomical observations
+- Visibility of the target: coordinates and time
+- Telescope
+- Detector and data acquistion
+II) Observations: data acquisition
+III) Data reduction and analysis
+Lecture notes for the LA2025@IST, Part I,  by A. Mourão, J. D. Duarte, R. P Santos 
+
+PAGE 2
+3
+OBSERVATIONS
+  Latitude and longitude of the observatory 
+Coordinates of the 
+observer
+  Year, day, hour Date and time 
+  Celestial coordinate system
+Coordinates of 
+the targets 
+Exposure time
+
+PAGE 3
+4
+
+
+PAGE 4
+5
+21/12
+20/03
+21/06
+22/09
+OBSERVATIONS
+
+PAGE 5
+6
+Celestron 14” in Lisbon
+Coordenadas GPS
+Latitude: N 38º 46’ 42.03" (38.778342º)
+Longitude: W 9º 06’ 49.53" (-9.113758º)
+
+PAGE 6
+- Observer coordinate system: Alt and Az
+- Equatorial coordinate system: RA and DEC
+- Galactic coordinate system:  l  and b
+Coordinate systems
+
+PAGE 7
+9
+Observer coordinate system 
+Altitude and azimuth
+Local horizon
+E Observer: located at center
+Zenith: straight up, highest
+Horizon: lowest circle visible from observer
+Meridian: North-South line through 
+                   the zenith
+Altitude: angular height above the horizon 
+(horizon=0°, zenith=90°)
+Azimuth: angle on horizon between North 
+and star (0-360°), going NE
+
+PAGE 8
+11
+EeEquatorial coordinate system: RA and DEC
+
+PAGE 9
+12
+EeEquatorial coordinate system: RA and DEC
+
+
+PAGE 10
+14
+DEC or d as latitude
+RA or a  as hour angle
+EeEquatorial coordinate system: RA and DEC
+
+PAGE 11
+Earth precession
+Earth precession
+the rotational axis changes with a period 
+of 25770 years
+The equatorial coordinate system 
+depends on the Earth’s rotational axis 
+coordinates change with time
+Epoch “J2000”: coordinates in 2000 AD.
+  Coordinate systems
+
+PAGE 12
+• Julian date (JD) system allows to have continuous day counting (no 
+months, years…)
+     Number of days since noon, UT on 1st of January 4173 BC
+• Modified Julian Date (MJD): Number of days since 17th of November 1858. 
+   MJD  = JD – 240000.5
+  Time systems: Julian Date
+
+PAGE 13
+OBSERVING at the AO-CIGeoE
+
+PAGE 14
+
+
+PAGE 15
+Project Ideas
+Nebulae
+Scientific questions:
+● What is a nebula? What is its chemical composition? How long ago has it exploded?
+Skills:
+● Measure luminosity profile and integrated luminosity of a nebula
+● Obtain a color-composite image
+Tips:
+● For the exposure time calculation, nebulae are extended sources
+● Make sure (most of) the nebula fits in the field of view. Mosaics are possible but challenging.
+
+PAGE 16
+Project Ideas
+Stellar Clusters
+Scientific questions:   
+● What is a stellar cluster? What is its age? What is the turnoff point?
+Skills: 
+● Obtain magnitudes and colors of each star.
+● Plot the stars in a Hertzsprung-Russell diagram
+● Obtain a color-composite image
+Tips:
+● To calculate exposure times, use faint stars in stellar cluster. See the member of a cluster with 
+SIMBAD: http://simbad.u-strasbg.fr/simbad/ 
+● Do not pick stellar clusters that are too crowded so that you can resolve more stars (and do 
+photometry)
+● Make sure (most of) your stellar cluster fits in the field of view
+
+PAGE 17
+Project Ideas
+Individual Stars
+Scientific questions:
+● What are the types of some of the stars we see in the night sky? How will they evolve?
+Skills:
+● Calculate the color and temperature of stars.
+● Plot the stars in a Hertzsprung-Russell diagram
+Tips:
+● Be careful when selecting stars to ensure that they do not saturate the CCD.
+
+PAGE 18
+Ephemeris:                         trajectories of objects in the sky 
+Visibility:                             of an object from a certain place        
+                                           during a certain time. 
+                                          
+Tools
+• Stellarium: home planetarium (Mac, Win, Linux)
+• SkyMap: mobile sky tool 
+• Visibility tools: https://airmass.org
+Planning an observation
+
+PAGE 19
+ Plan the observations at the CiGeoE telescope 
+ Order the objects to observe, from sunset to 23h Lisbon time. 
+ Each object should be observed for 0.5h and count with 10min to move the 
+telescope to the new position.  
+Lisbon:  -9.1393W 38.7223 10 N
+Objects
+• Moon
+• Saturn (?)
+• Jupiter (?)
+• Albireo
+• Mizar & Algol
+• Antares, Deneb
+• Orion Nebula (M42)
+• Andromeda (M31) 
+• Hercules Cluster (M13)
+• Ring Nebula (M57)
+• Dumbbell Nebula (M27)
+• Crab Nebula
+Planning an observation
+
+PAGE 20
+Planning an observation
+
+
+PAGE 21
+Planning an observation: VISIBILITY
+
+PAGE 22
+website for the LA2025
+
+PAGE 23
+Why would you get time to 
+access a telescope?
+
+PAGE 24
+WHY WRITE AN OBSERVING PROPOSAL?
+• You have a good scientific question/problem that you want 
+to answer/solve
+Observing proposal
+
+PAGE 25
+WHY WRITE AN OBSERVING PROPOSAL?
+• You have a good scientific question/problem that you want 
+to answer/solve
+WHY NOT SIMPLY OBSERVE IT?
+• Strong competition for limited resources
+Observing proposal
+
+PAGE 26
+WHY WRITE AN OBSERVING PROPOSAL?
+• You have a good scientific question/problem that you want 
+to answer/solve
+WHY NOT SIMPLY OBSERVE IT?
+• Strong competition for limited resources
+   Oversubscription rate = time requested/time available
+Telescope Oversubscription
+Small telescopes (0.5-2m) 0.5 - 2
+Middle telescopes (4m) 2-3
+Large telescopes (8m) 5-6
+Space telescopes 6-13
+Observing proposal
+
+PAGE 27
+WHY WRITE AN OBSERVING PROPOSAL?
+• You have a good scientific question/problem that you want 
+to answer/solve
+WHY NOT SIMPLY OBSERVE IT?
+• Strong competition for limited resources
+• Astronomical instrumentation is expensive
+Observing proposal
+
+PAGE 28
+WHY WRITE AN OBSERVING PROPOSAL?
+• You have a good scientific question/problem that you want 
+to answer/solve
+WHY NOT SIMPLY OBSERVE IT?
+• Strong competition for limited resources
+• Astronomical instrumentation is expensive
+Telescope Cost [€/hour] 
+VLBA (radio) 740
+Calar Alto (2.2m) 360
+ESO NTT (3.5m) 1200
+ESO VLT (8.0m) 7280
+HST (2.4m space) 40000
+JWST (6.5m space) 115000
+Observing proposal
+
+PAGE 29
+WHY WRITE AN OBSERVING PROPOSAL?
+• You have a good scientific question/problem that you want 
+to answer/solve
+WHY NOT SIMPLY OBSERVE IT?
+• Strong competition for limited resources
+• Astronomical instrumentation is expensive
+HOW IS THE PROPOSAL PROCESS?
+• Observatories/agencies send a call for proposals (twice a 
+yr)
+• Panel committee evaluates proposals for:  a) scientific case 
+and b) technical feasibility and they are ranked (Not all 
+members are specialists!)
+• Rejection/acceptance is sent and observing priority (A,B,C) 
+Observing proposal
+
+PAGE 30
+HOW TO WRITE AN OBSERVING PROPOSAL?
+• Investigate your scientific idea and convince the others 
+about its importance and relevance
+• Understand your instrument and the feasibility of the study 
+(visibility, S/N, etc)
+Observing proposal
+
+PAGE 31
+HOW TO WRITE AN OBSERVING PROPOSAL?
+• Investigate you scientific idea and convince the others 
+about its importance and relevance
+• Understand your instrument and the feasibility of the study 
+(visibility, S/N, etc)
+HOW IS THE STRUCTURE OF THE PROPOSAL?
+• Abstract: short summary 
+• Scientific justification 
+• T echnical feasibility
+ T argets and suggested observing dates
+ 
+Observing proposal
+
+PAGE 32
+1. Make groups of max. 3 people and pick a scientific 
+observing project that interests you
+2. Find targets that are visible during the week of Sep. 11-26th 
+2024 from 20h-23h.
+3. Write a small proposal (deadline: 11th Sep, 4pm:00) with 
+abstract, scientific case and time justification
+4. For time justification calculate exposure times and take into 
+account overheads 
+Proposals for the AO-CIGeoE

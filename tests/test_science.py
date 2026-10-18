@@ -611,6 +611,13 @@ def test_correct_prepares_four_filters_and_results_keep_separate_exposures(tmp_p
     for key, master in masters.items():
         assert len(inputs[key]) == master.header['NCOMBINE'] == 2
         np.testing.assert_allclose(master.data, master.header['EXPTIME'] * 100.)
+    filter_masters, filter_inputs, skipped = combine_science_groups(
+        corrected, bias, flats, method='median', corrected=True, group_by_filter=True)
+    assert len(filter_masters) == 4 and not skipped
+    for key, master in filter_masters.items():
+        assert len(filter_inputs[key]) == master.header['NCOMBINE'] == 4
+        assert master.header['EXPNORM']
+        np.testing.assert_allclose(master.data, master.header['EXPTIME'] * 100.)
     # Viewing a different source must keep the calibration and corrected files valid.
     app.button(key='workflow_image_name_science_1').click().run()
     assert not app.exception and not app.error
@@ -665,3 +672,81 @@ def test_science_choice_limits_correction_alignment_and_combination(tmp_path, mo
     app.run()
     assert not app.exception and not app.error
     assert app.session_state['workflow_science_frames'] == names
+
+
+def test_align_combine_selected_corrected_four_filter_masters(tmp_path, monkeypatch):
+    import workspace_settings
+    monkeypatch.setattr(workspace_settings, 'SETTINGS_FILE', tmp_path / 'settings.json')
+    response = np.tile([[.5, 1.], [1., 1.5]], (48, 64))
+    y, x = np.indices(response.shape)
+    stars = sum(peak * np.exp(-((x-cx)**2 + (y-cy)**2) / 10.)
+                for cy, cx, peak in [(22, 30, 1000), (62, 82, 600), (40, 102, 800)])
+    bias = np.full_like(response, 10.)
+    originals = {}
+    for index in range(2):
+        image = make_frame(bias, f'bias{index}.fits', 'BIAS', 0.)
+        (tmp_path / image.name).write_bytes(to_fits(image))
+    for filter_name in ('Red', 'Green', 'Blue', 'black'):
+        for index in range(2):
+            image = make_frame(bias + 1000.*response, f'flat_2026-10-01_20-00-00_{filter_name}_{index:04d}.fits',
+                               'FLAT', .2, filter_name)
+            (tmp_path / image.name).write_bytes(to_fits(image))
+            image = make_frame(bias + (100. + index * 200. + stars) * response,
+                               f'hd226868_2026-10-01_21-10-56_{filter_name}_{index:04d}.fits', filter_name=filter_name)
+            contents = to_fits(image)
+            (tmp_path / image.name).write_bytes(contents)
+            originals[image.name] = contents
+    app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'app.py'), default_timeout=30)
+    app.session_state['folder_path'] = str(tmp_path)
+    app.run()
+    app.button(key='workflow_science_correct').click().run()
+    assert not app.exception and not app.error
+    assert app.radio(key='workflow_science_method').value == 'Median'
+    assert len(app.session_state['workflow_science_corrected_selection']) == 8
+    selected = list(app.session_state['workflow_science_corrected_selection'])
+    grids = []
+    def picker(**kwargs):
+        if kwargs['key'].startswith('science_result_'):
+            grids.append(kwargs['items'])
+        if kwargs['key'].startswith('science_pairs_'):
+            assert all(name.endswith(':1') for name in kwargs['selected'])
+            return {'action': 'change', 'selected': [f'{i}:1' for i in range(1, 8)], 'event': 'omit-one'}
+    monkeypatch.setattr('science_picker.image_picker', picker)
+    app.run()
+    assert app.session_state['workflow_science_corrected_selection'] == selected[1:]
+    app.button(key='workflow_science_align').click().run()
+    assert not app.exception and not app.error, [e.value for e in app.error]
+    masters = app.session_state['workflow_science_last'][1]
+    assert len(masters) == 4
+    assert sum(master.header['NCOMBINE'] for master in masters.values()) == 7
+    assert all(master.header['COMBMETH'] == 'median' for master in masters.values())
+    assert len(grids[-1]) == 8
+    assert not app.button(key='workflow_science_show').disabled
+    app.button(key='workflow_science_show').click().run()
+    assert not app.exception
+    app.radio(key='workflow_science_method').set_value('Mean').run()
+    app.button(key='workflow_science_align').click().run()
+    assert not app.exception and not app.error
+    assert all(m.header['COMBMETH'] == 'mean' for m in app.session_state['workflow_science_last'][1].values())
+    app.button(key='workflow_science_generate').click().run()
+    assert not app.exception and not app.error, [e.value for e in app.error]
+    final = app.session_state['workflow_color_last'][1]
+    assert final.data.shape == (*response.shape, 3)
+    assert final.header['COLORMOD'] == 'LRGB'
+    assert app.session_state['workflow_stage_view'] == 'color'
+    def no_processing(*args, **kwargs):
+        raise AssertionError('Viewing a color variant must not reprocess the masters')
+    monkeypatch.setattr('color_ui.run_with_timeout', no_processing)
+    for contrast in (False, True):
+        def choose_color(**kwargs):
+            if kwargs['key'].startswith('color_result_'):
+                assert len(kwargs['items']) == 2
+                return {'action': 'view', 'name': str(int(contrast)), 'event': str(contrast)}
+        monkeypatch.setattr('science_picker.image_picker', choose_color)
+        app.run()
+        assert not app.exception
+        assert app.session_state['workflow_stage_view'] == 'color'
+        assert app.session_state['viewer_contrast'] == contrast
+    app.radio(key='workflow_science_method').set_value('Median').run()
+    assert not app.exception
+    assert not any(button.key == 'workflow_science_generate' for button in app.button)

@@ -1,0 +1,357 @@
+PAGE 1
+ASTROPHYSICS LABORATORY
+Organization                             goals, deadlines 
+Team
+Introduction
+Lecture notes for the LA2025@IST, Part I, by A. Mourão, J. D. Duarte, R. P Santos
+
+PAGE 2
+Part I: Observational Astrophysics
+     Prof. Ana Mourão, Dr. João Duarte, Dra Rita Santos
+Part II: Stellar Astrophysics
+     Prof. Ilídio Lopes, Dr. Diogo Campelo
+
+PAGE 3
+Observational Astrophysics
+Hands-on sessions: scientific observing projects 
+Goal:
+develop a scientific project to be elaborated in small groups in which 
+students go through the different scientific steps:
+ writing an observing proposal 
+ planning and performing observations with a telescope
+ reducing and analyzing the data
+ writing a research report 
+Evaluation
+Observing Proposal: 15%                                     11 set 17:00
+Observation and observing logs: 20%                  Data of observation
+Data products (images, figures, codes)                10 October
+Final short report/paper: 45%                               10 October 23:59
+Final presentation: 20%                                        15 October
+
+PAGE 4
+PROJECTS
+1) Stars
+2) stellar clusters
+3) Planetary nebula
+4) you name it ...
+Observational Astrophysics
+WEBSITE:
+https://fenix.tecnico.ulisboa.pt/disciplinas/LA112/2025-2026/1-semestre
+FORUM:
+Use it to ask questions and discuss concepts, problems, etc.
+
+PAGE 5
+BOOKS: 
+B.Carroll and D. Ostlie: An Introduction to Modern Astrophysics, 2nd Edition, 2013
+M. Zeilik and S. A. Gregory, A Pratical Guide to CCD Astronomy, Cambridge University Press, 1998
+Sites: 
+http://spiff.rit.edu/classes/phys445/syllabus.html
+http://spiff.rit.edu/classes/phys445
+http://burro.case.edu/Academics/Astr306/
+http://www.astronomynotes.com
+https://web.njit.edu/~gary/202
+Sites with working packages and tools: 
+http.//www.airmass.org
+          See AL2025 website: here
+Bibliography
+
+PAGE 6
+OBSERVATIONAL ASTROPHYSICS @ AL 2025
+Goals
+observat
+ory
+Observation 
+plan Observatory
+Targets
+ObservatoryObservatoryObservatory
+
+PAGE 7
+LOOKING AT THE SKY 
+WHAT IS THE QUESTION I WANT TO UNDERSTAND?
+GOALS
+
+PAGE 8
+
+
+PAGE 9
+
+
+PAGE 10
+
+
+PAGE 11
+Star cluster Westerlund
+1500ly by ESO
+
+PAGE 12
+Abel cluster 
+credit ESO 
+
+PAGE 13
+‘Bird’ interacting galaxies
+6500Mly by ESO+HST
+
+
+PAGE 14
+ORIGIN AND EVOLUTION
+Solar system
+UNIVERSE 
+Exo planets
+Earth
+Moon 
+Comets
+Stellar Clusters Clusters of Galaxies
+Galaxies
+Planets
+Stars
+
+PAGE 15
+Sun-Neptune distance
+Diameter of the 
+Milky Way  
+Earth
+Sun-Earth distance 
+R=6,4 10
+6
+ m
+D=1AU=1,5 10
+11
+ m 
+D=30AU
+D=150 kly =150 10
+16
+m
+Cluster of galaxies  ~10
+23
+m
+Atomic size ~10
+10⁻
+m
+SCALES
+
+PAGE 16
+ASTROPHYSICS
+WE PROBE THE UNIVERSE 
+AT DIFFERENT AGES 
+AT DIFFERENT SCALES 
+                
+
+PAGE 17
+THE LAWS OF THE UNIVERSE ARE 
+THE LAWS OF PHYSICS
+THE UNIVERSE IS A LABORATORY
+Explain what is seen in the sky
+OBSERVATIONAL ASTRONOMY  
+                              
+
+PAGE 18
+OBSERVATIONAL ASTRONOMY
+THE UNIVERSE TO DISCOVER    
+                            
+
+PAGE 19
+
+
+PAGE 20
+Galileu, 
+1609
+
+PAGE 21
+
+
+PAGE 22
+
+
+PAGE 23
+MEGAPRIME,CFHTLS,  340 M
+
+PAGE 24
+CANON 12 M
+
+PAGE 25
+MEGAPRIME,CFHTLS,  340 M
+
+
+PAGE 26
+
+
+PAGE 27
+MEGAPRIME,CFHTLS,  340 M
+
+
+PAGE 28
+Can we really 
+understand the Universe??
+
+PAGE 29
+FUNDAMENTAL INTERACTIONS
+GRAVITATION 
+Newton  1642-1727
+
+PAGE 30
+AAS 
+Nova
+
+PAGE 31
+ELECTROMAGNETIC INTERACTION
+
+PAGE 32
+STRONG INTERACTION
+
+PAGE 33
+WEAK INTERACTION
+
+PAGE 34
+4 p                 He + 2 n + 2e
++
++ Energy
+STRONG AND ELECTROWEAK INTERACTIONS 
+EXPLAIN THE SOURCE OF ENERGY IN STARS
+
+PAGE 35
+
+
+PAGE 36
+radius                     mass
+temperature           luminosity
+evolution                colapse
+
+PAGE 37
+    
+     ?
+    ?
+
+
+PAGE 38
+What are we looking for?  
+What?
+Where? 
+When?
+Why? 
+How?
+OBSERVATIONAL ASTROPHYSICS @ AL 2024
+
+PAGE 39
+What can is the signal that we can detect?
+How can we detect?
+What are the problems to overcome?
+
+PAGE 40
+LIGHT FROM THE SOURCE
+
+PAGE 41
+PHOTOMETRY
+SPECTROSCOPY
+OBSERVATIONS
+
+
+PAGE 42
+PROPERTIES OF THE OBJECT
+DISTANCE
+AVAILABLE TELESCOPES
+HOW TO CHOOSE THE WAVELENGTH?
+
+PAGE 43
+Accelerated expansion of the Universe
+Saul Perlmutter, SCP
+Adam Riess e Brian Schmidt,  HZT
+Nobel prize 2011
+
+PAGE 44
+OBSERVATIONAL ASTROPHYSICS @ AL 2025
+
+PAGE 45
+Myriam Rodrigues: The beginning of a great journey
+
+PAGE 46
+OBSERVATIONAL ASTROPHYSICS @ AL 2024
+Goals
+observat
+ory
+Observation 
+plan Observatory
+TARGETS
+
+PAGE 47
+TARGETS=OBJECTS IN OUR SKY
+
+PAGE 48
+Object 
+properties
+magnitude
+(brightness)
+size
+temperaturedistance
+OBSERVATIONS
+OBSERVATIONAL ASTROPHYSICS @ AL 2025
+
+PAGE 49
+D=7mm DTelescope=14”= 356mm R= 2580
+
+PAGE 50
+PLANETS                     STARS
+Saturn     Altair           mag=0.75    D=16.77 ly
+Polar           mag=1.95   D=431 ly
+Deneb         mag=1.1      D=3200 ly
+  
+Arcturus      mag=-0.05   D=37.6 ly
+Vega           mag=0          D=25 ly 
+Sirius A       mag=-1.46                                  D=8.6 al
+Sirius B
+
+PAGE 51
+H-R diagram
+Hertzsprung-Russell 
+diagram
+
+PAGE 52
+STELLAR CLUSTERS
+M92  glogular cluster                            mag=6.3  D=27 kly
+M39  open cluster     mag=5.5   D=1026ly
+M7    open cluster                                 mag=3.3  D= 980 ly
+M13  globular cluster                         mag=5.8  D=22 kly
+M22  globular cluster                            mag=5.1  D=10 kly 
+Catálogo de Messier,1771
+
+PAGE 53
+NEBULAE
+M57     planetary nebula (Lira, the ring nebula)     D=1800 ly
+M27     planetary nebula (Fox)                               D=1360 ly
+Catálogo de Messier,1771
+
+PAGE 54
+Scientific goal
+Position of the targets in the sky  
+Location of the observatory
+Characteristics of the telescopes
+Observation without  CCD 
+Observation with CCD
+Planning of the observations: sequence of 
+observations and exposure time
+ 
+OBSERVATIONAL ASTRONOMY @ AL 2025
+
+PAGE 55
+NEXT STEPS
+Basic notions in observational astronomy
+Prepare an observational poroposal
+Prepare for the observations
+Observations
+Data reduction
+Analysis and conclusions
+Report
+
+PAGE 56
+1. Make groups of max. 3 people and pick a scientific observing 
+project that interests you
+2. Find targets that are visible during the week of Sep. 11-26th 2025 
+from 20h-23h.
+3. Write a small proposal (deadline: 11th Sep, 4pm:00) with abstract, 
+scientific case and time justification
+4. For time justification calculate exposure times and take into account 
+overheads 
+Proposals for the AO-CIGeoE
+
+PAGE 57
+Next lecture: 
+Basic notions in observational astronomy

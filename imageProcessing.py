@@ -309,7 +309,7 @@ def calibrate(image, bias=None, dark=None, flat=None, mask=None,
 # Combina imagens por média ou mediana com as opções de alinhamento e rejeição escolhidas.
 def combine(sources, method='mean', sigma=5., normalize=False, kind='combined',
             bias=None, dark=None, scale_dark=False, dark_contains_bias=False, progress=None,
-            align=False, max_shift=100, subpixel=True, flat_normalize=True):
+            align=False, max_shift=100, subpixel=True, flat_normalize=True, allow_mixed_exposures=False, normalize_exposure=False):
     if len(sources) < 2:
         raise ValueError('Select at least two images.')
     if method not in ('mean', 'median') or (sigma is not None and (not np.isfinite(sigma) or sigma <= 0)):
@@ -321,6 +321,8 @@ def combine(sources, method='mean', sigma=5., normalize=False, kind='combined',
     normalize = normalize or (kind == 'flat' and flat_normalize)
     first = read_frame(sources[0])
     first_exposure = combination_exposure(first.header)
+    if normalize_exposure:
+        first_exposure = exposure(first)
     height, width = first.data.shape
     headers = []
     history = []
@@ -335,7 +337,7 @@ def combine(sources, method='mean', sigma=5., normalize=False, kind='combined',
                 image = read_frame(source)
                 compatible(first, image, check_filter=kind != 'bias')
                 image_exposure = combination_exposure(image.header)
-                if image_exposure != first_exposure:
+                if image_exposure != first_exposure and not allow_mixed_exposures:
                     raise ValueError(f'{image.name}: exposure {image_exposure} s differs from '
                                      f'{first.name} ({first_exposure} s).')
                 image_type = str(image.header.get('IMAGETYP', '')).upper()
@@ -354,6 +356,8 @@ def combine(sources, method='mean', sigma=5., normalize=False, kind='combined',
                 if kind == 'flat' and normalize:
                     image.mask |= image.data <= 0
                 values = image.display()
+                if normalize_exposure:
+                    values *= first_exposure / exposure(image)
                 if normalize:
                     valid = values[np.isfinite(values)]
                     median = float(np.median(valid)) if valid.size else np.nan
@@ -381,6 +385,15 @@ def combine(sources, method='mean', sigma=5., normalize=False, kind='combined',
         finally:
             del stack
     header = clean_header(first.header)
+    if normalize_exposure:
+        header['EXPTIME'] = first_exposure
+        header['EXPOSURE'] = first_exposure
+        header['EXPNORM'] = True
+        add_history(header, f'Inputs scaled to {first_exposure:g} s before rejection and combination.')
+    elif allow_mixed_exposures and len({combination_exposure(h) for h in headers}) > 1:
+        header.remove('EXPTIME', ignore_missing=True)
+        header.remove('EXPOSURE', ignore_missing=True)
+        add_history(header, 'Combined counts from differing exposures without exposure scaling.')
     header['COMBINED'] = True
     header['NCOMBINE'] = len(sources)
     header['COMBMETH'] = method
@@ -1081,7 +1094,7 @@ def _science_star_shift(reference, moving, max_shift, shape=None):
 
 
 # Alinha as imagens de ciência dentro de cada grupo de objeto, filtro e exposição.
-def align_science_frames(sources, bias, flats, max_shift=100, output_folder=None, corrected=False):
+def align_science_frames(sources, bias, flats, max_shift=100, output_folder=None, corrected=False, group_by_filter=False, shared_reference=False):
     """Register each target/filter/exposure group to its own stellar reference.
 
     Block averages are used only to measure shifts. Resampling is applied once
@@ -1121,7 +1134,9 @@ def align_science_frames(sources, bias, flats, max_shift=100, output_folder=None
         limit = max(image.data.shape) - 2
         if not isinstance(max_shift, (int, np.integer)) or not 1 <= max_shift <= limit:
             raise ValueError(f'Maximum shift must be between 1 and {limit} pixels.')
-        target = (source_target(image).casefold(), source_filter(image), source_exposure(image))
+        target = (source_target(image).casefold(), source_filter(image), None if group_by_filter else source_exposure(image))
+        if shared_reference:
+            target = (source_target(image).casefold(), None, None)
         if corrected:
             if not (image.header.get('SCICOR') is True and image.header.get('FLATNORM') is True):
                 raise ValueError(f'{image.name}: correct the science frames before alignment.')
@@ -1225,7 +1240,7 @@ def align_science_frames(sources, bias, flats, max_shift=100, output_folder=None
 # Combinação de ciência e sequência completa de tratamento
 
 # Combina as imagens de ciência por objeto, filtro e exposição sem repetir as correções aplicadas.
-def combine_science_groups(sources, bias, flats, method='mean', aligned=False, corrected=False):
+def combine_science_groups(sources, bias, flats, method='mean', aligned=False, corrected=False, group_by_filter=False):
     """Combine raw science groups and apply bias and the corrected flat response."""
     bias = read_frame(bias)
     flats = {key: read_frame(value) for key, value in flats.items()}
@@ -1249,18 +1264,23 @@ def combine_science_groups(sources, bias, flats, method='mean', aligned=False, c
         if filter_name is None:
             raise ValueError(f'{name}: filter is missing from the filename and FITS header.')
         target = source_target(source, header)
-        groups.setdefault((target, filter_name, source_exposure(source)), []).append(source)
+        groups.setdefault((target, filter_name, None if group_by_filter else source_exposure(source)), []).append(source)
     masters, names, skipped = {}, {}, []
     for (target, filter_name, exposure), selected in sorted(
             groups.items(), key=lambda item: (item[0][0], item[0][1],
                                              item[0][2] is None, item[0][2] or 0)):
         label = f'{target} · {filter_name} · {exposure:g} s' if exposure is not None else f'{target} · {filter_name} · unknown exposure'
-        if len(selected) < 2:
+        if group_by_filter:
+            label = f'{target} · {filter_name}'
+        if len(selected) < 2 and not group_by_filter:
             skipped.append((label, [source.name if isinstance(source, Frame) else Path(source).name for source in selected]))
             continue
         # Fixed bias subtraction and a positive flat response commute with both
         # median and mean. Applying them once avoids another full disk stack.
-        master = combine(selected, method=method, sigma=5.)
+        master = combine(selected, method=method, sigma=5., allow_mixed_exposures=group_by_filter,
+                         normalize_exposure=group_by_filter and (aligned or corrected)) if len(selected) > 1 else read_frame(selected[0])
+        master.header['NCOMBINE'] = len(selected)
+        master.header['COMBMETH'] = method
         master.header['FILTER'] = filter_name
         master.header['OBJECT'] = target
         flat = matching_master_flat(flats, master)

@@ -1,0 +1,322 @@
+PAGE 1
+ASTROPHYSICS LABORATORY
+Observational Astrophysics
+I) Basic notions in Observational astrophysics
+a) Properties of the astronomical objects
+- Magnitude; Absolute magnitude
+- Magnitude and distance: ly, parsec
+- Temperature and colour
+- Size
+b) Preparing astronomical observations
+- Visibility of the target: coordinates and time
+- Telescope
+- Detector and data acquistion
+II) Observations: data acquisition
+III) Data reduction and analysis
+
+
+PAGE 2
+Object 
+properties
+Observatory
+Telescope
+Calibrations
+FiltersExposure
+2
+OBSERVATIONS
+   PREPARING FOR AO  
+
+PAGE 3
+TELESCOPES  
+Why do we need telescopes?
+1. Collect more light (photons) than human eye
+2. Magnify the size of the object and see details
+ 
+Angular size: 
+Full Moon 
+30arcmin = 0.5deg
+
+
+PAGE 4
+4
+CELESTRON 14”
+aperture: 14”= 355.6 mm   
+Light gathering power:
+Capacity to collect photons
+Curiosity
+Light gathering power relative to the human pupil
+Diameter of an adult pupil: 7mm
+Diameter of the C14”= 355.6 m 
+                                                                                     R= D²telescope/D²pupil=2580
+Characteristics of the telescope
+
+PAGE 5
+5
+K-Holiday, Introductory Astronomy,  p 21,  fig 2.6
+https://www.astronomics.com/info-library/astronomical-terms/focal-ratio/
+https://en.wikipedia.org/wiki/Optical_telescope#Observing_through_a_telescope
+ 
+magnification of the telescope: 
+  
+Characteristics of the telescope
+magnification
+focal  ratio: objective focal length/aperture:                            
+                                                         
+                                                                                   @C14: f/11  
+                  
+M = f 0 / f e = β / α
+N =f 0 / D
+
+PAGE 6
+CELESTRON 14”
+aperture:       14”= 355.6 mm
+Focal ration: N=11   
+fo=N x D= 11 x 35.56=391 cm 
+     ~4000 mm
+Eye pieces:
+            4000/40 = 100
+4000/25 =160
+magnification
+Characteristics of the telescope
+               Eyepiece
+lens attached to the telescope 
+located near the focal point.
+
+PAGE 7
+8
+Refractor Telescope
+           use lenses to focus the light
+Credit: NASA/JPL-Caltech
+https://spaceplace.nasa.gov/telescopes/en/
+
+PAGE 8
+9K-Holiday, Introductory Astronomy,  p 21,  fig 2.6
+http://www.tayabeixo.org/que_obs/refractor.htm
+Refractor Telescope
+use lenses to focus the light
+Problems:
+Suffer from chromatic and spherical 
+aberration
+In large apertures, lens sagging: 
+deformation of lens by gravity 
+
+
+PAGE 9
+Credit: NASA/JPL-
+Caltech
+Reflecting Telescope
+            use mirrors to focus the light
+
+PAGE 10
+11
+Characteristics of the telescope
+https://www.astronomy.com/observing/telescopes-101/
+
+PAGE 11
+14
+Characteristics of the telescope
+https://www.astronomy.com/observing/telescopes-101/
+Newtonian 
+reflector
+
+
+PAGE 12
+15
+Characteristics of the telescope
+https://www.astronomy.com/observing/telescopes-101/
+Newtonian reflector
+(parabolic+flat)
+Ritchey-Chrétien
+(hyperbolic+hyperbolic) 
+Schmidt-Cassegrain 
+(parabolic+hyperbolic)
+Reflectors: 
+use mirrors
+
+PAGE 13
+16
+Characteristics of the telescope
+Ritchey-Chrétien Schmidt-Cassegrain
+Gemini – 8m
+ VLT– 8m
+
+PAGE 14
+17
+Characteristics of the telescope
+Celestron 14” catadioptric telescope 
+(lenses and mirrors)
+Model: Schmidt-Cassegrain
+
+PAGE 15
+light-gathering power: collect light
+angular resolution: see small details
+magnification makes object appear larger (angular size)
+focal length and focal ratio
+More telescope concepts
+field of view: region of the sky that is observed
+slewing: move to a another object
+pointing: Point to a particular object/region
+tracking: Track objects on the sky
+instrument: detector of the light 
+Characteristics of the telescope
+
+PAGE 16
+Telescope mounts
+1. Alt-azimuth mount: one axis for azimuth and 
+another for altitude. 
+2. Simple design but complex two-axis movement 
+to follow Earth rotation. 
+3. For large telescopes support goes through 
+center of mass and there are less torques
+4. Equatorial mount (RA,DEC): one axis aligned 
+to the rotational axis of Earth (celestial pole). 
+5. It can easily follow objects as they move 
+through the sky
+6. C14 at the CIGeoE has an Equatorial mount
+
+PAGE 17
+22
+Characteristics of the telescope
+Angular resolution and Rayleigh criterion
+http://electron9.phys.utk.edu/optics421/modules/m5/Diffraction.htm
+
+
+PAGE 18
+
+
+PAGE 19
+24
+Characteristics of the telescope
+Angular resolution
+http://electron9.phys.utk.edu/optics421/modules/m5/Diffraction.htm
+Airy disc: intensity pattern
+
+PAGE 20
+25
+Characteristics of the telescope
+Angular resolution and Rayleigh criterion
+http://electron9.phys.utk.edu/optics421/modules/m5/Diffraction.htm
+θmin= 1.22 λ / D
+Diameter of the apperture
+Wavelength of the observation
+
+PAGE 21
+26
+Characteristics of the telescope
+Angular resolution and Rayleigh criterion
+http://electron9.phys.utk.edu/optics421/modules/m5/Diffraction.htm
+Two point sources are regarded as just resolved when:
+the principal diffraction maximum of one image coincides 
+                                           with the first minimum of the other
+θmin= 1.22 λ / D ∧ θ min= y / f y =1.22 λ f / D
+
+PAGE 22
+Image resolution 
+ability of a telescope to distinguish 
+small details of an object
+different objects (ex stars)
+Rayleigh criterion and diffraction limits
+Human eye: 
+Small telescope: 
+Medium telescope: 
+Large telescope: 
+Characteristics of the telescope
+Angular resolution and Rayleigh criterion
+D =5 mm , θmin ≈ 27´ ´
+D =10 cm ,θ min ≈ 1.4´ ´
+D =1,0 m , θ min ≈ 0.14´ ´
+D =8,0 m , θmin ≈ 0.02´ ´
+Credi for the slide: 
+S. Gonzalez-Gaitán, LA@IST 2023
+
+PAGE 23
+Image resolution 
+ability of a telescope to distinguish 
+small details of an object
+different objects (ex stars)
+Rayleigh criterion and diffraction limits
+Human eye: 
+Small telescope: 
+Medium telescope: 
+Large telescope: 
+Characteristics of the telescope
+Angular resolution and Rayleigh criterion
+D =5 mm , θmin ≈ 27´ ´
+D =10 cm ,θ min ≈ 1.4´ ´
+D =1,0 m , θ min ≈ 0.14´ ´
+D =8,0 m , θmin ≈ 0.02´ ´
+Credi for the slide: 
+S. Gonzalez-Gaitán, LA@IST 2023
+Only true outside of the Earth’s atmosphere!
+
+PAGE 24
+29
+Characteristics of the telescope
+
+PAGE 25
+In space: Rayleigh criterion applies
+VLA
+On the ground: the resolution is limited by 
+the atmospheric turbulence (seeing), 
+optics, etc. 
+Seeing: blurring and twinkling 
+θmin= 1.22 λ / D
+Characteristics of the telescope
+Credi for the slide: 
+S. Gonzalez-Gaitán, LA@IST 2023
+
+PAGE 26
+VLA
+Seeing is measured in arcseconds
+• Seeing is wavelength dependent
+αseeing(550nm)≈ 1’’    whereas αseeing(2.2μm)≈ 0.75’’
+•  Seeing is airmass dependent: higher airmass means a 
+thicker layer of atmosphere and more turbulence
+Characteristics of the observations
+Seeing
+Credi for the slide: 
+S. Gonzalez-Gaitán, LA@IST 2023
+
+PAGE 27
+Seeing is measured in arcseconds.
+Median seeing at one of 
+the best astronomical sites 
+in the world is ~ 0.7’’ 
+in Lisbon, seeing is >3-4’’
+This is comparable to the 
+angular resolution of a 20 
+cm telescope!
+Credi for the slide: 
+S. Gonzalez-Gaitán, LA@IST 2023
+Characteristics of the observations
+Seeing
+
+PAGE 28
+36
+
+
+PAGE 29
+37
+Adaptive optics
+
+PAGE 30
+ASTROPHYSICS LABORATORY
+Observational Astrophysics
+I) Basic notions in Observational astrophysics
+a) Properties of the astronomical objects
+- Magnitude; Absolute magnitude
+- Magnitude and distance: ly, parsec
+- Temperature and colour
+- Size
+b) Preparing astronomical observations
+- Visibility of the target: coordinates and time
+- Telescope
+- Detector and data acquistion
+II) Observations: data acquisition
+III) Data reduction and analysis
+
+
+PAGE 31
+https://fenix.tecnico.ulisboa.pt/disciplinas/LA112/2025-2026/1-semestre
+https://fenix.tecnico.ulisboa.pt/disciplinas/LA112/2025-2026/1-semestre/useful-tools
+More information:
