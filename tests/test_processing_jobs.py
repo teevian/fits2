@@ -103,6 +103,7 @@ workflow_panel(read_frame(folder / 'science.fits'), 'source', folder)
 '''
     app = AppTest.from_string(source, default_timeout=10).run()
     monkeypatch.setattr(processing_jobs, 'OPERATION_TIMEOUT', 0.01)
+    monkeypatch.setattr('workflow_ui.CALIBRATION_TIMEOUT', 0.01)
     for kind in ('bias', 'flat'):
         for action in ('combine',):
             app.button(key=f'workflow_{kind}_{action}').click().run()
@@ -111,6 +112,7 @@ workflow_panel(read_frame(folder / 'science.fits'), 'source', folder)
             assert f'workflow_{kind}_aligned' not in app.session_state
             assert f'workflow_{kind}_last' not in app.session_state
     monkeypatch.setattr(processing_jobs, 'OPERATION_TIMEOUT', 5)
+    monkeypatch.setattr('workflow_ui.CALIBRATION_TIMEOUT', 5)
     app.button(key='workflow_flat_combine').click().run()
     assert not app.exception and not app.error
     assert list(app.session_state['workflow_flat_last'][1]) == ['Blue']

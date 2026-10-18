@@ -493,6 +493,12 @@ def test_science_correct_lists_clickable_original_corrected_pairs_before_align(t
     assert not app.button(key='workflow_science_align').disabled
     correction = app.session_state['workflow_science_corrected']
     assert len(correction[1]) == 2
+    pair_key, pair_items = app.session_state['science_pairs_previews']
+    assert [item['name'] for item in pair_items] == ['0:0', '0:1', '1:0', '1:1']
+    assert all(item['image'].startswith('data:image/png;base64,') for item in pair_items)
+    assert pair_items[0]['label'] in correction[1]
+    assert pair_items[1]['label'] == correction[1][pair_items[0]['label']].name
+    assert not app.button(key='workflow_science_correct_show').disabled
     for index, (original_name, path) in enumerate(correction[1].items()):
         np.testing.assert_allclose(read_frame(path).data, (index + .25) * np.median(response))
         assert app.button(key=f'workflow_image_name_science_{index}').label == original_name
@@ -510,6 +516,21 @@ def test_science_correct_lists_clickable_original_corrected_pairs_before_align(t
         raise AssertionError('Viewing the individual pair must reuse the corrected data.')
     with monkeypatch.context() as patch:
         patch.setattr('science_ui.run_with_timeout', unexpected)
+        patch.setattr('science_picker.science_pair_thumbnails', unexpected)
+        import science_picker
+        picker = science_picker.image_picker
+        for side, expected in [('1', .25 * np.median(response)), ('0', bias_values + .25 * response)]:
+            patch.setattr('science_picker.image_picker', lambda **kwargs: (
+                {'action': 'view', 'name': '0:' + side, 'event': 'pair-' + side}
+                if kwargs['key'] == pair_key else picker(**kwargs)))
+            app.run()
+            assert not app.exception
+            np.testing.assert_allclose(app.session_state['workflow_file_view'][1].data, expected)
+        patch.setattr('science_picker.image_picker', picker)
+        popups = []
+        patch.setattr('science_ui.show_science_pairs', lambda pairs, stage: popups.append((pairs, stage)))
+        app.button(key='workflow_science_correct_show').click().run()
+        assert len(popups) == 1 and len(popups[0][0]) == 2 and popups[0][1] == 'correction'
         app.button(key='workflow_image_name_science_corrected_0').click().run()
         assert not app.exception
         np.testing.assert_allclose(app.session_state['workflow_file_view'][1].data, .25 * np.median(response))

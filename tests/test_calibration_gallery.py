@@ -42,7 +42,7 @@ def test_show_groups_originals_with_one_cached_master_per_group(tmp_path, monkey
         app.button(key='workflow_flat_show').click().run()
         assert not app.exception and not app.error
         assert len(app.get('imgs')) == 6
-        assert [item.value for item in app.subheader] == ['File', 'Blue · 1 s', 'Blue · 2 s']
+        assert [item.value for item in app.subheader] == ['Blue · 1 s', 'Blue · 2 s']
         captions = [item.value for item in app.caption]
         groups = [index for index, caption in enumerate(captions) if caption == '2 originals → 1 master']
         assert len(groups) == 2
@@ -50,5 +50,5 @@ def test_show_groups_originals_with_one_cached_master_per_group(tmp_path, monkey
             names = app.session_state['workflow_flat_last'][3][group]
             assert captions[first + 1:first + 4] == names + [master.name]
         app.run()
-    app.radio(key='workflow_flat_method').set_value('Median').run()
+    app.radio(key='workflow_flat_method').set_value('Mean').run()
     assert app.button(key='workflow_flat_show').disabled

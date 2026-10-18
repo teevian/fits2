@@ -1,4 +1,4 @@
-"""Direct FITS viewer with file controls always below the image."""
+"""Black FITS workspace with file and processing controls in the sidebar."""
 from io import BytesIO
 from pathlib import Path
 from urllib.parse import urlencode
@@ -9,10 +9,8 @@ import plotly.graph_objects as go
 import streamlit as st
 from astropy.io import fits
 
-from imageProcessing import statistics
-from download_ui import image_downloads
 from imageProcessing import display_group, default_display_limits
-from image_viewer import show as show_image
+from image_viewer import show as show_image, show_empty
 from processing_ui import identity, list_fits
 from imageProcessing import frame
 from workflow_ui import workflow_panel
@@ -22,6 +20,23 @@ from gallery_ui import gallery_page
 st.set_page_config(page_title='FITS Viewer', layout='wide', initial_sidebar_state='expanded')
 st.markdown('''<style>
 .block-container {padding-top: .5rem;}
+:root {color-scheme: dark; --primary-color:#7f91af; --text-color:#d3d3d3;
+    --background-color:#000; --secondary-background-color:#000;}
+[data-testid="stAppViewContainer"], [data-testid="stMain"],
+[data-testid="stSidebar"], [data-testid="stSidebarContent"],
+[data-testid="stDialog"] [role="dialog"] {background:#000; color:#d3d3d3;}
+[data-baseweb="input"], [data-baseweb="select"] > div,
+[data-baseweb="textarea"], [data-baseweb="popover"] [role="listbox"],
+[data-testid="stFileUploaderDropzone"], [data-testid="stExpander"] details,
+[data-testid="stButton"] button, [data-testid="stDownloadButton"] button,
+[data-testid="stLinkButton"] a {background:#000; color:#d3d3d3;}
+[data-testid="stAlert"] {background:rgba(127,145,175,.16); color:#d3d3d3;}
+[data-testid="stAlert"] svg {fill:#7f91af; color:#7f91af;}
+[data-baseweb="tab-highlight"], [data-baseweb="tab-border"] {background:#7f91af;}
+button[kind="primary"] {background:#7f91af !important; color:#000 !important; border-color:#7f91af !important;}
+button:hover, button:focus-visible, [role="tab"][aria-selected="true"] {color:#a7b8d3 !important;}
+[data-testid="stCaptionContainer"] {color:#b8b8b8;}
+.st-key-image_viewer {background:#000;}
 :root {--image-height: clamp(450px, calc((100vw - 530px) * .667 + 75px), 1250px);}
 [data-testid="stVerticalBlock"] {gap: .5rem !important;}
 [data-testid="stHeader"], [data-testid="stToolbar"],
@@ -43,7 +58,7 @@ st.markdown('''<style>
 </style>''', unsafe_allow_html=True)
 
 ROOT = Path(__file__).resolve().parent
-DEFAULT_FOLDER = ROOT / 'share-20260922-download'
+DEFAULT_FOLDER = ROOT / 'share-20261001'
 if 'folder_path' not in st.session_state:
     st.session_state.folder_path = str(load_working_folder(
         DEFAULT_FOLDER if DEFAULT_FOLDER.is_dir() else ROOT))
@@ -65,23 +80,9 @@ def header_panel(header):
     st.text('\n'.join(lines))
 
 
-def statistics_panel(info):
-    rows = [('Pixels', info['pixeis']), ('Minimum', info['minimo']),
-            ('Maximum', info['maximo']), ('Mean', info['media']),
-            ('Median', info['mediana']), ('Std dev', info['desvio']),
-            ('Sum', info['soma'])]
-    st.text('\n'.join(f'{key:<12}  {value:,}' if isinstance(value, int)
-                      else f'{key:<12}  {value:.6g}' for key, value in rows))
-
-
-def sidebar_details(slot, header, info=None):
-    with slot.container():
-        if info:
-            statistics_tab, header_tab = st.tabs(['Statistics', 'Header'])
-            with statistics_tab:
-                statistics_panel(info)
-        else:
-            header_tab, = st.tabs(['Header'])
+def image_details(header):
+    with st.container(key="image_header"):
+        header_tab, = st.tabs(['Header'])
         with header_tab:
             header_panel(header)
 
@@ -90,6 +91,7 @@ def refresh_image_view():
     st.session_state.refresh_image_view = True
 
 
+@st.fragment
 def processing_controls(original, source_id, folder, auto=False):
     result = workflow_panel(original, source_id, folder, on_view_change=refresh_image_view, auto=auto)
     if st.session_state.pop('refresh_image_view', False):
@@ -122,22 +124,20 @@ with st.sidebar:
         st.success(f'Auto complete: {completed[1]} science frames corrected.')
 
 image_area = st.container()
-with st.container(key='file_panel'):
-    st.subheader('File')
-    local_file = st.selectbox('File in folder', files, format_func=lambda path: path.name,
-                              index=0 if files else None, placeholder='Choose a FITS file', key='viewer_file')
-    upload = st.file_uploader('Upload FITS', type=['fits', 'fit', 'fts', 'gz', 'fz'])
-    source = upload if upload is not None else local_file
-    exports_slot = st.empty()
-    details_slot = st.empty()
+# The first file supplies workflow geometry; only an explicit view or drop opens it.
+source = files[0] if files else None
+image_selected = False
 if source is None:
-    image_area.info('Choose a FITS file below.')
+    with image_area.container(key='image_viewer'):
+        show_empty()
+    image_area.caption('Double-click an image in a grid to view it.')
     st.stop()
 
 name = source.name
 source_id = identity(source) if isinstance(source, Path) else identity(source.getvalue())
 name_slot = image_area.empty()
-name_slot.caption(name)
+if image_selected:
+    name_slot.caption(name)
 
 try:
     hdus = fits.open(source if isinstance(source, Path) else BytesIO(source.getvalue()), memmap=False)
@@ -159,12 +159,17 @@ with hdus, image_area:
         st.info('This HDU has no data. Choose another HDU.')
         st.stop()
 
+    if not image_selected and (data.dtype.names or data.ndim < 2):
+        with st.container(key='image_viewer'):
+            show_empty()
+        st.caption('Double-click an image in a grid to view it.')
+        st.stop()
     if data.dtype.names:
         table = pd.DataFrame({column: [value.tolist() if isinstance(value, np.ndarray) else value
                                        for value in data[column]] for column in data.dtype.names})
         st.dataframe(table, width='stretch')
         st.download_button('Download CSV', table.to_csv(index=False), 'table.csv', 'text/csv')
-        sidebar_details(details_slot, header)
+        image_details(header)
         with st.sidebar:
             st.caption('Processing requires a 2D image.')
     elif data.ndim == 1:
@@ -176,7 +181,7 @@ with hdus, image_area:
                         config={'scrollZoom': False, 'displayModeBar': False})
         st.download_button('Download CSV', pd.DataFrame({'pixel': np.arange(data.size),
                            'value': data}).to_csv(index=False), 'series.csv', 'text/csv')
-        sidebar_details(details_slot, header, statistics(data))
+        image_details(header)
         with st.sidebar:
             st.caption('Processing requires a 2D image.')
     elif data.ndim >= 2 and all(data.shape):
@@ -186,6 +191,11 @@ with hdus, image_area:
             original = frame(data, header, source_mask, name)
             with st.sidebar:
                 processed = processing_controls(original, (source_id, index), folder, auto=auto_clicked)
+            if not image_selected and processed is None:
+                with st.container(key='image_viewer'):
+                    show_empty()
+                st.caption('Double-click an image in a grid to view it.')
+                st.stop()
             active = processed or original
             name = active.name
             name_slot.caption(name)
@@ -223,11 +233,6 @@ with hdus, image_area:
         with st.container(key='image_viewer'):
             show_image(plane, 1, display_limits=display_limits, contrast=contrast_enabled,
                        contrast_reference=contrast_reference)
-        info = statistics(plane)
-        sidebar_details(details_slot, header, info)
-        with exports_slot.container():
-            science = header.get('SCICOR') is True or header.get('IMAGETYP') == 'MASTER_SCIENCE'
-            image_downloads(frame(plane, header, active_mask, name), 'file_download',
-                            display_png=science, contrast=contrast_enabled)
+        image_details(header)
     else:
         st.info('This HDU does not contain a supported image or series.')

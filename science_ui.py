@@ -11,7 +11,7 @@ from processing_ui import fingerprint, load
 from imageProcessing import (align_science_frames, combine_science_groups, correct_science_frames,
                       source_filter, source_target, _source_header)
 from workspace_settings import load_science_targets, save_science_targets
-from science_picker import inline_bias_picker
+from science_picker import inline_bias_picker, science_pairs_grid
 from calibration_gallery import show_science, show_science_pairs
 
 
@@ -220,8 +220,9 @@ def science_panel(current, source_id, folder, catalog, bias, flats, contrast_opt
             left, right = st.columns(2, gap='small')
             left.caption('Original')
             right.caption('Corrected')
+            science_pairs_grid([(name, catalog[name], corrected_files[name]) for name in labels], view_file)
         if corrected:
-            with st.container(height=160, border=False, key='workflow_science_list'):
+            with st.expander('File actions'), st.container(height=160, border=False, key='workflow_science_list'):
                 for index, label in enumerate(labels):
                     with st.container(key=f'workflow_science_pair_{index}'):
                         left, right = st.columns(2, gap='small')

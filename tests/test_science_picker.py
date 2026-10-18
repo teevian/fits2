@@ -26,6 +26,8 @@ def test_inline_regex_selection_and_reselection(tmp_path, monkeypatch, kind):
     app.run()
     assert not app.exception
     assert app.session_state[f'workflow_{kind}_frames'] == chosen
+    assert 'workflow_file_view' not in app.session_state
+    assert 'workflow_stage_view' not in app.session_state
     assert [item['name'] for item in calls[-1]['items']] == names
     assert not any(button.key == f'workflow_{kind}_choose' for button in app.button)
     chosen = names
@@ -117,8 +119,11 @@ def test_inline_view_preserves_selection(tmp_path, monkeypatch, kind):
     app.run()
     app.text_input(key=f'workflow_{kind}_pattern').set_value(kind + '.*').run()
     chosen = list(app.session_state[f'workflow_{kind}_frames'])
+    # The first half of a double-click may have reached Python already.
+    # The view event carries the final selection after both clicks.
+    app.session_state[f'workflow_{kind}_frames'] = chosen[:-1]
     monkeypatch.setattr('science_picker.image_picker', lambda **kwargs: {
-        'action': 'view', 'name': f'{kind}_1.fits', 'event': 'view-one'})
+        'action': 'view', 'name': f'{kind}_1.fits', 'selected': chosen, 'event': 'view-one'})
     app.run()
     assert not app.exception
     assert app.session_state['workflow_file_view'][1].name == f'{kind}_1.fits'
@@ -164,3 +169,30 @@ def test_result_variants_select_main_view_without_reprocessing(tmp_path, monkeyp
         assert not app.exception
         assert app.session_state['workflow_stage_view'] == 'bias'
         assert app.session_state['viewer_contrast'] == bool(index)
+
+
+@pytest.mark.parametrize('kind', ['bias', 'flat', 'science'])
+def test_selection_reuses_previews_and_never_loads_main_image(tmp_path, monkeypatch, kind):
+    import workspace_settings
+    monkeypatch.setattr(workspace_settings, 'SETTINGS_FILE', tmp_path / 'settings.json')
+    for index in range(3):
+        fits.writeto(tmp_path / f'{kind}_{index}.fits', np.ones((8, 8)))
+    app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'app.py'))
+    app.session_state['folder_path'] = str(tmp_path)
+    app.run()
+    app.text_input(key=f'workflow_{kind}_pattern').set_value(kind + '.*').run()
+
+    def unexpected(*args, **kwargs):
+        raise AssertionError('A selection must reuse previews and must not load a full image.')
+
+    monkeypatch.setattr('science_picker.preview_items', unexpected)
+    monkeypatch.setattr('workflow_ui.load', unexpected)
+    monkeypatch.setattr('science_ui.load', unexpected)
+    monkeypatch.setattr('science_picker.image_picker', lambda **kwargs: (
+        {'action': 'change', 'selected': [f'{kind}_1.fits'], 'event': 'selection-only'}
+        if kwargs['key'].startswith(kind + '_inline_') else None))
+    app.run()
+    assert not app.exception
+    assert app.session_state[f'workflow_{kind}_frames'] == [f'{kind}_1.fits']
+    assert 'workflow_file_view' not in app.session_state
+    assert 'workflow_stage_view' not in app.session_state

@@ -70,8 +70,8 @@ def test_row_save_opens_both_formats_inside_processing_fragment(tmp_path, monkey
     app.button(key='workflow_bias_download').click().run()
     assert not app.exception
     downloads = [item.label for item in app.get('download_button')]
-    assert downloads.count('Download FITS') == 2  # File export and the requested image.
-    assert downloads.count('Download PNG') == 2
+    assert downloads.count('Download FITS') == 1  # Only the requested result dialog.
+    assert downloads.count('Download PNG') == 1
     assert any(item.value.startswith('master_bias_') for item in app.caption)
 
 

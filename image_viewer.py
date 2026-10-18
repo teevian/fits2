@@ -8,6 +8,12 @@ import streamlit.components.v1 as components
 from imageProcessing import resolve_display_limits
 
 
+def show_empty():
+    """Reserve the image area with a black canvas until a real image is opened."""
+    components.html('<!doctype html><html><body style="margin:0;background:#000;'
+                    'color:#d3d3d3"></body></html>', height=1250, scrolling=False)
+
+
 def show(preview, step, display_limits=(0., 65535.), contrast=False, contrast_reference=None):
     values = np.asarray(preview, dtype='<f8', order='C')
     low, high = resolve_display_limits(values, display_limits, contrast, contrast_reference)
@@ -16,20 +22,14 @@ def show(preview, step, display_limits=(0., 65535.), contrast=False, contrast_re
     html = f'''<!doctype html><html><head><style>
         * {{box-sizing:border-box;}}
         html, body {{margin:0; font:13px sans-serif; color:#ddd; background:#000; overflow:hidden;}}
-        .image {{width:100%; height:calc(100vh - 60px); display:flex; align-items:center; justify-content:center; overflow:hidden;}}
+        .image {{width:100%; height:calc(100vh - 24px); display:flex; align-items:center; justify-content:center; overflow:hidden;}}
         .plot {{position:relative; flex:none;}}
         .plot canvas {{position:absolute; display:block; image-rendering:pixelated;}}
         #axes {{pointer-events:none;}}
         .readout {{height:20px; color:#aaa; font-size:12px;}}
-        .controls {{display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding-top:4px;}}
-        label {{display:flex; align-items:center; gap:4px; font-size:12px;}}
-        input[type=checkbox] {{accent-color:#bbb;}}
     </style></head><body>
     <div class="image"><div class="plot"><canvas id="image" width="{columns}" height="{rows}"></canvas><canvas id="axes"></canvas></div></div>
     <div class="readout" id="readout">X (px) · Y (px) · Value</div>
-    <div class="controls">
-      <label><span>Grid</span><input id="grid" type="checkbox"></label>
-    </div>
     <script>
     const raw = atob({dumps(encoded)});
     const bytes = Uint8Array.from(raw, c => c.charCodeAt(0));
@@ -41,7 +41,6 @@ def show(preview, step, display_limits=(0., 65535.), contrast=False, contrast_re
     const plot = document.querySelector('.plot');
     const axes = document.getElementById('axes');
     const axisContext = axes.getContext('2d');
-    const grid = document.getElementById('grid');
     const left = 44, bottom = 24;
     const ctx = canvas.getContext('2d', {{alpha:false}});
     ctx.imageSmoothingEnabled = false;
@@ -68,20 +67,12 @@ def show(preview, step, display_limits=(0., 65535.), contrast=False, contrast_re
       for (let x=0; x<columns*step; x+=xInterval) {{
         const px = left + x/step*displayScale;
         if (px > width) break;
-        if (grid.checked && x) {{
-          c.strokeStyle='rgba(255,255,255,0.22)'; c.beginPath();
-          c.moveTo(px,0); c.lineTo(px,height); c.stroke();
-        }}
         c.strokeStyle='#777'; c.beginPath(); c.moveTo(px,height); c.lineTo(px,height+4); c.stroke();
         c.textAlign='center'; c.fillText(String(x), Math.min(width-16, Math.max(left+10,px)), height+17);
       }}
       for (let y=0; y<rows*step; y+=yInterval) {{
         const py = height-y/step*displayScale;
         if (py < 0) break;
-        if (grid.checked && y) {{
-          c.strokeStyle='rgba(255,255,255,0.22)'; c.beginPath();
-          c.moveTo(left,py); c.lineTo(width,py); c.stroke();
-        }}
         c.strokeStyle='#777'; c.beginPath(); c.moveTo(left-4,py); c.lineTo(left,py); c.stroke();
         c.textAlign='right'; c.fillText(String(y), left-7, Math.max(11,py+3));
       }}
@@ -108,7 +99,6 @@ def show(preview, step, display_limits=(0., 65535.), contrast=False, contrast_re
     }}
     window.addEventListener('resize', fitCanvas);
     new ResizeObserver(fitCanvas).observe(holder);
-    grid.addEventListener('change', drawAxes);
     function render() {{
       const image = offscreen.createImageData(columns, rows);
       const out = image.data;

@@ -12,6 +12,34 @@ def isolate_saved_folder(tmp_path, monkeypatch):
     monkeypatch.setattr(workspace_settings, 'SETTINGS_FILE', tmp_path / 'working_folder.json')
 
 
+def open_file(app, path):
+    """Open a grid drop target without restoring the removed file chooser."""
+    from imageProcessing import read_frame
+    from processing_ui import identity, list_fits
+    folder = Path(app.session_state['folder_path'])
+    source_id = (identity(list_fits(folder)[0]), 0)
+    app.session_state['workflow_file_view'] = (source_id, read_frame(path))
+    app.session_state['workflow_stage_view'] = 'file'
+    app.run()
+
+
+def test_default_folder_loads_bundled_images_without_setup():
+    root = Path(__file__).resolve().parents[1]
+    app = AppTest.from_file(str(root / 'app.py'), default_timeout=60).run()
+    assert not app.exception and not app.error
+    assert Path(app.text_input(key='folder_path').value) == root / 'share-20261001'
+    assert not any(item.key == 'viewer_file' for item in app.selectbox)
+    assert [item.label for item in app.sidebar.expander if item.label[:1].isdigit()] == [
+        '1. Master bias', '2. Flats', '3. Science']
+    for kind in ('bias', 'flat', 'science'):
+        assert app.session_state[f'workflow_{kind}_frames']
+    html = app.get('iframe')[0].proto.srcdoc
+    assert 'background:#000' in html
+    assert 'canvas' not in html
+    assert not any(item.value == 'None' for item in app.markdown)
+    assert 'Grid' not in html
+
+
 def test_viewer_tools_and_direct_export(tmp_path):
     fits.writeto(tmp_path / 'image.fits', np.arange(48.).reshape(6, 8))
     app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'app.py'))
@@ -22,14 +50,17 @@ def test_viewer_tools_and_direct_export(tmp_path):
     assert app.radio(key='workflow_bias_method').value == 'Median'
     assert not any(widget.label == 'Find FITS file to view' for widget in app.text_input)
     assert not any('View selected bias' in widget.label for widget in app.expander)
+    open_file(app, tmp_path / 'image.fits')
     labels = [tab.label for tab in app.tabs]
-    assert labels == ['Statistics', 'Header']
-    assert any(item.value == 'File' for item in app.subheader)
+    assert labels == ['Header']
+    assert not any(item.value == 'File' for item in app.subheader)
+    assert not app.sidebar.tabs
+    assert not app.get('file_uploader')
+    assert 'Grid' not in app.get('iframe')[0].proto.srcdoc
     assert app.session_state['workflow_flat_subtract_bias'] is True
     assert app.text_input(key='workflow_science_pattern').value == 'hd226868.*'
     assert not any(item.label == 'All file numbers' for item in app.checkbox)
     assert 'Workflow' not in labels and 'Processing' not in labels
-    assert not app.sidebar.tabs
     assert [item.label for item in app.sidebar.expander if item.label[:1].isdigit()] == [
         '1. Master bias', '2. Flats', '3. Science']
     assert all(button.key != 'workflow_run' for button in app.button)
@@ -37,7 +68,8 @@ def test_viewer_tools_and_direct_export(tmp_path):
     assert next(item for item in app.sidebar.expander if item.label == '2. Flats').proto.expanded is True
     assert not any(button.label in ('Download statistics CSV', 'Download header')
                    for button in app.get('download_button'))
-    assert any(button.label == 'Download FITS' for button in app.get('download_button'))
+    assert not any(button.label in ('Download FITS', 'Download PNG')
+                   for button in app.get('download_button'))
     assert not any(button.label == 'Prepare FITS' for button in app.button)
 
 
@@ -75,7 +107,9 @@ def test_working_folder_updates_all_file_selections(tmp_path):
     assert not app.exception
     assert len(app.session_state['workflow_flat_frames']) == 5
     assert len(app.session_state['workflow_bias_frames']) == 2
-    assert app.selectbox(key='viewer_file').value.parent == second
+    assert not any(item.key == 'viewer_file' for item in app.selectbox)
+    open_file(app, second / 'science.fits')
+    assert any(item.value == 'science.fits' for item in app.caption)
     app.text_input(key='workflow_science_pattern').set_value('science.*').run()
     assert app.session_state['workflow_science_frames'] == ['science.fits']
 
@@ -146,6 +180,7 @@ def test_raw_viewer_uses_full_array_without_automatic_image_adjustments(tmp_path
     app.session_state['folder_path'] = str(tmp_path)
     app.run()
     assert not app.exception
+    open_file(app, path)
     html = app.get('iframe')[0].proto.srcdoc
     assert 'width="1800" height="12"' in html
     encoded = json.loads(html.split('const raw = atob(', 1)[1].split(');', 1)[0])
@@ -169,11 +204,12 @@ def test_fixed_display_levels_make_bias_visible_without_changing_data(tmp_path):
     app.session_state['folder_path'] = str(tmp_path)
     app.run()
     assert not app.exception
+    open_file(app, first)
     html = app.get('iframe')[0].proto.srcdoc
     assert 'const displayLow = 500.0, displayHigh = 630.0;' in html
     encoded = json.loads(html.split('const raw = atob(', 1)[1].split(');', 1)[0])
     np.testing.assert_array_equal(np.frombuffer(b64decode(encoded), dtype='<f8').reshape(values.shape), values)
-    app.selectbox(key='viewer_file').select(second).run()
+    open_file(app, second)
     assert not app.exception
     assert 'const displayLow = 500.0, displayHigh = 630.0;' in app.get('iframe')[0].proto.srcdoc
     assert [first.read_bytes(), second.read_bytes()] == originals
@@ -212,11 +248,11 @@ def test_contrast_sidebar_toggle_preserves_raw_calculation_and_flat_comparison(t
         combine = next(item for item in buttons if item.key == f'workflow_{section}_combine')
         assert not any(item.key == f'workflow_{section}_contrast_option' for item in buttons)
         assert combine.label == 'Combine'
-    app.selectbox(key='viewer_file').select(tmp_path / 'science.fits').run()
+    open_file(app, tmp_path / 'science.fits')
     assert any('This image is uniform:' in item.value for item in app.caption)
-    app.selectbox(key='viewer_file').select(tmp_path / 'bias1.fits').run()
+    open_file(app, tmp_path / 'bias1.fits')
     assert any(item.value == 'bias1.fits' for item in app.caption)
-    app.selectbox(key='viewer_file').select(tmp_path / 'flat_Blue_1.fits').run()
+    open_file(app, tmp_path / 'flat_Blue_1.fits')
     assert any(item.value == 'flat_Blue_1.fits' for item in app.caption)
     app.button(key='workflow_science_contrast_option').click().run()
     assert app.session_state['viewer_contrast']

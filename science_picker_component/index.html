@@ -1,105 +1,142 @@
 <!doctype html>
 <html><head><meta charset="utf-8"><style>
 [hidden] {display:none !important}
-* {box-sizing:border-box} body {margin:0;background:#000;color:#ddd;font:13px sans-serif}
-#grid {height:480px;overflow:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-content:start;padding:4px;touch-action:pan-y}
-.tile {position:relative;padding:4px;border:2px solid #444;background:#111;color:inherit;cursor:pointer;user-select:none;min-width:0;touch-action:none}
-.tile[aria-pressed=true] {border-color:#a9c8fa;background:#23344c}
-.tile:focus-visible {outline:2px solid white;outline-offset:1px}
+* {box-sizing:border-box}
+html, body, #grid, #grid * {-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.tile img {-webkit-user-drag:none} body {margin:0;background:#000;color:#ddd;font:13px sans-serif}
+#grid {height:480px;overflow:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-content:start;padding:4px;touch-action:none;overscroll-behavior:contain}
+.tile {position:relative;padding:4px;border:3px solid #333;background:#000;color:inherit;cursor:pointer;user-select:none;min-width:0;touch-action:none}
+.tile[aria-pressed=true] {border-color:#8ba3c4;box-shadow:inset 0 0 0 1px #8ba3c4}
+.tile:focus-visible {outline:1px dotted #aaa;outline-offset:1px}
 .tile img {width:100%;aspect-ratio:1.5;object-fit:contain;display:block;pointer-events:none}
 .name {display:block;overflow-wrap:anywhere;line-height:16px;margin-top:5px;font-size:11px}
-.mark {position:absolute;right:8px;top:8px;background:#111b;border:1px solid #bbb;width:20px;height:20px;line-height:18px}
-.tile[aria-pressed=true] .mark {background:#b5d3ff;color:#000}
 .error {display:flex;align-items:center;aspect-ratio:1.5;overflow-wrap:anywhere;font-size:11px}
 footer {display:flex;align-items:center;gap:10px;padding:14px 4px} #count {margin-right:auto}
-footer button {background:#222;color:#eee;border:1px solid #888;padding:8px 16px;cursor:pointer}
-#apply {background:#294363} @media(max-width:550px) {#grid {grid-template-columns:repeat(2,minmax(0,1fr))}}
+footer button {background:#000;color:#eee;border:1px solid #888;padding:8px 16px;cursor:pointer}
+#apply {background:#343c49} @media(max-width:550px) {#grid {grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style></head><body>
 <div id="grid" aria-label="FITS images"></div>
 <footer><span id="count" aria-live="polite"></span><button id="cancel">Cancel</button><button id="apply">Apply</button></footer>
 <script>
 const grid=document.getElementById('grid'), count=document.getElementById('count');
 let inline=false, previewOnly=false;
-let suppressClick=false, dropTarget=null;
-let selected=new Set(), tiles=[], initialized=false, drag=null, last=null, pointer=null, frame=null;
+let suppressClick=false, lastWasDrag=false, lastSentEvent=null;
+let selected=new Set(), tiles=[], initialized=false, drag=null, serverSelection=null, scrollFrame=null;
 function send(type, extra={}) {parent.postMessage({isStreamlitMessage:true,type,...extra}, '*')}
 function update() {
-  for (const tile of tiles) {
-    const active=selected.has(tile.dataset.name);
-    if(!previewOnly) tile.setAttribute('aria-pressed', String(active));
-    if(tile.querySelector('.mark')) tile.querySelector('.mark').textContent=active?'✓':'';
-  }
+  for (const tile of tiles) tile.setAttribute('aria-pressed', String(selected.has(tile.dataset.name)));
   count.textContent=`${selected.size} / ${tiles.length} selected`;
 }
+function notify(action, extra={}) {
+  lastSentEvent=crypto.randomUUID();
+  send('streamlit:setComponentValue',{value:{action,selected:[...selected],event:lastSentEvent,...extra},dataType:'json'});
+}
+function publish() {if(inline && !previewOnly) notify('change')}
+function toggle(name) {
+  if(selected.has(name)) selected.delete(name);else selected.add(name);
+  update();publish();
+}
 function paint(x,y) {
-  if(previewOnly) return;
   const tile=document.elementFromPoint(x,y)?.closest('.tile');
-  if (!tile || !grid.contains(tile) || drag.visited.has(tile.dataset.name)) return;
+  if(!tile || !grid.contains(tile) || drag.visited.has(tile.dataset.name)) return;
   drag.visited.add(tile.dataset.name);
-  if (drag.select) selected.add(tile.dataset.name); else selected.delete(tile.dataset.name);
-  update();
+  if(drag.select) selected.add(tile.dataset.name);else selected.delete(tile.dataset.name);
 }
 function sweep(x,y) {
-  const start=last || {x,y}, steps=Math.max(1, Math.ceil(Math.hypot(x-start.x,y-start.y)/8));
-  for(let i=1;i<=steps;i++) paint(start.x+(x-start.x)*i/steps,start.y+(y-start.y)*i/steps);
-  last={x,y};
+  const start=drag.last, steps=Math.max(1,Math.ceil(Math.hypot(x-start.x,y-start.y)/8));
+  for(let i=0;i<=steps;i++) paint(start.x+(x-start.x)*i/steps,start.y+(y-start.y)*i/steps);
+  drag.last={x,y};update();
+}
+function visibleGridRect() {
+  const rect=grid.getBoundingClientRect();
+  let top=Math.max(0,rect.top), bottom=Math.min(window.innerHeight,rect.bottom);
+  try {
+    const host=window.frameElement.getBoundingClientRect();
+    top=Math.max(top,-host.top);bottom=Math.min(bottom,parent.innerHeight-host.top);
+  } catch {}
+  return {left:rect.left,right:rect.right,top,bottom};
+}
+function paintAtPointer() {
+  if(!drag?.moved) return;
+  const rect=visibleGridRect(), p=drag.pointer;
+  if(p.x>=rect.left && p.x<=rect.right && rect.bottom>rect.top) {
+    paint(p.x,Math.max(rect.top+2,Math.min(rect.bottom-2,p.y)));update();
+  }
+}
+function scrollSelection(delta) {
+  // Sample every crossed row, even when a wheel event scrolls a full page.
+  const steps=Math.max(1,Math.ceil(Math.abs(delta)/8));
+  for(let i=0;i<steps;i++) {
+    const before=grid.scrollTop;
+    grid.scrollTop+=delta/steps;paintAtPointer();
+    if(grid.scrollTop===before) break;
+  }
 }
 function scrollDrag() {
-  if (!drag) return;
-  const rect=grid.getBoundingClientRect();
-  if(pointer && pointer.x>=rect.left && pointer.x<=rect.right) {
-    const delta=pointer.y<rect.top+35?-10:pointer.y>rect.bottom-35?10:0;
-    if(delta) {grid.scrollTop+=delta;paint(pointer.x,Math.max(rect.top+2,Math.min(rect.bottom-2,pointer.y)))}
+  if(!drag?.moved) return;
+  const rect=visibleGridRect(), p=drag.pointer, edge=36;
+  if(p.x>=rect.left && p.x<=rect.right) {
+    const distance=p.y<rect.top+edge?p.y-rect.top-edge:
+                   p.y>rect.bottom-edge?p.y-rect.bottom+edge:0;
+    if(distance) scrollSelection(Math.sign(distance)*Math.min(18,2+Math.abs(distance)/3));
   }
-  frame=requestAnimationFrame(scrollDrag);
+  scrollFrame=requestAnimationFrame(scrollDrag);
 }
+function beginSweep() {
+  if(drag.moved) return;
+  drag.moved=true;paint(drag.start.x,drag.start.y);update();
+  scrollFrame=requestAnimationFrame(scrollDrag);
+}
+grid.addEventListener('selectstart',event=>event.preventDefault());
+grid.addEventListener('mousedown',event=>{if(event.button===0) event.preventDefault()});
+grid.addEventListener('wheel',event=>{
+  if(!drag) return;
+  event.preventDefault();event.stopPropagation();beginSweep();
+  const unit=event.deltaMode===1?16:event.deltaMode===2?grid.clientHeight:1;
+  scrollSelection(event.deltaY*unit);
+},{passive:false});
+grid.addEventListener('scroll',()=>{
+  if(drag) {beginSweep();paintAtPointer();drag.last={...drag.pointer}}
+});
 grid.addEventListener('pointerdown',event=>{
   const tile=event.target.closest('.tile');
   if(!tile || event.button!==0) return;
-  event.preventDefault();tile.focus();
-  suppressClick=false;
-  drag={name:tile.dataset.name, before:new Set(selected), startX:event.clientX,startY:event.clientY, moved:false, select:!selected.has(tile.dataset.name),visited:new Set()};
-  last=null;pointer={x:event.clientX,y:event.clientY};
-  grid.setPointerCapture(event.pointerId);sweep(pointer.x,pointer.y);scrollDrag();
+  event.preventDefault();window.getSelection()?.removeAllRanges();
+  tile.focus({preventScroll:true});suppressClick=false;lastWasDrag=false;
+  const point={x:event.clientX,y:event.clientY};
+  drag={name:tile.dataset.name,start:point,last:point,pointer:point,moved:false,
+        before:new Set(selected),select:!selected.has(tile.dataset.name),visited:new Set()};
+  tile.setPointerCapture(event.pointerId);
 });
 grid.addEventListener('pointermove',event=>{
   if(!drag) return;
-  pointer={x:event.clientX,y:event.clientY};
-  drag.moved ||= Math.hypot(pointer.x-drag.startX,pointer.y-drag.startY)>6;
-  dropTarget=viewerAt(pointer.x,pointer.y);
-  sweep(pointer.x,pointer.y);
+  drag.pointer={x:event.clientX,y:event.clientY};
+  if(!drag.moved && Math.hypot(event.clientX-drag.start.x,event.clientY-drag.start.y)>6) {
+    beginSweep();
+  }
+  if(drag.moved) {event.preventDefault();sweep(event.clientX,event.clientY)}
 });
-function publish() {send('streamlit:setComponentValue',{value:{action:'change',selected:[...selected],event:crypto.randomUUID()},dataType:'json'})}
-function viewerAt(x,y) {
-  try {
-    const frameRect=window.frameElement.getBoundingClientRect();
-    const viewer=parent.document.querySelector('.st-key-image_viewer');
-    if(!viewer) return null;
-    const rect=viewer.getBoundingClientRect(), px=x+frameRect.left, py=y+frameRect.top;
-    return px>=rect.left && px<=rect.right && py>=rect.top && py<=rect.bottom ? viewer : null;
-  } catch { return null }
-}
-function view(name) {send('streamlit:setComponentValue',{value:{action:'view',name,event:crypto.randomUUID()},dataType:'json'})}
 function stop(event) {
   if(!drag) return;
-  const state=drag;
-  const dropped=event?.type==='pointerup' && state.moved && viewerAt(event.clientX,event.clientY);
-  const cancelled=event?.type==='pointercancel' || event?.type==='blur';
-  drag=null;last=null;pointer=null;dropTarget=null;cancelAnimationFrame(frame);
-  suppressClick=state.moved || !previewOnly;
-  if(dropped || cancelled) {selected=state.before;update()}
-  if(dropped) view(state.name);
-  else if(!cancelled && inline && !previewOnly) publish();
+  const state=drag;drag=null;cancelAnimationFrame(scrollFrame);
+  lastWasDrag=state.moved;suppressClick=state.moved;
+  if(event?.type!=='pointerup') {selected=state.before;update();return}
+  if(state.moved) publish();
 }
 grid.addEventListener('pointerup',stop);grid.addEventListener('pointercancel',stop);
 grid.addEventListener('lostpointercapture',stop);window.addEventListener('blur',stop);
+grid.addEventListener('dragstart',event=>event.preventDefault());
 grid.addEventListener('click',event=>{
-  const tile=event.target.closest('.tile');
   if(suppressClick) {suppressClick=false;return}
-  if(tile && previewOnly) {view(tile.dataset.name);return}
-  if(!tile || event.detail!==0) return;
-  if(selected.has(tile.dataset.name)) selected.delete(tile.dataset.name);else selected.add(tile.dataset.name);
-  update();if(inline) publish();
+  const tile=event.target.closest('.tile');
+  if(tile) toggle(tile.dataset.name);
+});
+grid.addEventListener('dblclick',event=>{
+  const tile=event.target.closest('.tile');
+  if(!tile || lastWasDrag || !inline) return;
+  event.preventDefault();
+  // The two preceding clicks cancel each other's selection toggle.
+  notify('view',{name:tile.dataset.name});
 });
 function finish(action) {stop();send('streamlit:setComponentValue',{value:{action,selected:[...selected]},dataType:'json'})}
 document.getElementById('apply').onclick=()=>finish('apply');
@@ -112,23 +149,30 @@ window.addEventListener('message',event=>{
       document.getElementById('apply').hidden=true;document.getElementById('cancel').hidden=true;
       grid.style.height='320px';grid.style.gap='6px';grid.style.gridTemplateColumns='repeat(2,minmax(0,1fr))';
     }
-    if(previewOnly) {document.querySelector('footer').hidden=true;grid.style.height='auto';grid.style.overflow='hidden'}
-    selected=new Set(args.selected);grid.replaceChildren();
+    if(previewOnly) {
+      document.querySelector('footer').hidden=true;
+      grid.style.height=args.scrollable?'360px':'auto';
+      grid.style.overflow=args.scrollable?'auto':'hidden';
+    }
+    selected=new Set(args.selected);serverSelection=JSON.stringify(args.selected);grid.replaceChildren();
     for(const item of args.items) {
-      const tile=document.createElement('div');tile.tabIndex=0;tile.setAttribute('role','button');tile.className='tile';tile.dataset.name=item.name;tile.title=(item.label || item.name) + (previewOnly?' — Click or drag to the main image':' — Click to select; drag to the main image to view');
+      const tile=document.createElement('div');tile.tabIndex=0;tile.setAttribute('role','button');tile.className='tile';tile.dataset.name=item.name;tile.title=(item.label || item.name) + ' — Click or drag across images to select; double-click to view';
       const visual=document.createElement(item.image?'img':'span');
       if(item.image) {visual.src=item.image;visual.alt=item.name;visual.draggable=false}
       else {visual.className='error';visual.textContent='Preview unavailable: '+item.error}
       const label=document.createElement('span');label.className='name';label.textContent=item.label || item.name;
-      const mark=document.createElement('span');mark.className='mark';mark.setAttribute('aria-hidden','true');
-      tile.append(visual,label);if(!previewOnly) tile.append(mark);
+      tile.append(visual,label);
       tile.addEventListener('keydown',e=>{if(e.target===tile && (e.key==='Enter'||e.key===' ')){e.preventDefault();tile.click()}});
       grid.append(tile);
     }
     tiles=[...grid.querySelectorAll('.tile')];update();initialized=true;
   }
-  if(inline && !drag) {selected=new Set(args.selected);update()}
-  send('streamlit:setFrameHeight',{height:previewOnly?grid.scrollHeight+8:inline?370:550});
+  const incoming=JSON.stringify(args.selected);
+  if(args.ack===lastSentEvent) lastSentEvent=null;
+  if(inline && !drag && !lastSentEvent && incoming!==serverSelection) {
+    serverSelection=incoming;selected=new Set(args.selected);update();
+  }
+  send('streamlit:setFrameHeight',{height:previewOnly?(args.scrollable?360:grid.scrollHeight+8):inline?370:550});
 });
 send('streamlit:componentReady',{apiVersion:1});
 </script></body></html>

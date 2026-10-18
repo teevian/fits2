@@ -68,7 +68,7 @@ def choose_frames_button(kind, catalog):
 
 
 def inline_bias_picker(catalog, on_view=None, kind="bias"):
-    """Select only local regex matches; commit a click or drag immediately."""
+    """Click or sweep to select; only a double-click requests a full image load."""
     import hashlib
     from processing_ui import fingerprint
     pattern = st.session_state[f'workflow_{kind}_pattern'].strip()
@@ -84,35 +84,45 @@ def inline_bias_picker(catalog, on_view=None, kind="bias"):
         return
     context = repr((pattern, [(name, fingerprint(catalog[name])) for name in candidates]))
     key = f'{kind}_inline_' + hashlib.sha256(context.encode()).hexdigest()[:16]
-    result = image_picker(items=preview_items(catalog, candidates), selected=selected,
-                          inline=True, key=key, default=None)
+    previews_key = f'{kind}_inline_previews'
+    cached = st.session_state.get(previews_key)
+    if cached is None or cached[0] != key:
+        cached = (key, preview_items(catalog, candidates))
+        st.session_state[previews_key] = cached
+    result = image_picker(items=cached[1], selected=selected,
+                          inline=True, ack=st.session_state.get(f'{kind}_inline_last_event', (None, None))[1],
+                          key=key, default=None)
     if result and result.get('action') in ('change', 'view'):
         event = (key, result.get('event'))
         if st.session_state.get(f'{kind}_inline_last_event') != event:
             st.session_state[f'{kind}_inline_last_event'] = event
+            if 'selected' in result:
+                chosen = set(result['selected'])
+                st.session_state[f'workflow_{kind}_frames'] = [name for name in candidates if name in chosen]
             if result.get('action') == 'view':
                 name = result.get('name')
                 if name in candidates and on_view:
                     on_view(catalog[name])
-                return
-            chosen = set(result.get('selected', []))
-            updated = [name for name in candidates if name in chosen]
-            if updated != selected:
-                st.session_state[f'workflow_{kind}_frames'] = updated
-                st.rerun(scope='app')
+
+
+@st.cache_data(max_entries=128, show_spinner=False)
+def result_thumbnail(_frame, signature, contrast):
+    """Reuse variant thumbnails while selection changes in the sidebar."""
+    from imageProcessing import display_group, default_display_limits, resolve_display_limits
+    defaults = default_display_limits(display_group('.', _frame.name, _frame.header))
+    limits = resolve_display_limits(_frame.display(), defaults, contrast=contrast)
+    return frame_thumbnail(_frame, limits=limits)
 
 
 def result_previews(entries, key):
-    """Clickable result variants, each rendered with its own display settings."""
-    from imageProcessing import display_group, default_display_limits, resolve_display_limits
+    """Result variants open in the main viewer only on a double-click."""
+    from processing_ui import fingerprint
     items = []
     for index, (frame, label, contrast) in enumerate(entries):
-        defaults = default_display_limits(display_group('.', frame.name, frame.header))
-        limits = resolve_display_limits(frame.display(), defaults, contrast=contrast)
-        preview = frame_thumbnail(frame, limits=limits)
+        preview = result_thumbnail(frame, fingerprint(frame), contrast)
         items.append({'name': str(index), 'label': label,
                       'image': 'data:image/png;base64,' + b64encode(preview).decode('ascii')})
-    result = image_picker(items=items, selected=[], inline=True, preview_only=True,
+    result = image_picker(items=items, selected=[], inline=True, preview_only=True, ack=st.session_state.get(key + '_event'),
                           key=key, default=None)
     if result and result.get('action') == 'view':
         event = result.get('event')
@@ -122,3 +132,46 @@ def result_previews(entries, key):
             if name in {str(i) for i in range(len(entries))}:
                 return int(name)
     return None
+
+
+@st.cache_data(max_entries=256, show_spinner=False)
+def science_pair_thumbnails(_before, _after, signature):
+    """Use one contrast scale for the original and corrected preview of a frame."""
+    import numpy as np
+    from calibration_gallery import display_sample
+    images = [load(_before), load(_after)]
+    samples = np.concatenate([display_sample(image) for image in images])
+    low, high = np.percentile(samples, [1, 99]) if samples.size else (0., 1.)
+    if high <= low:
+        low, high = low - max(abs(low) * .05, 1.), high + max(abs(high) * .05, 1.)
+    return [(image.name, frame_thumbnail(image, (float(low), float(high)))) for image in images]
+
+
+def science_pairs_grid(pairs, on_view):
+    """Show original/corrected pairs in a scrollable grid with double-click viewing."""
+    import hashlib
+    from processing_ui import fingerprint
+    signature = tuple((name, fingerprint(before), fingerprint(after)) for name, before, after in pairs)
+    key = 'science_pairs_' + hashlib.sha256(repr(signature).encode()).hexdigest()[:16]
+    cached = st.session_state.get('science_pairs_previews')
+    if cached is None or cached[0] != key:
+        items = []
+        for index, (name, before, after) in enumerate(pairs):
+            try:
+                previews = science_pair_thumbnails(before, after, signature[index])
+                for side, (filename, thumbnail) in enumerate(previews):
+                    items.append({'name': f'{index}:{side}', 'label': filename,
+                                  'image': 'data:image/png;base64,' + b64encode(thumbnail).decode('ascii')})
+            except (ValueError, OSError, TypeError, KeyError) as exc:
+                for side in (0, 1):
+                    items.append({'name': f'{index}:{side}', 'label': name, 'error': str(exc)})
+        cached = (key, items)
+        st.session_state.science_pairs_previews = cached
+    result = image_picker(items=cached[1], selected=[], inline=True, preview_only=True,
+                          scrollable=True, ack=st.session_state.get(key + '_event'), key=key, default=None)
+    if result and result.get('action') == 'view' and result.get('event') != st.session_state.get(key + '_event'):
+        st.session_state[key + '_event'] = result.get('event')
+        sources = {f'{index}:{side}': value for index, (_, before, after) in enumerate(pairs)
+                   for side, value in enumerate((before, after))}
+        if result.get('name') in sources:
+            on_view(sources[result['name']])
