@@ -353,11 +353,9 @@ def test_flat_exposures_and_file_buttons(tmp_path):
             for color, values in groups.items()} == {
                 'Red': {35.: 1, 40.: 1}, 'Blue': {8.: 2, 10.: 1}}
     masters = combine_flat_groups(flats)
-    assert list(masters) == ['Blue']
-    assert masters['Blue'].header['NCOMBINE'] == 2
-    assert masters['Blue'].header['EXPTIME'] == 8.
-    with pytest.raises(ValueError, match='no master flat for FILTER Red'):
-        run_workflow(tmp_path / 'flat_Red_35_a.fits', flat_sources=flats)
+    assert list(masters) == ['Red', 'Blue']
+    assert masters['Blue'].header['NCOMBINE'] == 3
+    assert masters['Blue'].header['EXPNORM']
 
     source = f'''
 from pathlib import Path
@@ -372,10 +370,12 @@ st.session_state.preview = result.name if result is not None else None
     app.text_input(key='workflow_science_pattern').set_value('other.*').run()
     app.button(key='workflow_flat_combine').click().run()
     assert not app.exception and not app.error
-    assert set(app.session_state['workflow_flat_last'][1]) == {'Blue'}
+    assert set(app.session_state['workflow_flat_last'][1]) == {'Red', 'Blue'}
     assert app.session_state['workflow_flat_last'][3]['Blue'] == [
-        'flat_Blue_8_a.fits', 'flat_Blue_8_b.fits']
+        'flat_Blue_10_a.fits', 'flat_Blue_8_a.fits', 'flat_Blue_8_b.fits']
     app.button(key='workflow_flat_master_remove_Blue').click().run()
+    assert set(app.session_state['workflow_flat_last'][1]) == {'Red'}
+    app.button(key='workflow_flat_master_remove_Red').click().run()
     assert 'workflow_flat_last' not in app.session_state
     assert not any(widget.key == 'workflow_flat_frames' for widget in app.multiselect)
     assert not any('View selected flat' in item.label for item in app.expander)

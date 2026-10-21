@@ -821,7 +821,8 @@ def combine_flat_frames(sources, bias=None, method='mean', reference=None, norma
     sources = list(sources)
     selected = matching_flat_sources(sources, reference) if reference is not None else sources
     result = combine(selected, kind='flat', bias=bias, method=method, sigma=5.,
-                     flat_normalize=normalize)
+                     flat_normalize=normalize, allow_mixed_exposures=True,
+                     normalize_exposure=len({source_exposure(item) for item in selected}) > 1)
     if reference is not None and len(selected) != len(sources):
         add_history(result.header, f'Flat FILTER selection: {len(selected)} of {len(sources)} inputs used')
     return result
@@ -880,38 +881,31 @@ def flat_exposure_groups(sources):
     return grouped
 
 
-# Produz um master flat para cada grupo de filtro e exposição com pelo menos dois frames.
+# Produz um master flat por filtro, escalando exposições diferentes antes de combinar.
 def combine_flat_groups(sources, bias=None, method='mean', return_sources=False):
-    """Calibrate each flat before scaling and combining; no-bias output is diagnostic."""
-    groups = flat_exposure_groups(sources)
+    """Combine all exposures per filter; subtract bias before scaling each input."""
     masters = {}
     names = {}
-    for filter_name, exposures in groups.items():
-        eligible = [(exposure, selected) for exposure, selected in exposures.items()
-                    if len(selected) >= 2]
-        for exposure, selected in eligible:
-            key = (filter_name if len(eligible) == 1 else
-                   f'{filter_name} · {exposure:g} s' if exposure is not None else
-                   f'{filter_name} · unknown exposure')
-            master = combine_flat_frames(selected, bias=bias, method=method, normalize=bias is not None)
-            master.header['FILTER'] = (filter_name, 'Filter of the combined flat frames')
-            if exposure is not None:
-                master.header['EXPTIME'] = (exposure, 'Flat exposure in seconds')
-                master.header['EXPOSURE'] = (exposure, 'Flat exposure in seconds')
-            suffix = f'_{exposure:g}s' if exposure is not None else ''
-            master.name = f'master_flat_{filter_name.casefold()}{suffix}_x{len(selected)}.fits'
-            if bias is not None:
-                master.name = master.name.replace('master_flat_', 'corrected_flat_', 1)
-                master.header['IMAGETYP'] = 'CORRECTED_FLAT'
-                master.header['BIASFILE'] = bias.name
-            add_history(master.header, f'Flat group FILTER={filter_name}; exposure={exposure}; '
-                                       f'{len(selected)} inputs')
-            masters[key] = master
-            names[key] = [source.name if isinstance(source, Frame) else (
-                          Path(source).name if isinstance(source, (str, Path)) else 'carregado.fits')
-                          for source in selected]
+    for filter_name, selected in group_flat_sources(sources).items():
+        if len(selected) < 2:
+            continue
+        exposures = {source_exposure(source) for source in selected}
+        master = combine_flat_frames(selected, bias=bias, method=method, normalize=bias is not None)
+        master.header['FILTER'] = (filter_name, 'Filter of the combined flat frames')
+        single_exposure = next(iter(exposures)) if len(exposures) == 1 else None
+        suffix = f'_{single_exposure:g}s' if single_exposure is not None else ''
+        master.name = f'master_flat_{filter_name.casefold()}{suffix}_x{len(selected)}.fits'
+        if bias is not None:
+            master.name = master.name.replace('master_flat_', 'corrected_flat_', 1)
+            master.header['IMAGETYP'] = 'CORRECTED_FLAT'
+            master.header['BIASFILE'] = bias.name
+        add_history(master.header, f'Flat group FILTER={filter_name}; {len(selected)} inputs')
+        masters[filter_name] = master
+        names[filter_name] = [source.name if isinstance(source, Frame) else (
+                              Path(source).name if isinstance(source, (str, Path)) else 'carregado.fits')
+                              for source in selected]
     if not masters:
-        raise ValueError('No flat filter/exposure group contains at least two images.')
+        raise ValueError('No flat filter group contains at least two images.')
     if return_sources:
         return masters, names
     return masters

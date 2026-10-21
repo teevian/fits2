@@ -94,3 +94,23 @@ def test_normalized_flat_export_uses_response_scale_separate_from_raw_counts():
             np.testing.assert_array_equal(np.asarray(png), np.flipud(np.floor(response / 2 * 255 + .5)))
         with Image.open(BytesIO(archive.read(name.replace('no_contrast', 'with_constrast')))) as png:
             assert np.asarray(png).max() == 255
+
+
+@pytest.mark.parametrize('method', ['mean', 'median'])
+def test_mixed_flat_exposures_combine_per_filter_after_bias_subtraction(method):
+    response = np.tile([.5, 1., 1., 1.5], (4, 1))
+    bias = make(np.full((4, 4), 500.), 'bias.fits', 'MASTER_BIAS')
+    sources = [make(bias.data + response * seconds * 1000.,
+                    f'flat_{color}_{seconds}.fits', 'FLAT', seconds, color)
+               for color in ('Blue', 'Red') for seconds in (.2, .4, 1.)]
+    masters, names = combine_flat_groups(sources, bias, method, return_sources=True)
+    assert set(masters) == {'Blue', 'Red'}
+    for color, master in masters.items():
+        np.testing.assert_allclose(master.data, response)
+        assert master.header['NCOMBINE'] == 3
+        assert master.header['EXPNORM'] and master.header['BIASCOR']
+        assert len(names[color]) == 3
+    raw = combine_flat_groups(sources, method=method)['Blue']
+    scaled = [(500. + response * t * 1000.) * .2 / t for t in (.2, .4, 1.)]
+    expected = getattr(np, method)(scaled, axis=0)
+    np.testing.assert_allclose(raw.data, expected)

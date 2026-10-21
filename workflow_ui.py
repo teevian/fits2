@@ -349,7 +349,8 @@ def workflow_panel(current, source_id, folder, on_view_change=None, auto=False):
                 exposure_groups = {}
             skipped = [(filter_name, exposure, selected)
                        for filter_name, exposures in exposure_groups.items()
-                       for exposure, selected in exposures.items() if len(selected) < 2]
+                       for exposure, selected in exposures.items()
+                       if sum(len(items) for items in exposures.values()) < 2]
             if combine_clicked or auto:
                 try:
                     existing_bias = bias_last[1] if bias_last and bias_last[0] == bias_signature else None

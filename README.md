@@ -37,7 +37,7 @@ The **show** button beside **Align + Combine** displays each group's corrected, 
 
 Original files are never overwritten; viewing, analysis and exports use full resolution. Browser uploads use Streamlit's default 200 MB limit. Large FITS files and batches can require substantial memory.
 
-**show**, beside **Combine** in Master bias and Flats, opens a gallery of combination groups. Each bordered group shows all contributing originals in a grid on the left and the resulting master once on the right, with filenames underneath. Flats are grouped by filter and exposure. Count-valued inputs share a contrast scale; normalized flat results use their own scale. The flat preview follows **-bias**. Show becomes available after combination and uses the existing results.
+**show**, beside **Combine** in Master bias and Flats, opens a gallery of combination groups. Each bordered group shows all contributing originals in a grid on the left and the resulting master once on the right, with filenames underneath. Flats are grouped by filter across all exposure times. Each input is scaled to the first input’s exposure before rejection and combination; corrected flats have bias subtracted first, then are individually median-normalized. The corrected master has median 1. Count-valued inputs share a contrast scale; normalized flat results use their own scale. The flat preview follows **-bias**. Show becomes available after combination and uses the existing results.
 
 ## Install and test
 

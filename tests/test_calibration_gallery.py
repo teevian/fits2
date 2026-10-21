@@ -41,14 +41,14 @@ def test_show_groups_originals_with_one_cached_master_per_group(tmp_path, monkey
             app.button(key='workflow_flat_bias_option').click().run()
         app.button(key='workflow_flat_show').click().run()
         assert not app.exception and not app.error
-        assert len(app.get('imgs')) == 6
-        assert [item.value for item in app.subheader] == ['Blue · 1 s', 'Blue · 2 s']
+        assert len(app.get('imgs')) == 5
+        assert [item.value for item in app.subheader] == ['Blue']
         captions = [item.value for item in app.caption]
-        groups = [index for index, caption in enumerate(captions) if caption == '2 originals → 1 master']
-        assert len(groups) == 2
+        groups = [index for index, caption in enumerate(captions) if caption == '4 originals → 1 master']
+        assert len(groups) == 1
         for first, (group, master) in zip(groups, versions[corrected].items()):
             names = app.session_state['workflow_flat_last'][3][group]
-            assert captions[first + 1:first + 4] == names + [master.name]
+            assert captions[first + 1:first + 6] == names + [master.name]
         app.run()
     app.radio(key='workflow_flat_method').set_value('Mean').run()
     assert app.button(key='workflow_flat_show').disabled
