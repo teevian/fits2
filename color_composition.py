@@ -172,6 +172,11 @@ def generate_color(masters, max_shift, use_luminance=False):
     if missing:
         raise ValueError('Missing science masters: ' + ', '.join(sorted(missing)))
     selected = [channels[key] for key in order]
+    for image in selected:
+        kind = str(image.header.get('IMAGETYP', '')).upper()
+        if ('SCIENCE' not in kind or image.header.get('SCICOR') is not True
+                or image.header.get('FLATNORM') is not True):
+            raise ValueError(f'{image.name}: Generate requires calibrated science masters, not flats or raw images.')
     for image in selected[1:]:
         for key in ('XPIXSIZE', 'YPIXSIZE', 'FOCALLEN'):
             a, b = selected[0].header.get(key), image.header.get(key)

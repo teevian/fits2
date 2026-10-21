@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt"><head><meta charset="utf-8"><style>
+*{box-sizing:border-box}body{margin:0;background:white;color:#17202a;font:14px system-ui}
+.tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+button{padding:8px 12px;border:1px solid #aebdcb;border-radius:5px;background:#f3f6fa;color:#17202a;cursor:pointer}
+button[aria-pressed=true]{background:#174b70;color:white}label{display:flex;gap:6px;align-items:center}
+#viewport{max-height:340px;overflow:auto;background:#080c12;border:1px solid #acb8c5}
+#stage{position:relative;width:100%;line-height:0;cursor:crosshair}
+img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#status{padding:8px 0;line-height:1.5;color:#43546a}
+</style></head><body>
+<div class="tools"><button id="target" aria-pressed="true">Selecionar alvo</button><button id="reference" aria-pressed="false">Selecionar referência</button>
+<label>Zoom <input id="zoom" aria-label="Zoom da imagem" type="range" min="100" max="400" step="25" value="100"><span id="zoomValue">100%</span></label></div>
+<div id="viewport"><div id="stage"><img id="image" alt="Campo FITS: clicar na estrela-alvo ou de referência" draggable="false"><svg id="markers" aria-hidden="true"></svg></div></div>
+<div id="status" aria-live="polite">Escolhe Alvo ou Referência e clica no centro da estrela. A imagem tem y crescente para baixo.</div>
+<script>
+const img=document.getElementById('image'), stage=document.getElementById('stage'), svg=document.getElementById('markers');
+let args=null, role='target', lastEvent=null;
+function send(type,extra={}){parent.postMessage({isStreamlitMessage:true,type,...extra},'*')}
+function height(){send('streamlit:setFrameHeight',{height:document.body.scrollHeight})}
+function choose(value){role=value;for(const id of ['target','reference'])document.getElementById(id).setAttribute('aria-pressed',String(id===role))}
+document.getElementById('target').onclick=()=>choose('target');document.getElementById('reference').onclick=()=>choose('reference');
+function fit(){if(!args)return;const viewport=document.getElementById('viewport');const base=Math.min(viewport.clientWidth-2,330*args.width/args.height);stage.style.width=(base*Number(document.getElementById('zoom').value)/100)+'px';stage.style.margin='0 auto'}
+function draw(){
+ if(!args)return;svg.replaceChildren();svg.setAttribute('viewBox',`0 0 ${args.width} ${args.height}`);
+ const scale=args.width/Math.max(1,stage.clientWidth);
+ for(const id of ['target','reference']){
+  const p=args[id];if(!p || p.x===null || p.y===null)continue;
+  const color=id==='target'?'#55d7ff':'#ffce57', x=p.x+.5,y=p.y+.5;
+  for(const radius of [args.radius,args.inner,args.outer]){
+   const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+   for(const [k,v] of Object.entries({cx:x,cy:y,r:radius,fill:'none',stroke:color,'stroke-width':1.5*scale}))circle.setAttribute(k,v);
+   svg.append(circle);
+  }
+  const label=document.createElementNS('http://www.w3.org/2000/svg','text');label.setAttribute('x',x+8*scale);label.setAttribute('y',y-8*scale);
+  label.setAttribute('font-size',14*scale);label.setAttribute('fill',color);label.setAttribute('stroke','#080c12');label.setAttribute('stroke-width',.5*scale);
+  label.textContent=id==='target'?'Alvo':'Referência';svg.append(label);
+ }
+}
+document.getElementById('zoom').oninput=e=>{document.getElementById('zoomValue').textContent=e.target.value+'%';fit();draw();height()};
+img.onload=()=>{fit();draw();height()};
+img.onclick=e=>{
+ if(!args)return;const rect=img.getBoundingClientRect();
+ const x=Math.max(0,Math.min(args.width-1,(e.clientX-rect.left)/rect.width*args.width-.5));
+ const y=Math.max(0,Math.min(args.height-1,(e.clientY-rect.top)/rect.height*args.height-.5));
+ args[role]={x,y};draw();document.getElementById('status').textContent=`${role==='target'?'Alvo':'Referência'}: x=${x.toFixed(2)}, y=${y.toFixed(2)} pixel. Confirma o centro nos controlos abaixo.`;
+ lastEvent=crypto.randomUUID();send('streamlit:setComponentValue',{value:{role,x,y,event:lastEvent},dataType:'json'});
+};
+window.addEventListener('message',event=>{if(event.source!==parent || event.data.type!=='streamlit:render')return;const incoming=event.data.args; if(args && lastEvent && incoming.ack!==lastEvent){incoming.target=args.target;incoming.reference=args.reference}args=incoming;
+ document.getElementById('reference').hidden=!args.allow_reference;
+ if(!args.allow_reference)choose('target');
+ if(img.getAttribute('src')!==args.image)img.src=args.image;fit();draw();height();
+});
+new ResizeObserver(()=>{fit();draw();height()}).observe(document.getElementById('viewport'));
+send('streamlit:componentReady',{apiVersion:1});height();
+</script></body></html>

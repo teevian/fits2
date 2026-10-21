@@ -80,7 +80,7 @@ Grid gestures disable native text/image dragging and text highlighting. Hold the
 
 ### Final color image
 
-Below the science master results, **Generate** creates an LRGB display image from one target's Red, Green, Blue and black masters. For this instrument, the user has identified **black as clear/luminance**, not an opaque dark filter. All four channels are registered to the Red master with the existing stellar subpixel translation algorithm. Different dimensions, binning or known pixel scales are rejected; rotation and optical distortion are not corrected by this workflow. Borders outside the common valid footprint are masked.
+Below the science master results, **Generate** defaults to an RGB display image from one target's calibrated Red, Green and Blue science masters. Enable **Use black as luminance** only when the instrument's black position is confirmed as clear/luminance; this explicitly selects LRGB. The name black alone does not identify a passband. Raw images and calibration frames are rejected. The selected channels are registered to the Red master with the existing stellar subpixel translation algorithm. Different dimensions, binning or known pixel scales are rejected; rotation and optical distortion are not corrected by this workflow. Borders outside the common valid footprint are masked.
 
 For display, a robust sky plane is fitted to clipped grid medians. Common isolated stars provide Gaussian PSF widths and aperture fluxes. RGB channels are convolved to the broadest measured RGB width using the quadrature-difference Gaussian kernel; invalid margins are expanded accordingly. At least three usable common stars are required. Median stellar flux ratios provide one global gain per channel, so the ensemble has neutral median color while individual star colors remain distinct. This is an automatic visual balance, not catalog zero-point calibration. The clear channel provides luminance, with regularized chromaticity in low-signal pixels. One common final display scale replaces the former independent channel percentiles.
 
@@ -89,3 +89,41 @@ Source masters remain unchanged. **Without contrast** uses linear mapping with h
 References: [Astropy CCD reduction guide](https://www.astropy.org/ccd-reduction-and-photometry-guide/v/dev/notebooks/01-00-Understanding-an-astronomical-CCD-image.html), [Astropy RGB visualization](https://docs.astropy.org/en/stable/visualization/rgb.html), [Lupton et al. (2004)](https://arxiv.org/abs/astro-ph/0312483), and [Siril's registration and level-equalization guidance](https://siril.org/tutorials/rgb_composition/).
 
 PSF-matching reference: [Photutils Gaussian matching](https://photutils.readthedocs.io/en/3.1.0/user_guide/psf_matching.html).
+
+Flat channel PNGs are display aids only: Red, Green and Blue populate their corresponding RGB channel; black and unassigned filters use neutral grayscale (Gray), without assigning a physical luminance band. Both ZIP folders include these previews. Calibration and final color composition use scientific FITS arrays, never these PNGs.
+
+### Análise astrofísica observacional
+
+Depois de criar os masters, **Análise astrofísica** abre um popup com fotometria dos
+FITS lineares, perfis radiais/Moffat, curvas de crescimento, histogramas e exportação
+reprodutível. Temperatura, ponto H–R e escala de vida na sequência principal exigem
+calibração e dados físicos independentes. Ver [PHOTOMETRY.md](PHOTOMETRY.md) para
+métodos, referências e limites científicos.
+
+A calibração predefinida usa uma referência do mesmo FOV: clicar no alvo e na
+estrela de referência, indicar a magnitude tabelada por filtro e calcular. O popup
+mede ambos os fluxos e determina a magnitude diferencial e o ponto zero, guardando
+também os dados e diagnósticos da referência no relatório.
+
+Introduzir o nome da referência consulta **SIMBAD e VizieR** e sugere magnitudes
+por banda, com fontes e publicações visíveis. Os campos continuam editáveis e o
+relatório preserva a origem dos valores. Filtros RGB genéricos exigem seleção
+explícita da banda. O popup usa fundo branco, campos compactos e opções avançadas
+recolhidas para facilitar a leitura.
+
+### Recuperação automática da última sessão
+
+O programa guarda configurações, seleções, parâmetros de análise, masters e RGB
+final em `.streamlit/session-recovery/`, fora do controlo de versões. Inclui cópias
+dos FITS corrigidos e alinhados que os processos de cálculo criam em pastas
+temporárias. Reabrir o endereço inicial, fazer reload ou reiniciar o servidor
+recupera automaticamente a última sessão local, sem repetir o processamento.
+Os parâmetros de popups fechados também são conservados.
+
+A gravação é transacional e atualiza apenas entradas alteradas. As imagens mantêm
+as identidades usadas pelo workflow, evitando invalidar resultados apenas porque
+o processo reiniciou. Os inputs originais devem continuar acessíveis; alterações
+nesses ficheiros continuam a invalidar os cálculos dependentes. Botões e trabalhos
+em execução não são retomados automaticamente. Erros de gravação ou recuperação
+são apresentados na interface. Esta recuperação destina-se à aplicação local de
+um utilizador e não substitui as exportações científicas permanentes.

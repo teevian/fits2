@@ -14,6 +14,7 @@ from workspace_settings import load_science_targets, save_science_targets
 from science_picker import inline_bias_picker, science_pairs_grid, result_previews
 from calibration_gallery import show_science, show_science_pairs
 from color_ui import color_panel
+from photometry_ui import analysis_button
 
 
 def science_panel(current, source_id, folder, catalog, bias, flats, contrast_option,
@@ -336,6 +337,7 @@ def science_panel(current, source_id, folder, catalog, bias, flats, contrast_opt
                     archive_download_dialog(masters, 'science_masters', display_png=True,
                                             contrast=st.session_state.get('viewer_contrast', False))
                 color = color_panel(masters, max_shift)
+                analysis_button(masters, corrected_files)
                 if st.session_state.get('workflow_stage_view') == 'color':
                     preview = color
             if skipped:

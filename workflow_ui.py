@@ -11,7 +11,7 @@ from science_ui import science_panel
 from science_picker import inline_bias_picker, result_previews
 from calibration_gallery import show_bias, show_flats
 from download_ui import calibration_download_dialog, image_save_button
-from imageProcessing import flat_archive
+from imageProcessing import flat_archive, flat_channel
 from processing_jobs import run_with_timeout, CALIBRATION_TIMEOUT
 from imageProcessing import combine_flats_job
 from imageProcessing import (combine_bias_frames,
@@ -386,19 +386,23 @@ def workflow_panel(current, source_id, folder, on_view_change=None, auto=False):
                 flat_preview = masters[st.session_state.workflow_flat_selected_filter]
                 flat_kind = 'normalized corrected flats' if subtract_flat_bias else 'master flats'
                 st.caption(f'{len(masters)} {flat_kind} created by {flat_method.lower()}.')
+                st.caption('Color previews identify filters only. Science calibration uses normalized FITS flats; '
+                           'the final RGB image uses calibrated science masters.')
                 for filter_name, master in masters.items():
                     exposure = master.header.get('EXPTIME', master.header.get('EXPOSURE', 'unknown'))
                     st.markdown(f"**{master.header.get('FILTER', filter_name)} · {exposure} s**")
                     variants = st.session_state.workflow_flat_versions[1]
-                    entries = [(variants[mode][filter_name], label, contrast)
-                               for mode, label_base in [(False, 'Without bias subtraction'),
-                                                        (True, 'Bias subtracted · normalized')]
-                               for contrast, label in [(False, label_base),
-                                                       (True, label_base + ' · Contrast')]]
-                    choice = result_previews(entries, key=f'flat_result_{filter_name}_{flat_signature}')
+                    entries = []
+                    for mode, label in [(False, 'Without bias subtraction'),
+                                        (True, 'Bias subtracted · normalized')]:
+                        variant = variants[mode][filter_name]
+                        entries.extend([(variant, label, False),
+                                        (variant, label + ' · Contrast', True),
+                                        (variant, label + f' · Channel {flat_channel(variant)} · Contrast', True, True)])
+                    choice = result_previews(entries, key=f'flat_result_{filter_name}_{flat_signature}', columns=3)
                     if choice is not None:
-                        st.session_state.workflow_flat_subtract_bias = choice >= 2
-                        st.session_state.viewer_contrast = bool(choice % 2)
+                        st.session_state.workflow_flat_subtract_bias = choice >= 3
+                        st.session_state.viewer_contrast = bool(choice % 3)
                         st.session_state.workflow_flat_selected_filter = filter_name
                         st.session_state.workflow_stage_view = 'flat'
                         if on_view_change:

@@ -154,14 +154,16 @@ def test_result_variants_select_main_view_without_reprocessing(tmp_path, monkeyp
     def unexpected(*args, **kwargs):
         raise AssertionError('Preview must not recompute calibration')
     monkeypatch.setattr('workflow_ui.run_with_timeout', unexpected)
-    for index in (0, 1, 2, 3):
+    for index in range(6):
         event[0] = ('flat_result_', index)
         app.run()
         assert not app.exception
         assert app.session_state['workflow_stage_view'] == 'flat'
-        assert app.session_state['workflow_flat_subtract_bias'] == (index >= 2)
-        assert app.session_state['viewer_contrast'] == bool(index % 2)
-    assert len(next(call for call in calls if call['key'].startswith('flat_result_'))['items']) == 4
+        assert app.session_state['workflow_flat_subtract_bias'] == (index >= 3)
+        assert app.session_state['viewer_contrast'] == bool(index % 3)
+    flat_grid = next(call for call in calls if call['key'].startswith('flat_result_'))
+    assert len(flat_grid['items']) == 6
+    assert flat_grid['columns'] == 3
     assert any('Blue · 2.0 s' in item.value for item in app.markdown)
     for index in (0, 1):
         event[0] = ('bias_result_', index)

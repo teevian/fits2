@@ -154,6 +154,7 @@ window.addEventListener('message',event=>{
       document.querySelector('footer').hidden=true;
       grid.style.height=args.scrollable?'360px':'auto';
       grid.style.overflow=args.scrollable?'auto':'hidden';
+      grid.style.gridTemplateColumns=`repeat(${args.columns || 2},minmax(0,1fr))`;
     }
     selected=new Set(args.selected);serverSelection=JSON.stringify(args.selected);grid.replaceChildren();
     for(const item of args.items) {

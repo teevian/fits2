@@ -44,7 +44,7 @@ def _prepare_calibration_zip(versions, file_format):
 
 def _calibration_export_record(versions, name):
     from processing_ui import fingerprint
-    signature = repr(('display-zip-v3', tuple(
+    signature = repr(('display-zip-v5', tuple(
         (mode, tuple((key, fingerprint(image)) for key, image in images.items()))
         for mode, images in versions.items())))
     cache = st.session_state.setdefault('calibration_export_cache', {})

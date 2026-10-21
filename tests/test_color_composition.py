@@ -99,3 +99,40 @@ def test_sky_plane_removes_gradient_without_subtracting_compact_nebula():
     fitted,_=background_plane(sky+nebula,np.zeros_like(x,dtype=bool))
     assert np.max(np.abs(fitted-sky)) < .5
     assert (sky+nebula-fitted)[128,128] > 29.5
+
+
+def test_rgb_ignores_black_and_rejects_calibration_inputs():
+    masters = color_masters()
+    rgb = generate_color(masters, 15)
+    del masters['black']
+    without_black = generate_color(masters, 15)
+    assert rgb.header['COLORMOD'] == 'RGB'
+    np.testing.assert_array_equal(rgb.data, without_black.data)
+    for kind in ('MASTER_FLAT', 'OBJECT'):
+        masters['Red'].header['IMAGETYP'] = kind
+        with pytest.raises(ValueError, match='calibrated science masters'):
+            generate_color(masters, 15)
+
+
+def test_color_panel_defaults_to_rgb_and_requires_explicit_luminance(monkeypatch):
+    from streamlit.testing.v1 import AppTest
+    calls = []
+    result = generate_color(color_masters(), 15)
+    def generate(*args, **kwargs):
+        calls.append(kwargs['use_luminance'])
+        return result
+    monkeypatch.setattr('color_ui.run_with_timeout', generate)
+    app = AppTest.from_string('''
+from color_ui import color_panel
+color_panel({}, 15)
+''', default_timeout=30).run()
+    assert not app.checkbox(key='workflow_color_use_luminance').value
+    app.button(key='workflow_science_generate').click().run()
+    assert not app.exception
+    assert calls == [False]
+    app.checkbox(key='workflow_color_use_luminance').check().run()
+    # Changing the interpretation invalidates the previous color result.
+    assert not app.get('download_button')
+    app.button(key='workflow_science_generate').click().run()
+    assert not app.exception
+    assert calls == [False, True]

@@ -1,4 +1,4 @@
-"""Final LRGB composition controls below the science masters."""
+"""Final RGB composition with explicitly identified optional luminance."""
 import streamlit as st
 
 from color_composition import generate_color
@@ -8,14 +8,19 @@ from science_picker import result_previews
 
 
 def color_panel(masters, max_shift):
-    signature = repr(('lrgb-psf-v2', tuple((key, fingerprint(value)) for key, value in masters.items()), max_shift))
+    use_luminance = st.checkbox('Use black as luminance (confirmed clear / luminance filter)',
+                                value=False, key='workflow_color_use_luminance')
+    mode = 'LRGB' if use_luminance else 'RGB'
+    signature = repr(('rgb-explicit-luminance-v3', use_luminance, tuple((key, fingerprint(value)) for key, value in masters.items()), max_shift))
     pending = st.session_state.get('workflow_color_pending')
     if pending and pending[0] != signature:
         pending[1].cancel()
         st.session_state.pop('workflow_color_pending', None)
         pending = None
     clicked = st.button('Generate', key='workflow_science_generate', disabled=bool(pending))
-    st.caption('LRGB · Red + Green + Blue for color; black (clear) for luminance. Matched color sharpness and stellar color balance.')
+    st.caption('RGB uses calibrated science masters in Red, Green and Blue. '
+               'Black is used only when confirmed as luminance. '
+               'Stellar balance is for display, not photometric color calibration.')
     resume = False
     if pending:
         st.warning('A geração atingiu 3 minutos. O progresso foi preservado.')
@@ -27,11 +32,11 @@ def color_panel(masters, max_shift):
             st.rerun(scope='app')
     if clicked or resume:
         try:
-            with st.spinner('Aligning filter masters and generating LRGB…'):
+            with st.spinner(f'Aligning filter masters and generating {mode}…'):
                 if pending:
                     result = pending[1].resume(timeout=ALIGNMENT_TIMEOUT)
                 else:
-                    result = run_with_timeout(generate_color, masters, max_shift, use_luminance=True,
+                    result = run_with_timeout(generate_color, masters, max_shift, use_luminance=use_luminance,
                                               timeout=ALIGNMENT_TIMEOUT, allow_continue=True)
             st.session_state.pop('workflow_color_pending', None)
             st.session_state.workflow_color_last = (signature, result)
@@ -51,8 +56,8 @@ def color_panel(masters, max_shift):
     if not last or last[0] != signature:
         return None
     result = last[1]
-    choice = result_previews([(result, 'Final LRGB · Without contrast', False),
-                              (result, 'Final LRGB · With contrast', True)], key=f'color_result_{signature}')
+    choice = result_previews([(result, f'Final {mode} · Without contrast', False),
+                              (result, f'Final {mode} · With contrast', True)], key=f'color_result_{signature}')
     if choice is not None:
         st.session_state.viewer_contrast = bool(choice)
         st.session_state.workflow_stage_view = 'color'

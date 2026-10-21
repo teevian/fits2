@@ -1511,6 +1511,31 @@ def to_display_png(image, limits):
     return output.getvalue()
 
 
+def flat_channel(image):
+    """Display channel only; unassigned filters retain a neutral grayscale preview."""
+    return {'Red': 'R', 'Green': 'G', 'Blue': 'B', 'black': 'Gray'}.get(source_filter(image), 'Gray')
+
+
+def channel_png(image, limits, thumbnail=False):
+    """Place display intensity in the filter channel, preserving scientific data."""
+    gray = np.asarray(Image.open(BytesIO(to_display_png(image, limits))))
+    channel = flat_channel(image)
+    pixels = np.zeros((*gray.shape, 3), dtype=np.uint8)
+    if channel == 'Gray':
+        pixels[:] = gray[..., None]
+    else:
+        pixels[..., 'RGB'.index(channel)] = gray
+    preview = Image.fromarray(pixels)
+    if thumbnail:
+        preview.thumbnail((480, 320), Image.Resampling.LANCZOS)
+        canvas = Image.new('RGB', (480, 320))
+        canvas.paste(preview, ((480-preview.width)//2, (320-preview.height)//2))
+        preview = canvas
+    output = BytesIO()
+    preview.save(output, format='PNG')
+    return output.getvalue()
+
+
 # Reúne os master flats num arquivo ZIP de imagens FITS.
 def flat_archive(masters):
     archive = BytesIO()
@@ -1550,6 +1575,10 @@ def calibration_archive(versions, file_format='fits'):
                     limits = resolve_display_limits(image.display(), fixed_limits, True)
                 name = Path(image_name(source)).name
                 archive.writestr(f'with_constrast/{png_name(name)}', to_display_png(image, limits))
+                if 'FLAT' in str(image.header.get('IMAGETYP', '')).upper() or 'flat' in name.casefold():
+                    colored_name = png_name(name)[:-4] + f'_channel_{flat_channel(image)}.png'
+                    for folder, scale in [('with_constrast', limits), ('no_contrast', fixed_limits)]:
+                        archive.writestr(f'{folder}/{colored_name}', channel_png(image, scale))
                 if file_format == 'fits':
                     archive.writestr(f'no_contrast/{name}', fits_data(source))
                 else:

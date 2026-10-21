@@ -8,7 +8,7 @@ from PIL import Image
 from streamlit.testing.v1 import AppTest
 
 from imageProcessing import calibration_archive, fits_data, image_archive, png_name, to_png
-from imageProcessing import frame, to_fits
+from imageProcessing import frame, to_fits, flat_channel
 
 
 def test_png_preserves_resolution_orientation_and_source_pixels():
@@ -229,7 +229,9 @@ def test_calibration_archives_include_all_flat_versions_and_share_screen_contras
         with ZipFile(BytesIO(calibration_archive(versions, file_format))) as archive:
             assert set(archive.namelist()) == {'with_constrast/', 'no_contrast/'} | {
                 f'with_constrast/{png_name(image.name)}' for image in all_images} | {
-                f'no_contrast/{image.name if file_format == "fits" else png_name(image.name)}' for image in all_images}
+                f'no_contrast/{image.name if file_format == "fits" else png_name(image.name)}' for image in all_images} | {
+                f'{folder}/{png_name(image.name)[:-4]}_channel_{flat_channel(image)}.png'
+                for image in all_images for folder in ('with_constrast', 'no_contrast')}
             for key in masters:
                 reference = [versions[mode][key].display() for mode in (False, True)]
                 low, high = resolve_display_limits(reference[0], contrast=True, reference=reference)
@@ -397,3 +399,27 @@ def test_science_png_and_zip_match_viewer_contrast_and_keep_result_fits():
         expected_fixed[mask] = 0
         np.testing.assert_array_equal(np.asarray(png), np.flipud(expected_fixed))
     assert to_fits(master) == scientific_bytes
+
+
+def test_flat_channels_in_both_export_folders():
+    from imageProcessing import to_display_png
+    for filter_name, channel in [('Red', 0), ('Green', 1), ('Blue', 2), ('black', None)]:
+        image = frame(np.array([[0., 16000.], [32000., 65535.]]),
+                      name=f'master_flat_{filter_name}.fits')
+        image.header['FILTER'] = filter_name
+        image.mask[0, 1] = True
+        before = (image.data.copy(), image.mask.copy(), image.header.copy())
+        for file_format in ('png', 'fits'):
+            with ZipFile(BytesIO(calibration_archive({False: {filter_name: image}}, file_format))) as archive:
+                for folder in ('with_constrast', 'no_contrast'):
+                    path = f'{folder}/master_flat_{filter_name}_channel_{flat_channel(image)}.png'
+                    rgb = np.asarray(Image.open(BytesIO(archive.read(path))))
+                    gray_data = (archive.read(f'{folder}/master_flat_{filter_name}.png')
+                                 if folder == 'with_constrast' or file_format == 'png'
+                                 else to_display_png(image, (0., 65535.)))
+                    gray = np.asarray(Image.open(BytesIO(gray_data)))
+                    for index in range(3):
+                        np.testing.assert_array_equal(rgb[..., index], gray if channel is None or index == channel else np.zeros_like(gray))
+        np.testing.assert_array_equal(image.data, before[0])
+        np.testing.assert_array_equal(image.mask, before[1])
+        assert image.header == before[2]

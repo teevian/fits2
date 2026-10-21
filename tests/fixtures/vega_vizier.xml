@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VOTABLE version="1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.ivoa.net/xml/VOTable/v1.3"
+  xsi:schemaLocation="http://www.ivoa.net/xml/VOTable/v1.3 http://www.ivoa.net/xml/VOTable/v1.3">
+ <DESCRIPTION>
+   VizieR Astronomical Server vizier.cds.unistra.fr
+    Date: 2026-10-20T20:35:36 [V7.6.1]
+   Explanations and Statistics of UCDs:			See LINK below
+   In case of problem, please report to:	cds-question@unistra.fr
+ </DESCRIPTION>
+<!-- VOTable description at http://www.ivoa.net/Documents/latest/VOT.html -->
+<INFO name="service_protocol" value="ASU">  IVOID of the protocol through which the data was retrieved</INFO>
+<INFO name="request_date" value="2026-10-20T20:35:37">  Query execution date</INFO>
+<INFO name="request" value="https://vizier.cds.unistra.fr/viz-bin/votable?-source=II%2F336%2Fapass9%2CII%2F7A%2Fcatalog%2CII%2F168%2Fubvmeans&amp;-c=Vega&amp;-c.rs=3&amp;-out.all=1&amp;-out.max=10">  Full request URL</INFO>
+<INFO name="contact" value="cds-question@unistra.fr">  Email or URL to contact publisher</INFO>
+<INFO name="server_software" value="VizieR/7.6.1">  Software version</INFO>
+<INFO name="publisher" value="CDS">  Data centre that produced the VOTable</INFO>
+<INFO name="CatalogsExamined" value="3">
+  3 catalogues with potential matches were examined.
+</INFO>
+
+<!--
+Execution Reports
+ -->
+<INFO ID="Target" name="-c" value="279.234735+38.783689,rs=3.">
+Constraint -out.max=10</INFO>
+
+<RESOURCE ID="yCat_2336" name="II/336" type="results">
+  <DESCRIPTION>AAVSO Photometric All Sky Survey (APASS) DR9 (Henden+, 2016)</DESCRIPTION>  <INFO name="ivoid" value="ivo://cds.vizier/ii/336">    IVOID of underlying data collection  </INFO>
+  <INFO name="data_ivoid" value="ivo://cds.vizier/ii/336">    IVOID of underlying data collection  </INFO>
+  <INFO name="creator" value="Henden A.A.">    First author or institution  </INFO>
+  <INFO name="cites" value="bibcode:2015AAS...22533616H">    Article or Data origin sources  </INFO>
+  <INFO name="journal" value="AAS">    Journal name  </INFO>
+  <INFO name="original_date" value="2015">    Year of the article publication  </INFO>
+  <INFO name="reference_url" value="https://cdsarc.cds.unistra.fr/viz-bin/cat/II/336">    Dataset landing page  </INFO>
+  <INFO name="publication_date" value="2024-10-24">    Date of first publication in the data centre  </INFO>
+  <INFO name="rights_uri" value="https://cds.unistra.fr/vizier-org/licences_vizier.html">    Licence URI  </INFO>
+
+  <COOSYS ID="J2000" system="eq_FK5" equinox="J2000"/>
+  <TABLE ID="II_336_apass9" name="II/336/apass9">
+    <DESCRIPTION>The APASS catalog, output (on a total of 62 million sources)</DESCRIPTION>
+<!-- The APASS catalog -->
+
+    <!-- RowName: -c=${$poseq}&-c.rs=0.004 -->
+    <!-- Definitions of GROUPs and FIELDs -->
+
+<!-- +++No column could be found to attach a LINK in table: II/336/apass9 -->
+    <FIELD name="_r" ucd="pos.angDistance" datatype="double" width="5" precision="3"><!-- ucd="POS_ANG_DIST_GENERAL" -->
+      <DESCRIPTION>Distance from center (279.234735+38.783689)[FK5/J2000]</DESCRIPTION>
+    </FIELD>
+    <FIELD name="RAJ2000" ucd="pos.eq.ra;meta.main" ref="J2000" datatype="double" width="10" precision="6" unit="deg"><!-- ucd="POS_EQ_RA_MAIN" -->
+      <DESCRIPTION>Right ascension in decimal degrees (J2000)</DESCRIPTION>
+    </FIELD>
+    <FIELD name="DEJ2000" ucd="pos.eq.dec;meta.main" ref="J2000" datatype="double" width="10" precision="6" unit="deg"><!-- ucd="POS_EQ_DEC_MAIN" -->
+      <DESCRIPTION>Declination in decimal degrees (J2000)</DESCRIPTION>
+    </FIELD>
+    <FIELD name="e_RAJ2000" ucd="stat.error;pos.eq.ra" datatype="float" width="6" precision="3" unit="arcsec"><!-- ucd="ERROR" -->
+      <DESCRIPTION>[0/2.4] RA uncertainty</DESCRIPTION>
+    </FIELD>
+    <FIELD name="e_DEJ2000" ucd="stat.error;pos.eq.dec" datatype="float" width="6" precision="3" unit="arcsec"><!-- ucd="ERROR" -->
+      <DESCRIPTION>[0/2.4] DEC uncertainty</DESCRIPTION>
+    </FIELD>
+    <FIELD name="Field" ucd="obs.field" datatype="long" width="10"><!-- ucd="ID_FIELD" -->
+      <DESCRIPTION>[20110001/9999988888] Field name</DESCRIPTION>
+    </FIELD>
+    <FIELD name="nobs" ucd="meta.number" datatype="short" width="3"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>[2/387] Number of observed nights</DESCRIPTION>
+    </FIELD>
+    <FIELD name="mobs" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>[2/3476] Number of images for this field, usually nobs*5</DESCRIPTION>
+    </FIELD>
+    <FIELD name="B-V" ucd="phot.color;em.opt.B;em.opt.V" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_B-V" -->
+      <DESCRIPTION>[-7.5/13]? B-V color index</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="e_B-V" ucd="stat.error;phot.color;em.opt.B" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="ERROR" -->
+      <DESCRIPTION>[0/10.1]? B-V uncertainty</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="Vmag" ucd="phot.mag;em.opt.V" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_V" -->
+      <DESCRIPTION>[5.5/27.4]? Johnson V-band magnitude</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="e_Vmag" ucd="stat.error;phot.mag" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="ERROR" -->
+      <DESCRIPTION>[0/7]? Vmag uncertainty</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="u_e_Vmag" ucd="meta.code.error" datatype="unsignedByte" width="1"><!-- ucd="CODE_ERROR" -->
+      <DESCRIPTION>[0/1]? Uncertainty flag on e_Vmag (1)</DESCRIPTION>
+      <VALUES null="255" />
+      <LINK href="http://vizier.cds.unistra.fr/viz-bin/VizieR?-6N&amp;-info=XML&amp;-out.add=.&amp;&amp;lt;&amp;quot;Note&amp;quot;&amp;catid=2336&amp;notid=1&amp;-out.emph=${u_e_Vmag}"/>
+    </FIELD>
+    <FIELD name="Bmag" ucd="phot.mag;em.opt.B" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_B" -->
+      <DESCRIPTION>[5.4/27.3]? Johnson B-band magnitude</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="e_Bmag" ucd="stat.error;phot.mag" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="ERROR" -->
+      <DESCRIPTION>[0/10]? Bmag uncertainty</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="u_e_Bmag" ucd="meta.code.error" datatype="unsignedByte" width="1"><!-- ucd="CODE_ERROR" -->
+      <DESCRIPTION>[0/1]? Uncertainty flag on e_Bmag (1)</DESCRIPTION>
+      <VALUES null="255" />
+      <LINK href="http://vizier.cds.unistra.fr/viz-bin/VizieR?-6N&amp;-info=XML&amp;-out.add=.&amp;&amp;lt;&amp;quot;Note&amp;quot;&amp;catid=2336&amp;notid=1&amp;-out.emph=${u_e_Bmag}"/>
+    </FIELD>
+    <FIELD name="g'mag" ucd="phot.mag;em.opt.B" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_SDSS_G" -->
+      <DESCRIPTION>[5.9/24.2]? g'-band AB magnitude, Sloan filter</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="e_g'mag" ucd="stat.error;phot.mag" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="ERROR" -->
+      <DESCRIPTION>[0/9.7]? g'mag uncertainty</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="u_e_g'mag" ucd="meta.code.error" datatype="unsignedByte" width="1"><!-- ucd="CODE_ERROR" -->
+      <DESCRIPTION>[0/1]? Uncertainty flag on e_g'mag (1)</DESCRIPTION>
+      <VALUES null="255" />
+      <LINK href="http://vizier.cds.unistra.fr/viz-bin/VizieR?-6N&amp;-info=XML&amp;-out.add=.&amp;&amp;lt;&amp;quot;Note&amp;quot;&amp;catid=2336&amp;notid=1&amp;-out.emph=${u_e_g'mag}"/>
+    </FIELD>
+    <FIELD name="r'mag" ucd="phot.mag;em.opt.R" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_SDSS_R" -->
+      <DESCRIPTION>[5.1/23.9]? r'-band AB magnitude, Sloan filter</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="e_r'mag" ucd="stat.error;phot.mag" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="ERROR" -->
+      <DESCRIPTION>[0/6.5]? r'mag uncertainty</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="u_e_r'mag" ucd="meta.code.error" datatype="unsignedByte" width="1"><!-- ucd="CODE_ERROR" -->
+      <DESCRIPTION>[0/1]? Uncertainty flag on e_r'mag (1)</DESCRIPTION>
+      <VALUES null="255" />
+      <LINK href="http://vizier.cds.unistra.fr/viz-bin/VizieR?-6N&amp;-info=XML&amp;-out.add=.&amp;&amp;lt;&amp;quot;Note&amp;quot;&amp;catid=2336&amp;notid=1&amp;-out.emph=${u_e_r'mag}"/>
+    </FIELD>
+    <FIELD name="i'mag" ucd="phot.mag;em.opt.I" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_SDSS_I" -->
+      <DESCRIPTION>[4.2/29.1]? i'-band AB magnitude, Sloan filter</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="e_i'mag" ucd="stat.error;phot.mag" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="ERROR" -->
+      <DESCRIPTION>[0/9.6]? i'mag uncertainty</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="u_e_i'mag" ucd="meta.code.error" datatype="unsignedByte" width="1"><!-- ucd="CODE_ERROR" -->
+      <DESCRIPTION>[0/1]? Uncertainty flag on e_i'mag (1)</DESCRIPTION>
+      <VALUES null="255" />
+      <LINK href="http://vizier.cds.unistra.fr/viz-bin/VizieR?-6N&amp;-info=XML&amp;-out.add=.&amp;&amp;lt;&amp;quot;Note&amp;quot;&amp;catid=2336&amp;notid=1&amp;-out.emph=${u_e_i'mag}"/>
+    </FIELD>
+
+<!--  EMPTY result, no DATA part  -->
+
+</TABLE>
+
+<!--
+Execution Reports
+ -->
+</RESOURCE>
+
+<RESOURCE ID="yCat_2007" name="II/7A" type="results">
+  <DESCRIPTION>UBVRIJKLMNH Photoelectric Catalogue (Morel+ 1978)</DESCRIPTION>  <INFO name="ivoid" value="ivo://cds.vizier/ii/7a">    IVOID of underlying data collection  </INFO>
+  <INFO name="data_ivoid" value="ivo://cds.vizier/ii/7a">    IVOID of underlying data collection  </INFO>
+  <INFO name="creator" value="Morel M. and Magnenat P.">    First author or institution  </INFO>
+  <INFO name="cites" value="bibcode:1978A&amp;AS...34..477M">    Article or Data origin sources  </INFO>
+  <INFO name="journal" value="A&amp;AS">    Journal name  </INFO>
+  <INFO name="original_date" value="1978">    Year of the article publication  </INFO>
+  <INFO name="reference_url" value="https://cdsarc.cds.unistra.fr/viz-bin/cat/II/7A">    Dataset landing page  </INFO>
+  <INFO name="publication_date" value="2018-01-24">    Date of first publication in the data centre  </INFO>
+  <INFO name="rights_uri" value="https://cds.unistra.fr/vizier-org/licences_vizier.html">    Licence URI  </INFO>
+
+  <TABLE ID="II_7A_catalog" name="II/7A/catalog">
+    <DESCRIPTION>Catalog Data</DESCRIPTION>
+    <!-- Definitions of GROUPs and FIELDs -->
+
+<!-- +++No column could be found to attach a LINK in table: II/7A/catalog -->
+    <FIELD name="_r" ucd="pos.angDistance" datatype="double" width="4" precision="2"><!-- ucd="POS_ANG_DIST_GENERAL" -->
+      <DESCRIPTION>Distance from center (279.23473+38.78369)[FK5/J2000]</DESCRIPTION>
+    </FIELD>
+    <FIELD name="recno" ucd="meta.record" datatype="int" width="8"><!-- ucd="RECORD" -->
+      <DESCRIPTION>Record number assigned by the VizieR team. Should Not be used for identification.</DESCRIPTION>
+      <LINK href="http://vizier.cds.unistra.fr/viz-bin/VizieR-5?-info=XML&amp;-out.add=.&amp;-source=II/7A/catalog&amp;recno=${recno}"/>
+    </FIELD>
+    <FIELD name="JP11" ucd="meta.id" datatype="char" arraysize="6"><!-- ucd="ID_NUMBER" -->
+      <DESCRIPTION>Johnson Photometry 11 colours number</DESCRIPTION>
+    </FIELD>
+    <FIELD name="LID" ucd="meta.id;meta.main" datatype="double" width="11" precision="8"><!-- ucd="ID_MAIN" -->
+      <DESCRIPTION>Coded identification number</DESCRIPTION>
+    </FIELD>
+    <FIELD name="n_LID" ucd="meta.note" datatype="char" arraysize="1"><!-- ucd="NOTE" -->
+      <DESCRIPTION>[ DSV%1-3] Suffix to LID</DESCRIPTION>
+    </FIELD>
+    <FIELD name="U" ucd="phot.mag;em.opt.U" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_U" -->
+      <DESCRIPTION>? U magnitude: 0.36, 0.36 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="B" ucd="phot.mag;em.opt.B" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_B" -->
+      <DESCRIPTION>? B magnitude: 0.44, 0.45 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="V" ucd="phot.mag;em.opt.V" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_V" -->
+      <DESCRIPTION>? V magnitude: 0.55, 0.555 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="R" ucd="phot.mag;em.opt.R" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_R" -->
+      <DESCRIPTION>? R magnitude: 0.70, 0.67 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="I" ucd="phot.mag;em.opt.I" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_I" -->
+      <DESCRIPTION>? I magnitude: 0.88, 0.87 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="J" ucd="phot.mag;em.IR.J" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_J" -->
+      <DESCRIPTION>? J magnitude: 1.25, 1.20 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="K" ucd="phot.mag;em.IR.K" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_K" -->
+      <DESCRIPTION>? K magnitude: 2.2, 2.20 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="L" ucd="phot.mag;em.IR.3-4um" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_L" -->
+      <DESCRIPTION>? L magnitude: 3.5-3.4, 3.50 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="M" ucd="phot.mag;em.IR.4-8um" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_M" -->
+      <DESCRIPTION>? M magnitude: 5.0, 5.0 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="N" ucd="phot.mag;em.IR.8-15um" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_IR_N:10.4" -->
+      <DESCRIPTION>? N magnitude: 10.4, 9.0 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="H" ucd="phot.mag;em.IR.H" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_H" -->
+      <DESCRIPTION>? H magnitude: 1.62, 1.62 um</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="o_U" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for U filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="o_B" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for B filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="o_V" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for V filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="o_R" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for R filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="o_I" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for I filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="o_J" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for J filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="o_K" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for K filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="o_L" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for L filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="o_M" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for M filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="o_N" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for N filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="o_H" ucd="meta.number" datatype="short" width="4"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>? Number of measurements for H filter</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="rem" ucd="meta.note" datatype="char" arraysize="1"><!-- ucd="REMARKS" -->
+      <DESCRIPTION>An eventual remark</DESCRIPTION>
+    </FIELD>
+    <FIELD name="ref" ucd="meta.id" datatype="short" width="4"><!-- ucd="REFER_CODE" -->
+      <DESCRIPTION>[8001,8154] Reference number (see file: refs)</DESCRIPTION>
+      <LINK href="http://vizier.cds.unistra.fr/viz-bin/VizieR-n?-info=XML&amp;-source=II/7A/refs&amp;ref=${ref}"/>
+    </FIELD>
+    <FIELD name="_RA" ucd="pos.eq.ra;meta.main" ref="J2000" datatype="double" width="9" precision="5" unit="deg"><!-- ucd="POS_EQ_RA_MAIN" -->
+      <DESCRIPTION>J2000 Position from Simbad -- not always accurate or existing (right ascension part)</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="_DE" ucd="pos.eq.dec;meta.main" ref="J2000" datatype="double" width="9" precision="5" unit="deg"><!-- ucd="POS_EQ_DEC_MAIN" -->
+      <DESCRIPTION>J2000 Position from Simbad -- not always accurate or existing (declination part)</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+<DATA><TABLEDATA>
+<TR><TD>0.01</TD><TD>2999</TD><TD>  2999</TD><TD>1.00172167</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>0.000</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>2</TD><TD></TD><TD></TD><TD>8002</TD><TD>279.23473</TD><TD>+38.78369</TD></TR>
+<TR><TD>0.01</TD><TD>3000</TD><TD>  2999</TD><TD>1.00172167</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>-0.040</TD><TD>0.000</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>9999</TD><TD>9999</TD><TD></TD><TD></TD><TD>8004</TD><TD>279.23473</TD><TD>+38.78369</TD></TR>
+<TR><TD>0.01</TD><TD>3001</TD><TD>  2999</TD><TD>1.00172167</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>-0.040</TD><TD>-0.010</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>9999</TD><TD>9999</TD><TD></TD><TD></TD><TD>8011</TD><TD>279.23473</TD><TD>+38.78369</TD></TR>
+<TR><TD>0.01</TD><TD>3002</TD><TD>  2999</TD><TD>1.00172167</TD><TD></TD><TD>0.030</TD><TD>0.030</TD><TD>0.030</TD><TD>0.070</TD><TD>0.100</TD><TD>0.020</TD><TD>0.020</TD><TD>-0.020</TD><TD></TD><TD></TD><TD></TD><TD>9</TD><TD>9</TD><TD>9</TD><TD>5</TD><TD>5</TD><TD>9</TD><TD>9</TD><TD>9999</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>8029</TD><TD>279.23473</TD><TD>+38.78369</TD></TR>
+<TR><TD>0.01</TD><TD>3003</TD><TD>  2999</TD><TD>1.00172167</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>0.020</TD><TD>0.000</TD><TD></TD><TD></TD><TD>0.020</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>7777</TD><TD>7777</TD><TD></TD><TD></TD><TD>7777</TD><TD></TD><TD>8130</TD><TD>279.23473</TD><TD>+38.78369</TD></TR>
+</TABLEDATA></DATA>
+</TABLE>
+
+<!--
+Execution Reports
+ -->
+</RESOURCE>
+
+<RESOURCE ID="yCat_2168" name="II/168" type="results">
+  <DESCRIPTION>Homogeneous Means in the UBV System (Mermilliod 1991)</DESCRIPTION>  <INFO name="ivoid" value="ivo://cds.vizier/ii/168">    IVOID of underlying data collection  </INFO>
+  <INFO name="data_ivoid" value="ivo://cds.vizier/ii/168">    IVOID of underlying data collection  </INFO>
+  <INFO name="creator" value="Mermilliod J.C.">    First author or institution  </INFO>
+  <INFO name="reference_url" value="https://cdsarc.cds.unistra.fr/viz-bin/cat/II/168">    Dataset landing page  </INFO>
+  <INFO name="publication_date" value="2017-09-22">    Date of first publication in the data centre  </INFO>
+  <INFO name="rights_uri" value="https://cds.unistra.fr/vizier-org/licences_vizier.html">    Licence URI  </INFO>
+
+  <TABLE ID="II_168_ubvmeans" name="II/168/ubvmeans">
+    <DESCRIPTION>Catalog Data</DESCRIPTION>
+    <!-- Definitions of GROUPs and FIELDs -->
+
+<!-- +++No column could be found to attach a LINK in table: II/168/ubvmeans -->
+    <FIELD name="_r" ucd="pos.angDistance" datatype="double" width="4" precision="2"><!-- ucd="POS_ANG_DIST_GENERAL" -->
+      <DESCRIPTION>Distance from center (279.23473+38.78369)[FK5/J2000]</DESCRIPTION>
+    </FIELD>
+    <FIELD name="recno" ucd="meta.record" datatype="int" width="8"><!-- ucd="RECORD" -->
+      <DESCRIPTION>Record number assigned by the VizieR team. Should Not be used for identification.</DESCRIPTION>
+      <LINK href="http://vizier.cds.unistra.fr/viz-bin/VizieR-5?-info=XML&amp;-out.add=.&amp;-source=II/168/ubvmeans&amp;recno=${recno}"/>
+    </FIELD>
+    <FIELD name="LID" ucd="meta.id" datatype="char" arraysize="10*"><!-- ucd="ID_NUMBER" -->
+      <DESCRIPTION>Lausanne identification number (1)</DESCRIPTION>
+    </FIELD>
+    <FIELD name="m_LID" ucd="meta.code.multip" datatype="char" arraysize="1"><!-- ucd="CODE_MULT_INDEX" -->
+      <DESCRIPTION>Lausanne component (D, 1, 2, ...) (1)</DESCRIPTION>
+    </FIELD>
+    <FIELD name="var" ucd="meta.code;src.var" datatype="char" arraysize="1"><!-- ucd="CODE_VARIAB" -->
+      <DESCRIPTION>[V] Variability code.</DESCRIPTION>
+    </FIELD>
+    <FIELD name="Npub" ucd="meta.number" datatype="short" width="2"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>Number of publications (separate lists) contributing observations to the means</DESCRIPTION>
+    </FIELD>
+    <FIELD name="Vmag" ucd="phot.mag;em.opt.V" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_V" -->
+      <DESCRIPTION>?Mean V magnitude (Precision varies)</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="e_Vmag" ucd="stat.error;phot.mag;em.opt.V" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="ERROR" -->
+      <DESCRIPTION>?Standard deviation for Vmag</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="n_Vmag" ucd="meta.note" datatype="char" arraysize="1"><!-- ucd="NOTE" -->
+      <DESCRIPTION>[&gt;S/] Standard (S) or note on o_Vmag (2)</DESCRIPTION>
+    </FIELD>
+    <FIELD name="o_Vmag" ucd="meta.number" datatype="short" width="3"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>?Number of observations for Vmag</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="B-V" ucd="phot.color;em.opt.B;em.opt.V" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_B-V" -->
+      <DESCRIPTION>?Mean (B-V) color index (Precision varies)</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="e_B-V" ucd="stat.error;phot.color;em.opt.B" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="ERROR" -->
+      <DESCRIPTION>?Standard deviation for B-V</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="n_B-V" ucd="meta.note" datatype="char" arraysize="1"><!-- ucd="NOTE" -->
+      <DESCRIPTION>[&gt;S/] Standard (S) or note on o_B-V (2)</DESCRIPTION>
+    </FIELD>
+    <FIELD name="o_B-V" ucd="meta.number" datatype="short" width="3"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>?Number of observations for B-V</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="U-B" ucd="phot.color;em.opt.U;em.opt.B" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="PHOT_JHN_U-B" -->
+      <DESCRIPTION>?Mean (U-B) color index (Precision varies)</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="e_U-B" ucd="stat.error;phot.color;em.opt.U" datatype="float" width="6" precision="3" unit="mag"><!-- ucd="ERROR" -->
+      <DESCRIPTION>?Standard deviation for U-B</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="n_U-B" ucd="meta.note" datatype="char" arraysize="1"><!-- ucd="NOTE" -->
+      <DESCRIPTION>[&gt;S/] Standard (S) or note on o_Vmag (2)</DESCRIPTION>
+    </FIELD>
+    <FIELD name="o_U-B" ucd="meta.number" datatype="short" width="3"><!-- ucd="NUMBER" -->
+      <DESCRIPTION>?Number of observations for U-B</DESCRIPTION>
+      <VALUES null="-32768" />
+    </FIELD>
+    <FIELD name="SimbadName" ucd="meta.id" datatype="char" arraysize="21*"><!-- ucd="ID_ALTERNATIVE" -->
+      <DESCRIPTION>Simbad column added by the CDS</DESCRIPTION>
+<!-- Designation understandable by the {\bf\fg{FireBrick}Simbad} data-base -->
+
+      <LINK href="http://simbad.cds.unistra.fr/simbad/sim-id?Ident=${SimbadName}"/>
+    </FIELD>
+    <FIELD name="_RA" ucd="pos.eq.ra;meta.main" ref="J2000" datatype="double" width="9" precision="5" unit="deg"><!-- ucd="POS_EQ_RA_MAIN" -->
+      <DESCRIPTION>Positions from simbad, version 07May2006. (right ascension part)</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+    <FIELD name="_DE" ucd="pos.eq.dec;meta.main" ref="J2000" datatype="double" width="9" precision="5" unit="deg"><!-- ucd="POS_EQ_DEC_MAIN" -->
+      <DESCRIPTION>Positions from simbad, version 07May2006. (declination part)</DESCRIPTION>
+      <VALUES null="NaN" />
+    </FIELD>
+<DATA><TABLEDATA>
+<TR><TD>0.01</TD><TD>35633</TD><TD>+100172167</TD><TD></TD><TD>V</TD><TD>13</TD><TD>0.033</TD><TD>0.012</TD><TD>&gt;</TD><TD>57</TD><TD>-0.001</TD><TD>0.005</TD><TD>&gt;</TD><TD>67</TD><TD>-0.006</TD><TD>0.006</TD><TD>&gt;</TD><TD>50</TD><TD>HD 172167</TD><TD>279.23473</TD><TD>+38.78369</TD></TR>
+</TABLEDATA></DATA>
+</TABLE>
+<INFO name="matches" value="6">matching records</INFO>
+</RESOURCE>
+</VOTABLE>

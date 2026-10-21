@@ -25,7 +25,9 @@ def identity(value):
         stat = value.stat()
         return str(value.resolve()), stat.st_mtime_ns, stat.st_size
     if isinstance(value, Frame):
-        return value.name, id(value)
+        if not hasattr(value, '_recovery_identity'):
+            value._recovery_identity = id(value)
+        return value.name, value._recovery_identity
     return sha256(value).hexdigest()
 
 

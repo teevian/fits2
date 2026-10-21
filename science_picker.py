@@ -4,6 +4,7 @@ from pathlib import Path
 import re
 
 import streamlit as st
+from session_recovery import checkpoint
 import streamlit.components.v1 as components
 
 from gallery_ui import fits_thumbnail, frame_thumbnail
@@ -31,6 +32,7 @@ def preview_items(catalog, candidates):
 
 
 @st.dialog('Choose images', width='large')
+@checkpoint
 def choose_science_images(catalog, candidates, generation, kind='science'):
     st.subheader({'bias': 'Bias', 'flat': 'Flats', 'science': 'Science'}[kind])
     st.caption('Click to select or deselect. Drag across images to apply the same choice. Apply to use the selection.')
@@ -106,7 +108,7 @@ def inline_bias_picker(catalog, on_view=None, kind="bias"):
 
 
 @st.cache_data(max_entries=128, show_spinner=False)
-def result_thumbnail(_frame, signature, contrast):
+def result_thumbnail(_frame, signature, contrast, channel=False):
     """Reuse variant thumbnails while selection changes in the sidebar."""
     from imageProcessing import display_group, default_display_limits, resolve_display_limits
     from color_composition import ColorComposite
@@ -114,18 +116,22 @@ def result_thumbnail(_frame, signature, contrast):
         return _frame.png(contrast, thumbnail=True)
     defaults = default_display_limits(display_group('.', _frame.name, _frame.header))
     limits = resolve_display_limits(_frame.display(), defaults, contrast=contrast)
+    if channel:
+        from imageProcessing import channel_png
+        return channel_png(_frame, limits, thumbnail=True)
     return frame_thumbnail(_frame, limits=limits)
 
 
-def result_previews(entries, key):
+def result_previews(entries, key, columns=2):
     """Result variants open in the main viewer only on a double-click."""
     from processing_ui import fingerprint
     items = []
-    for index, (frame, label, contrast) in enumerate(entries):
-        preview = result_thumbnail(frame, fingerprint(frame), contrast)
+    for index, entry in enumerate(entries):
+        frame, label, contrast = entry[:3]
+        preview = result_thumbnail(frame, fingerprint(frame), contrast, bool(entry[3]) if len(entry) > 3 else False)
         items.append({'name': str(index), 'label': label,
                       'image': 'data:image/png;base64,' + b64encode(preview).decode('ascii')})
-    result = image_picker(items=items, selected=[], inline=True, preview_only=True, ack=st.session_state.get(key + '_event'),
+    result = image_picker(items=items, selected=[], inline=True, preview_only=True, columns=columns, ack=st.session_state.get(key + '_event'),
                           key=key, default=None)
     if result and result.get('action') == 'view':
         event = result.get('event')

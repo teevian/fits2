@@ -1,0 +1,315 @@
+{
+  "query": "V1674 Cyg",
+  "retrieved_utc": "2026-10-21T09:22:57.671484+00:00",
+  "records": [
+    {
+      "service": "SIMBAD",
+      "catalogue": "flux",
+      "band": "J",
+      "magnitude": 8.976,
+      "error": 0.019,
+      "object_id": "V* V1674 Cyg",
+      "url": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident=V%2A+V1674+Cyg",
+      "system": "J / verificar sistema na fonte",
+      "bibcode": "2003yCat.2246....0C",
+      "quality": "C",
+      "notes": [
+        "Sistema da banda a verificar na publicação; R/I não distinguem Johnson de Cousins aqui."
+      ],
+      "query_url": "https://simbad.cds.unistra.fr/simbad/sim-tap/sync?request=doQuery&lang=adql&format=json&query=SELECT+TOP+100+b.main_id%2Cb.ra%2Cb.dec%2Cb.otype%2Cf.filter%2Cf.flux%2Cf.flux_err%2Cf.bibcode%2Cf.qual+FROM+basic+AS+b+JOIN+ident+AS+i+ON+b.oid%3Di.oidref+LEFT+JOIN+flux+AS+f+ON+b.oid%3Df.oidref+WHERE+i.id%3D%27V1674+Cyg%27",
+      "ambiguous": false,
+      "ra": 299.5901563440099,
+      "dec": 35.21686796171001,
+      "object_type": "SB*",
+      "id": "0"
+    },
+    {
+      "service": "SIMBAD",
+      "catalogue": "flux",
+      "band": "H",
+      "magnitude": 8.769,
+      "error": 0.026,
+      "object_id": "V* V1674 Cyg",
+      "url": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident=V%2A+V1674+Cyg",
+      "system": "H / verificar sistema na fonte",
+      "bibcode": "2003yCat.2246....0C",
+      "quality": "C",
+      "notes": [
+        "Sistema da banda a verificar na publicação; R/I não distinguem Johnson de Cousins aqui."
+      ],
+      "query_url": "https://simbad.cds.unistra.fr/simbad/sim-tap/sync?request=doQuery&lang=adql&format=json&query=SELECT+TOP+100+b.main_id%2Cb.ra%2Cb.dec%2Cb.otype%2Cf.filter%2Cf.flux%2Cf.flux_err%2Cf.bibcode%2Cf.qual+FROM+basic+AS+b+JOIN+ident+AS+i+ON+b.oid%3Di.oidref+LEFT+JOIN+flux+AS+f+ON+b.oid%3Df.oidref+WHERE+i.id%3D%27V1674+Cyg%27",
+      "ambiguous": false,
+      "ra": 299.5901563440099,
+      "dec": 35.21686796171001,
+      "object_type": "SB*",
+      "id": "1"
+    },
+    {
+      "service": "SIMBAD",
+      "catalogue": "flux",
+      "band": "K",
+      "magnitude": 8.682,
+      "error": 0.023,
+      "object_id": "V* V1674 Cyg",
+      "url": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident=V%2A+V1674+Cyg",
+      "system": "K / verificar sistema na fonte",
+      "bibcode": "2003yCat.2246....0C",
+      "quality": "C",
+      "notes": [
+        "Sistema da banda a verificar na publicação; R/I não distinguem Johnson de Cousins aqui."
+      ],
+      "query_url": "https://simbad.cds.unistra.fr/simbad/sim-tap/sync?request=doQuery&lang=adql&format=json&query=SELECT+TOP+100+b.main_id%2Cb.ra%2Cb.dec%2Cb.otype%2Cf.filter%2Cf.flux%2Cf.flux_err%2Cf.bibcode%2Cf.qual+FROM+basic+AS+b+JOIN+ident+AS+i+ON+b.oid%3Di.oidref+LEFT+JOIN+flux+AS+f+ON+b.oid%3Df.oidref+WHERE+i.id%3D%27V1674+Cyg%27",
+      "ambiguous": false,
+      "ra": 299.5901563440099,
+      "dec": 35.21686796171001,
+      "object_type": "SB*",
+      "id": "2"
+    },
+    {
+      "service": "SIMBAD",
+      "catalogue": "flux",
+      "band": "B",
+      "magnitude": 10.64,
+      "error": null,
+      "object_id": "V* V1674 Cyg",
+      "url": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident=V%2A+V1674+Cyg",
+      "system": "Johnson B / Vega",
+      "bibcode": "",
+      "quality": "E",
+      "notes": [
+        "Qualidade fotométrica baixa no SIMBAD: E"
+      ],
+      "query_url": "https://simbad.cds.unistra.fr/simbad/sim-tap/sync?request=doQuery&lang=adql&format=json&query=SELECT+TOP+100+b.main_id%2Cb.ra%2Cb.dec%2Cb.otype%2Cf.filter%2Cf.flux%2Cf.flux_err%2Cf.bibcode%2Cf.qual+FROM+basic+AS+b+JOIN+ident+AS+i+ON+b.oid%3Di.oidref+LEFT+JOIN+flux+AS+f+ON+b.oid%3Df.oidref+WHERE+i.id%3D%27V1674+Cyg%27",
+      "ambiguous": false,
+      "ra": 299.5901563440099,
+      "dec": 35.21686796171001,
+      "object_type": "SB*",
+      "id": "3"
+    },
+    {
+      "service": "SIMBAD",
+      "catalogue": "flux",
+      "band": "V",
+      "magnitude": 10.07,
+      "error": null,
+      "object_id": "V* V1674 Cyg",
+      "url": "https://simbad.cds.unistra.fr/simbad/sim-id?Ident=V%2A+V1674+Cyg",
+      "system": "Johnson V / Vega",
+      "bibcode": "",
+      "quality": "E",
+      "notes": [
+        "Qualidade fotométrica baixa no SIMBAD: E"
+      ],
+      "query_url": "https://simbad.cds.unistra.fr/simbad/sim-tap/sync?request=doQuery&lang=adql&format=json&query=SELECT+TOP+100+b.main_id%2Cb.ra%2Cb.dec%2Cb.otype%2Cf.filter%2Cf.flux%2Cf.flux_err%2Cf.bibcode%2Cf.qual+FROM+basic+AS+b+JOIN+ident+AS+i+ON+b.oid%3Di.oidref+LEFT+JOIN+flux+AS+f+ON+b.oid%3Df.oidref+WHERE+i.id%3D%27V1674+Cyg%27",
+      "ambiguous": false,
+      "ra": 299.5901563440099,
+      "dec": 35.21686796171001,
+      "object_type": "SB*",
+      "id": "4"
+    },
+    {
+      "service": "VizieR",
+      "catalogue": "II/336/apass9",
+      "band": "B",
+      "magnitude": 10.517000198364258,
+      "error": 0.08299999684095383,
+      "object_id": "299.590167,35.21669",
+      "url": "https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=II%2F336%2Fapass9&-c=299.590167+35.21669&-c.rs=3",
+      "system": "Johnson B / Vega",
+      "notes": [],
+      "bibcode": "2015AAS...22533616H",
+      "ra": 299.590167,
+      "dec": 35.21669,
+      "query_url": "https://vizier.cds.unistra.fr/viz-bin/votable?-source=II%2F336%2Fapass9%2CII%2F7A%2Fcatalog%2CII%2F168%2Fubvmeans&-c=V1674+Cyg&-c.rs=3&-out.all=1&-out.max=30",
+      "ambiguous": false,
+      "row_id": "",
+      "reference_code": "",
+      "object_type": "",
+      "separation_arcsec": 0.6414282686407755,
+      "id": "5"
+    },
+    {
+      "service": "VizieR",
+      "catalogue": "II/336/apass9",
+      "band": "V",
+      "magnitude": 9.958000183105469,
+      "error": 0.12800000607967377,
+      "object_id": "299.590167,35.21669",
+      "url": "https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=II%2F336%2Fapass9&-c=299.590167+35.21669&-c.rs=3",
+      "system": "Johnson V / Vega",
+      "notes": [],
+      "bibcode": "2015AAS...22533616H",
+      "ra": 299.590167,
+      "dec": 35.21669,
+      "query_url": "https://vizier.cds.unistra.fr/viz-bin/votable?-source=II%2F336%2Fapass9%2CII%2F7A%2Fcatalog%2CII%2F168%2Fubvmeans&-c=V1674+Cyg&-c.rs=3&-out.all=1&-out.max=30",
+      "ambiguous": false,
+      "row_id": "",
+      "reference_code": "",
+      "object_type": "",
+      "separation_arcsec": 0.6414282686407755,
+      "id": "6"
+    },
+    {
+      "service": "VizieR",
+      "catalogue": "II/336/apass9",
+      "band": "g'",
+      "magnitude": 10.140000343322754,
+      "error": null,
+      "object_id": "299.590167,35.21669",
+      "url": "https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=II%2F336%2Fapass9&-c=299.590167+35.21669&-c.rs=3",
+      "system": "Sloan g' / AB (APASS)",
+      "notes": [
+        "Erro assinalado como incerto no APASS."
+      ],
+      "bibcode": "2015AAS...22533616H",
+      "ra": 299.590167,
+      "dec": 35.21669,
+      "query_url": "https://vizier.cds.unistra.fr/viz-bin/votable?-source=II%2F336%2Fapass9%2CII%2F7A%2Fcatalog%2CII%2F168%2Fubvmeans&-c=V1674+Cyg&-c.rs=3&-out.all=1&-out.max=30",
+      "ambiguous": false,
+      "row_id": "",
+      "reference_code": "",
+      "object_type": "",
+      "separation_arcsec": 0.6414282686407755,
+      "id": "7"
+    },
+    {
+      "service": "VizieR",
+      "catalogue": "II/336/apass9",
+      "band": "r'",
+      "magnitude": 9.765000343322754,
+      "error": null,
+      "object_id": "299.590167,35.21669",
+      "url": "https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=II%2F336%2Fapass9&-c=299.590167+35.21669&-c.rs=3",
+      "system": "Sloan r' / AB (APASS)",
+      "notes": [
+        "Erro assinalado como incerto no APASS."
+      ],
+      "bibcode": "2015AAS...22533616H",
+      "ra": 299.590167,
+      "dec": 35.21669,
+      "query_url": "https://vizier.cds.unistra.fr/viz-bin/votable?-source=II%2F336%2Fapass9%2CII%2F7A%2Fcatalog%2CII%2F168%2Fubvmeans&-c=V1674+Cyg&-c.rs=3&-out.all=1&-out.max=30",
+      "ambiguous": false,
+      "row_id": "",
+      "reference_code": "",
+      "object_type": "",
+      "separation_arcsec": 0.6414282686407755,
+      "id": "8"
+    },
+    {
+      "service": "VizieR",
+      "catalogue": "II/336/apass9",
+      "band": "i'",
+      "magnitude": 9.592000007629395,
+      "error": null,
+      "object_id": "299.590167,35.21669",
+      "url": "https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=II%2F336%2Fapass9&-c=299.590167+35.21669&-c.rs=3",
+      "system": "Sloan i' / AB (APASS)",
+      "notes": [
+        "Erro assinalado como incerto no APASS."
+      ],
+      "bibcode": "2015AAS...22533616H",
+      "ra": 299.590167,
+      "dec": 35.21669,
+      "query_url": "https://vizier.cds.unistra.fr/viz-bin/votable?-source=II%2F336%2Fapass9%2CII%2F7A%2Fcatalog%2CII%2F168%2Fubvmeans&-c=V1674+Cyg&-c.rs=3&-out.all=1&-out.max=30",
+      "ambiguous": false,
+      "row_id": "",
+      "reference_code": "",
+      "object_type": "",
+      "separation_arcsec": 0.6414282686407755,
+      "id": "9"
+    },
+    {
+      "service": "VizieR",
+      "catalogue": "II/168/ubvmeans",
+      "band": "V",
+      "magnitude": 10.001999855041504,
+      "error": null,
+      "object_id": "BD+34 03816",
+      "url": "https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=II%2F168%2Fubvmeans&-c=299.59015+35.21687&-c.rs=3",
+      "system": "Johnson V / Vega",
+      "notes": [
+        "O catálogo fornece dispersão, não um erro formal da média; o erro fica vazio."
+      ],
+      "bibcode": "",
+      "ra": 299.59015,
+      "dec": 35.21687,
+      "query_url": "https://vizier.cds.unistra.fr/viz-bin/votable?-source=II%2F336%2Fapass9%2CII%2F7A%2Fcatalog%2CII%2F168%2Fubvmeans&-c=V1674+Cyg&-c.rs=3&-out.all=1&-out.max=30",
+      "ambiguous": false,
+      "row_id": "7977",
+      "reference_code": "",
+      "object_type": "",
+      "separation_arcsec": 0.020049467117197982,
+      "id": "10"
+    },
+    {
+      "service": "VizieR",
+      "catalogue": "II/168/ubvmeans",
+      "band": "B",
+      "magnitude": 10.613999843597412,
+      "error": null,
+      "object_id": "BD+34 03816",
+      "url": "https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=II%2F168%2Fubvmeans&-c=299.59015+35.21687&-c.rs=3",
+      "system": "Johnson B / Vega",
+      "notes": [
+        "O catálogo fornece dispersão, não um erro formal da média; o erro fica vazio.",
+        "Derivada: B = V + (B−V); covariância não fornecida."
+      ],
+      "bibcode": "",
+      "ra": 299.59015,
+      "dec": 35.21687,
+      "query_url": "https://vizier.cds.unistra.fr/viz-bin/votable?-source=II%2F336%2Fapass9%2CII%2F7A%2Fcatalog%2CII%2F168%2Fubvmeans&-c=V1674+Cyg&-c.rs=3&-out.all=1&-out.max=30",
+      "ambiguous": false,
+      "row_id": "7977",
+      "reference_code": "",
+      "object_type": "",
+      "separation_arcsec": 0.020049467117197982,
+      "id": "11"
+    },
+    {
+      "service": "VizieR",
+      "catalogue": "II/168/ubvmeans",
+      "band": "U",
+      "magnitude": 10.677999846637249,
+      "error": null,
+      "object_id": "BD+34 03816",
+      "url": "https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=II%2F168%2Fubvmeans&-c=299.59015+35.21687&-c.rs=3",
+      "system": "Johnson U / Vega",
+      "notes": [
+        "O catálogo fornece dispersão, não um erro formal da média; o erro fica vazio.",
+        "Derivada: U = V + (B−V) + (U−B); covariância não fornecida."
+      ],
+      "bibcode": "",
+      "ra": 299.59015,
+      "dec": 35.21687,
+      "query_url": "https://vizier.cds.unistra.fr/viz-bin/votable?-source=II%2F336%2Fapass9%2CII%2F7A%2Fcatalog%2CII%2F168%2Fubvmeans&-c=V1674+Cyg&-c.rs=3&-out.all=1&-out.max=30",
+      "ambiguous": false,
+      "row_id": "7977",
+      "reference_code": "",
+      "object_type": "",
+      "separation_arcsec": 0.020049467117197982,
+      "id": "12"
+    }
+  ],
+  "objects": [
+    {
+      "name": "V* V1674 Cyg",
+      "ra": 299.5901563440099,
+      "dec": 35.21686796171001,
+      "object_type": "SB*"
+    }
+  ],
+  "services": [
+    {
+      "service": "SIMBAD",
+      "status": "ok",
+      "count": 5,
+      "url": "https://simbad.cds.unistra.fr/simbad/sim-tap/sync?request=doQuery&lang=adql&format=json&query=SELECT+TOP+100+b.main_id%2Cb.ra%2Cb.dec%2Cb.otype%2Cf.filter%2Cf.flux%2Cf.flux_err%2Cf.bibcode%2Cf.qual+FROM+basic+AS+b+JOIN+ident+AS+i+ON+b.oid%3Di.oidref+LEFT+JOIN+flux+AS+f+ON+b.oid%3Df.oidref+WHERE+i.id%3D%27V1674+Cyg%27"
+    },
+    {
+      "service": "VizieR",
+      "status": "ok",
+      "count": 8,
+      "url": "https://vizier.cds.unistra.fr/viz-bin/votable?-source=II%2F336%2Fapass9%2CII%2F7A%2Fcatalog%2CII%2F168%2Fubvmeans&-c=V1674+Cyg&-c.rs=3&-out.all=1&-out.max=30"
+    }
+  ]
+}
